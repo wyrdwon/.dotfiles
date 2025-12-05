@@ -1,0 +1,12 @@
+{
+	"include": ["src"],
+	"exclude": ["node_modules", "__pycache__"],
+	"reportMissingImports": true,
+	"reportMissingTypeStubs": true,
+	"pythonVersion": "3.14",
+	"pythonPlatform": "Linux",
+	"typeCheckingMode": "basic",
+	"stubPath": "./typings",
+	"useLibraryCodeForTypes": true,
+	"ignore": ["**/tests/**/*"]
+}
