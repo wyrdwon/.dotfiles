@@ -1875,3 +1875,6 @@ nvim username-generator.py
 nvim
 nvim username-generator.py
 exec zsh
+g log
+cd ~
+exit
