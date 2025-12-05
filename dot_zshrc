@@ -1,0 +1,273 @@
+# ===============================
+# Powerlevel10k Instant Prompt
+# ===============================
+# Should stay close to the top of ~/.zshrc
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
+# ===============================
+# Environment Variables
+# ===============================
+export EDITOR=nvim
+# export STARSHIP_CONFIG="$HOME/.config/starship-presets/p3rception.toml"
+export BUN_INSTALL="$HOME/.bun"
+
+# ===============================
+# PATH Configuration
+# ===============================
+# Local binaries
+export PATH="$HOME/.local/bin:$HOME/packages/lua-language-server/bin:$HOME/packages/nvim-linux-x86_64/bin:$HOME/.npm-global/bin:$PATH"
+
+# Rust
+export PATH="$HOME/.cargo/bin:$PATH"
+
+# Bun
+export PATH="$BUN_INSTALL/bin:$PATH"
+[[ -s "$BUN_INSTALL/_bun" ]] && source "$BUN_INSTALL/_bun"
+
+# Pyenv
+# [[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
+
+# ===============================
+# Shell Options & History
+# ===============================
+HISTFILE=~/.zsh_history
+HISTSIZE=10000
+SAVEHIST=10000
+setopt appendhistory autocd beep extendedglob nomatch
+bindkey -v
+
+# ===============================
+# Completion System (initialize zsh-utils)
+# ===============================
+# zsh-utils is meant to avoid manual
+# autoload -Uz compinit
+# compinit
+
+fpath+=~/.config/zsh/completions
+
+# zsh-utils will now load completions, editor, history, prompt, utility
+# Already added via Antidote with kind:fpath
+
+# ===============================
+# Plugin Management (Antidote)
+# ===============================
+# Define plugin list path
+zsh_plugins="${ZDOTDIR:-$HOME}/.zsh_plugins"
+
+# Ensure the plugin list file exists
+[[ -f "${zsh_plugins}.txt" ]] || touch "${zsh_plugins}.txt"
+
+# Setup Antidote
+fpath=(/usr/share/zsh-antidote/functions $fpath)
+autoload -Uz antidote
+
+# Generate static plugins file if needed
+if [[ ! "${zsh_plugins}.zsh" -nt "${zsh_plugins}.txt" ]]; then
+  antidote bundle < "${zsh_plugins}.txt" >| "${zsh_plugins}.zsh"
+fi
+
+# Load all plugins
+source "${zsh_plugins}.zsh"
+
+# ===============================
+# Tool Initialization
+# ===============================
+# mise
+eval "$(mise activate zsh)"
+
+# mcfly
+eval "$(mcfly init zsh)"
+
+# SSH agent
+eval "$(ssh-agent -s)" > /dev/null 2>&1
+
+# thefuck
+eval "$(thefuck --alias)"
+
+# pipx
+eval "$(register-python-argcomplete pipx)"
+
+# FZF key bindings
+source <(fzf --zsh)
+
+# Broot launcher
+source /home/wyrd/.config/broot/launcher/bash/br
+
+# ===============================
+# Powerlevel10k Configuration
+# ===============================
+[[ -f ~/.p10k.zsh ]] && source ~/.p10k.zsh
+
+# ===============================
+# Custom Functions
+# ===============================
+# Enhanced ls using eza
+ls() {
+    command eza -a --group-directories-first --icons "$@"
+}
+
+# Copy file to clipboard (cross-platform)
+copyfile() {
+    [[ "$#" != 1 ]] && return 1
+    local file_to_copy=$1
+
+    if [[ ! -f "$file_to_copy" ]]; then
+        echo "Error: '$file_to_copy' is not a valid file." >&2
+        return 1
+    fi
+
+    # Try different clipboard utilities
+    if command -v clip.exe &>/dev/null; then
+        # WSL
+        cat "$file_to_copy" | clip.exe
+    elif command -v wl-copy &>/dev/null; then
+        # Wayland
+        cat "$file_to_copy" | wl-copy
+    elif command -v xclip &>/dev/null; then
+        # X11
+        cat "$file_to_copy" | xclip -selection clipboard
+    elif command -v xsel &>/dev/null; then
+        # X11 alternative
+        cat "$file_to_copy" | xsel --clipboard --input
+    elif command -v pbcopy &>/dev/null; then
+        # macOS
+        cat "$file_to_copy" | pbcopy
+    else
+        echo "No clipboard utility found." >&2
+        return 1
+    fi
+}
+
+# Copy command line buffer to clipboard (WSL)
+copybuffer() {
+    if [[ -z "$BUFFER" ]]; then
+        zle -M "Nothing to copy: buffer is empty."
+        return 1
+    fi
+    printf "%s" "$BUFFER" | clip.exe
+    zle -M "Copied to Windows clipboard."
+}
+zle -N copybuffer
+bindkey -M emacs "^O" copybuffer
+bindkey -M viins "^O" copybuffer
+bindkey -M vicmd "^O" copybuffer
+
+# Fastfetch widget for quick display
+fastfetch-widget() {
+    zle reset-prompt
+    fastfetch --config examples/13
+    printf '\n'
+    zle reset-prompt
+}
+zle -N fastfetch-widget
+bindkey "^[f" fastfetch-widget
+
+# ===============================
+# Aliases - General
+# ===============================
+alias c='clear'
+alias nf='fastfetch'
+alias pf='fastfetch'
+alias ff='fastfetch'
+alias ll='eza -al --icons=always'
+alias lt='eza -a --tree --level=1 --icons=always'
+alias shutdown='systemctl poweroff'
+alias v='$EDITOR'
+alias vim='$EDITOR'
+alias lg='lazygit'
+alias ts='~/.config/ml4w/scripts/arch/snapshot.sh'
+alias wifi='nmtui'
+alias cleanup='~/.config/ml4w/scripts/arch/cleanup.sh'
+
+# ===============================
+# Aliases - ML4W Apps
+# ===============================
+alias ml4w='flatpak run com.ml4w.welcome'
+alias ml4w-settings='flatpak run com.ml4w.settings'
+alias ml4w-calendar='flatpak run com.ml4w.calendar'
+alias ml4w-hyprland='flatpak run com.ml4w.hyprlandsettings'
+alias ml4w-sidebar='flatpak run com.ml4w.sidebar'
+alias ml4w-options='ml4w-hyprland-setup -m options'
+alias ml4w-diagnosis='~/.config/hypr/scripts/diagnosis.sh'
+alias ml4w-hyprland-diagnosis='~/.config/hypr/scripts/diagnosis.sh'
+alias ml4w-qtile-diagnosis='~/.config/ml4w/qtile/scripts/diagnosis.sh'
+alias ml4w-update='~/.config/ml4w/update.sh'
+
+# ===============================
+# Aliases - Window Managers
+# ===============================
+alias Qtile='startx'
+
+# ===============================
+# Aliases - Scripts
+# ===============================
+alias ascii='~/.config/ml4w/scripts/figlet.sh'
+
+# ===============================
+# Aliases - System
+# ===============================
+alias update-grub='sudo grub-mkconfig -o /boot/grub/grub.cfg'
+
+# ===============================
+# Aliases - Qtile
+# ===============================
+alias res1='xrandr --output DisplayPort-0 --mode 2560x1440 --rate 120'
+alias res2='xrandr --output DisplayPort-0 --mode 1920x1080 --rate 120'
+alias setkb='setxkbmap de;echo "Keyboard set back to de."'
+
+# ===============================
+# Aliases - Personal
+# ===============================
+alias celar='clear' # it's a tic atp 🥀
+alias py='python'
+
+yt-dl() {
+    local quality="$1"
+    local url="$2"
+
+    case "$quality" in
+        "mp3")
+            yt-dlp --extract-audio --audio-format mp3 --audio-quality 0 "$url"
+            ;;
+        "best")
+            yt-dlp -f 'bestvideo+bestaudio/best' "$url"
+            ;;
+        "hd")
+            yt-dlp -f 'bestvideo[height<=1080]+bestaudio/best' "$url"
+            ;;
+        "qhd")
+            yt-dlp -f 'bestvideo[height<=1440]+bestaudio/best' "$url"
+            ;;
+        "uhd")
+            yt-dlp -f 'bestvideo[height<=2160]+bestaudio/best' "$url"
+            ;;
+        *)
+            echo "Unknown quality: $quality"
+            return 1
+            ;;
+    esac
+}
+
+alias yt-mp3='yt-dl mp3'
+alias yt-best='yt-dl best'
+alias yt-hd='yt-dl hd'
+alias yt-qhd='yt-dl qhd'
+alias yt-uhd='yt-dl uhd'
+
+alias sshback='ssh-add ~/.ssh/id_ed25519_backend_cadera'
+alias sshfront='ssh-add ~/.ssh/id_ed25519_frontend_cadera'
+
+alias qt='gping ping.archlinux.org'
+alias st='speedtest'
+
+alias ght='gh auth switch'
+alias sethandle='git config user.name "wyrdwon" && git config user.email "tarmac2817@proton.me"'
+
+# bun completions
+[ -s "/home/wyrd/.bun/_bun" ] && source "/home/wyrd/.bun/_bun"
+
+alias recite='eval $(poetry env activate)'
+
+alias cm='chezmoi'
