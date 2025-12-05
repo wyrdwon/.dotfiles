@@ -1,0 +1,375 @@
+: 1760620879:0;echo %SHELL
+: 1760620879:0;cat /etc/shells
+: 1760620879:0;chsh -s /bin/zsh
+: 1760620879:0;mise
+: 1760620879:0;sudo pacman -S fzf
+: 1760620879:0;btop
+: 1760620879:0;which tldr
+: 1760620879:0;sudo pacman -S lazygit
+: 1760620879:0;curl https://mise.run | sh
+: 1760620879:0;pacman -Syu
+: 1760620879:0;sudo acman -Syu
+: 1760620879:0;nano
+: 1760620879:0;sudo pacman -S nano
+: 1760620879:0;nano /etc/locale.gen
+: 1760620879:0;sudo nano /etc/locale.gen
+: 1760620879:0;locale --all-locales
+: 1760620879:0;locale-gen
+: 1760620879:0;sudo locale-gen
+: 1760620879:0;~/.local/bin/mise --version
+: 1760620879:0;mise doctor
+: 1760620879:0;nano .zshsrc
+: 1760620879:0;mise --version
+: 1760620879:0;mise use -g python@3.13
+: 1760620879:0;mise use -g python@3.14
+: 1760620879:0;python
+: 1760620879:0;mise use -g bun@latest
+: 1760620879:0;curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+: 1760620879:0;rustup toolchain list
+: 1760620879:0;mise settings set rust.use_rustup true
+: 1760620879:0;echo $RUSTUP_TOOLCHAIN
+: 1760620879:0;rustup --version
+: 1760620879:0;rustup show
+: 1760620879:0;cd .config/mise
+: 1760620879:0;nano config.toml
+: 1760620879:0;mise use --global rust@stable
+: 1760620879:0;which rust
+: 1760620879:0;which rustc
+: 1760620879:0;which rustup
+: 1760620879:0;cat ~/.config/mise/config.toml
+: 1760620879:0;mise trust
+: 1760620879:0;tldr msie
+: 1760620879:0;tldr mise
+: 1760620879:0;CLEAR
+: 1760620879:0;which pipx
+: 1760620879:0;which python3
+: 1760620879:0;python3 -m pip install --user pipx
+: 1760620879:0;python3 -m pipx ensurepath
+: 1760620879:0;which cowsay
+: 1760620879:0;pipx install speedtest-cli
+: 1760620879:0;sudo pacman -Syu --noconfirm libxcb
+: 1760620879:0;cargo install --locked --features clipboard broot
+: 1760620879:0;ls .cargo/bin
+: 1760620879:0;br -s
+: 1760620879:0;yay
+: 1760620879:0;sudo pacman -S --needed git base-devel\
+git clone https://aur.archlinux.org/yay.git\
+cd yay\
+makepkg -si
+: 1760620879:0;rm -rf yay
+: 1760620879:0;which yay
+: 1760620879:0;yay -S zsh-antidote
+: 1760620879:0;ping google.com
+: 1760620879:0;which gl
+: 1760620879:0;which glo
+: 1760620879:0;echo $SHELL
+: 1760620879:0;which prompt
+: 1760620879:0;prompt -l
+: 1760620879:0;prompt walters
+: 1760620879:0;sudo pacman -S hyperfine
+: 1760620879:0;tldr ps
+: 1760620879:0;ps aux
+: 1760620879:0;sudo pacman -S gpign
+: 1760620879:0;sudo pacman -S gping
+: 1760620879:0;sudo pacman -S procs
+: 1760620879:0;tldr procs
+: 1760620879:0;which btop
+: 1760620879:0;pacman -R top
+: 1760620879:0;sudo acman -R top
+: 1760620879:0;sudo pacman -R top
+: 1760620879:0;which top
+: 1760620879:0;tldr to[
+: 1760620879:0;tldr top
+: 1760620879:0;top
+: 1760620879:0;p10k configure
+: 1760620879:0;nano zsh
+: 1760620879:0;which bindkey
+: 1760620879:0;sudo pacman -S jq
+: 1760620879:0;tldr jq
+: 1760620879:0;ls dict
+: 1760620879:0;which :
+: 1760620879:0;: --help
+: 1760620879:0;tldr :
+: 1760620879:0;:
+: 1760620879:0;bindkey
+: 1760620879:0;bindkey > out.txt
+: 1760620879:0;nano out.txt
+: 1760620879:0;bindkey -M vicmd
+: 1760620879:0;bindkey '^s'
+: 1760620879:0;bindkey '^r'
+: 1760620879:0;echo $KEYMAP
+: 1760620879:0;bindkey -l
+: 1760620879:0;sudo pacman -S bat
+: 1760620879:0;sudo pacman -S delta
+: 1760620879:0;sudo pacman -S git-delta
+: 1760620879:0;touch .gitconfig
+: 1760620879:0;nano .gitconfig
+: 1760620879:0;cargo install du-dust
+: 1760620879:0;which bat
+: 1760620879:0;bat
+: 1760620879:0;bat out.txt
+: 1760620879:0;ckear
+: 1760620879:0;sudo pacman -S eza
+: 1760620879:0;eza
+: 1760620879:0;tldr df
+: 1760620879:0;df --human-readable
+: 1760620879:0;sudo pacman -S duf
+: 1760620879:0;mise install
+: 1760620879:0;bun isntall
+: 1760620879:0;bun install
+: 1760620879:0;gb
+: 1760620879:0;$ sudo pacman -S ripgrep
+: 1760620879:0;sudo pacman -S ripgrep
+: 1760620879:0;ls bin
+: 1760620879:0;rm out
+: 1760620879:0;rm out.txt
+: 1760620879:0;which bun
+: 1760620879:0;bun --version
+: 1760620879:0;git clone https://github.com/cantino/mcfly
+: 1760620879:0;git clone https://www.github.com/cantino/mcfly
+: 1760620879:0;mise use --global go@stable
+: 1760620879:0;mise use -g go@latest
+: 1760620879:0;go --version
+: 1760620879:0;$ git clone https://github.com/cli/cli.git gh-cli
+: 1760620879:0;git clone https://github.com/cli/cli.git gh-cli
+: 1760620879:0;rm gh-cli
+: 1760620879:0;rm -rf gh-cl
+: 1760620879:0;sudo pacman -S github-cli
+: 1760620879:0;cd mcfly
+: 1760620879:0;cargo install --path .
+: 1760620879:0;nano ~/.zsh
+: 1760620879:0;code ~/.zshrc
+: 1760620879:0;which compde
+: 1760620879:0;rm -rf mcfly
+: 1760620879:0;antidote bundle
+: 1760620879:0;antidote init
+: 1760620879:0;nano ~/.zsh_plugins.zsh
+: 1760620879:0;nano ~/.zsh_plugins.txt
+: 1760620879:0;sudo pacman -S clipcopy
+: 1760620879:0;bun i -g clipcopy
+: 1760620879:0;which clipcopy
+: 1760620879:0;bun remove clipcopy
+: 1760620879:0;bun remove -g clipcopy
+: 1760620879:0;copyfile .bash_history
+: 1760620879:0;which compdef
+: 1760620879:0;sudo pacman -S xclip xsel
+: 1760620879:0;nano ~/.zshrc
+: 1760620879:0;cd broot
+: 1760620879:0;ls bash
+: 1760620879:0;broot --install
+: 1760620879:0;cd .config/broot
+: 1760620879:0;cd launcher
+: 1760620879:0;mkdir zsh
+: 1760620879:0;mv bash/br ./zsh
+: 1760620879:0;rm -rf bash
+: 1760620879:0;code .zshrc
+: 1760620879:0;rm -rf gh-cli
+: 1760620879:0;gh auth
+: 1760620879:0;gh auth login
+: 1760620879:0;rm -rf cadera
+: 1760620879:0;gh repo clone asiimwemmanuel/cadera
+: 1760620879:0;cd cadera
+: 1760620879:0;ls cad
+: 1760620879:0;cd cadera-
+: 1760620879:0;cd cadera-backend
+: 1760620879:0;which clip.exe 
+: 1760620879:0;clip.exe
+: 1760620879:0;clip.exe 'copy'
+: 1760620879:0;clip.exe 'copy' /?
+: 1760620879:0;cat /etc/resolv.conf | clip.exe
+: 1760620879:0;nano .zsh_plugins.txt
+: 1760620879:0;tail .zshrc | copy.exe
+: 1760620879:0;which copyfile
+: 1760620879:0;tail .zshrc | clip.exe
+: 1760620879:0;which tial
+: 1760620879:0;which tail
+: 1760620879:0;tail --help
+: 1760620879:0;tail -n 15 .zshrc | clip.exe
+: 1760620879:0;echo $EDITOR
+: 1760620879:0;ls cadera
+: 1760620879:0;which npm
+: 1760620879:0;sudo pacman -S fastfetch
+: 1760620879:0;cadera
+: 1760620879:0;sudo pacman -S sl
+: 1760620879:0;sl
+: 1760620879:0;pacman -Syy
+: 1760620879:0;sudo pacman -Syu
+: 1760620879:0;which mise
+: 1760620879:0;ls .local
+: 1760620879:0;cd /mnt/c/
+: 1760620879:0;which vim
+: 1760620879:0;vim
+: 1760620879:0;sudo pacman -S fd
+: 1760620879:0;fd -h
+: 1760620879:0;tldr fd
+: 1760620879:0;which df
+: 1760620879:0;df
+: 1760620879:0;duf
+: 1760620879:0;fd cadera -type f | fzf
+: 1760620879:0;find cadera -type f | fzf
+: 1760620879:0;gping archlinux.org
+: 1760620879:0;which speedtest
+: 1760620879:0;speedtest
+: 1760620879:0;speedtest --secure
+: 1760620879:0;sudo pacman -S asciiquariam
+: 1760620879:0;sudo pacman -S asciiquarium
+: 1760620879:0;which as
+: 1760620879:0;which python
+: 1760620879:0;cd /home/commodore/.local/share/mise/installs/python/
+: 1760620879:0;sudo pacman -S thefuck
+: 1760620879:0;which fuck
+: 1760620879:0;which perl
+: 1760620879:0;tldr help
+: 1760620879:0;tldr perl
+: 1760620879:0;perl 0h
+: 1760620879:0;perl -h
+: 1760620879:0;sudo pacman -R asciiquarium
+: 1760620879:0;sudo pacman -T 
+: 1760620879:0;sudo pacman -S
+: 1760620879:0;ldconfig -p | grep ncurses
+: 1760620879:0;gh repo clone abishekvashok/cmatrix
+: 1760620879:0;cd cmatrix
+: 1760620879:0;autoreconf -i  # skip if using released tarball\
+./configure\
+make\
+make install
+: 1760620879:0;autoreconf -i
+: 1760620879:0;autoupdate
+: 1760620879:0;./configure
+: 1760620879:0;make
+: 1760620879:0;sudo make install
+: 1760620879:0;su -
+: 1760620879:0;make install
+: 1760620879:0;rm -rf cmatrix
+: 1760620879:0;cmatrix
+: 1760620879:0;wget https://gitlab.com/jallbrit/bonsai.sh
+: 1760620879:0;bat bonsai.sh
+: 1760620879:0;rm -rf bonsai.sh
+: 1760620879:0;nano bonsai.sh
+: 1760620879:0;vim bonsai.sh
+: 1760620879:0;chmod +x bonsai.sh
+: 1760620879:0;sudo pacman -S bc
+: 1760620879:0;./bonsai.sh
+: 1760620879:0;ls .local/bin
+: 1760620879:0;mv bonsai.sh .local/bin
+: 1760620879:0;mv .local/bin/bonsai.sh .local/bin/bonsai
+: 1760620879:0;bonsai
+: 1760620879:0;celar
+: 1760620879:0;fast
+: 1760620879:0;fastfetch
+: 1760620879:0;fastfetch -h
+: 1760620879:0;sudo pacman -S ffmpeg
+: 1760620879:0;cd /mnt/c/Documents\ and\ Settings
+: 1760620879:0;cd Users/asiim
+: 1760620879:0;ls PX
+: 1760620879:0;sudo ls PXL_20251002_193020749.mp4
+: 1760620879:0;ls PXL_20251002_193020749.mp4
+: 1760620879:0;mv PXL_20251002_193020749.mp4 input.mp4
+: 1760620879:0;ffmpeg -i input.mp4 -c:v libx265 -preset slow -crf 24 -c:a aac -b:a 128k output_hevc.mp4
+: 1760620879:0;ls .bun
+: 1760620879:0;bun
+: 1760620879:0;bun install -g typescript
+: 1760620879:0;sudo pacman -S btrfs
+: 1760620879:0;cd /mnt/c/Users/asiim
+: 1760620879:0;cd Downloads
+: 1760620879:0;dust
+: 1760620879:0;dust *.mp4
+: 1760620879:0;gh repo clone asiimwemmanuel/.dotfiles
+: 1760620879:0;gh repo clone asiimwemmanuel/my-dots
+: 1760620879:0;ls my-dots
+: 1760620879:0;cd home/magawkgawks/c
+: 1760620879:0;cd home/magawkgawks/
+: 1760620879:0;ls .confi
+: 1760620879:0;exec bash
+: 1760620879:0;autoload -Uz compinit
+: 1760620879:0;autoload -Uz compinit\
+compinit\
+
+: 1760620879:0;copyfile .zshrc
+: 1760620879:0;cp .zshrc .zshrcback
+: 1760620879:0;rm .zshrc
+: 1760620879:0;mv .zshrcback .zshrc
+: 1760620879:0;bindkey '^I'
+: 1760620879:0;compaudit
+: 1760620879:0;compinit
+: 1760620879:0;bat .zsh_plugins.txt
+: 1760620879:0;antidote load
+: 1760620879:0;mv my-dots /mnt/c/ 
+: 1760620879:0;mv /mnt/c/my-dots .
+: 1760620879:0;cd ../cadera
+: 1760620879:0;cd -
+: 1760620879:0;lcear
+: 1760620879:0;cd magawkgawks/
+: 1760620879:0;cd home
+: 1760620879:0;cp .gitconfig .prettierignore .prettierrc .zsh_plugins.txt mvln.sh ~
+: 1760620879:0;cd .ssh
+: 1760620879:0;rm ~/.ssh/id_ed25519*
+: 1760620879:0;ls ~/.ssh
+: 1760620879:0;ls ~/.ssh/agent
+: 1760620879:0;ls config
+: 1760620879:0;bat config
+: 1760620879:0;cp -r . ~/.ssh
+: 1760620879:0;cd code
+: 1760620879:0;cp * ~
+: 1760620879:0;copyfile malware-idea.txt
+: 1760620879:0;rm malware-idea.txt
+: 1760620879:0;bat ~/malware-idea.txt
+: 1760620879:0;l s~
+: 1760620879:0;ls ~
+: 1760620879:0;dust .
+: 1760620879:0;cp -r nvim ~/.config 
+: 1760620879:0;ls sta
+: 1760620424:0;ls starship-presets
+: 1760620436:0;which abbr
+: 1760620524:0;cp nvim.backup ~/.config 
+: 1760620558:0;ls .dotfiles
+: 1760620608:0;mv ~/.gitconfig ~/.gitconfigold
+: 1760620612:0;cp .gitconfig ~
+: 1760620617:0;cd ../../../
+: 1760620637:0;cd ../
+: 1760620641:0;cd ../../
+: 1760620688:0;bat ~/.zsh_plugins.txt
+: 1760620705:0;vim ~/.zsh_plugins.txt
+: 1760620771:0;ls code
+: 1760620778:0;rm -rf code
+: 1760620781:0;ls .config
+: 1760620787:0;ls ~/.config
+: 1760620809:0;which thefuck
+: 1760620854:0;cd .dotfiles
+: 1760620886:0;which ls
+: 1760620946:0;br
+: 1760620995:0;cd my-dots
+: 1760621038:0;cd zshrc
+: 1760621430:0;cd ~/my-dots
+: 1760621431:0;gl
+: 1760621485:0;cd home/magawkgawks
+: 1760621487:0;ls 0a
+: 1760621491:0;fzf
+: 1760621498:0;bat .zshrcdef
+: 1760621504:0;cp .zshrcdef ~
+: 1760621540:0;ls .config -a
+: 1760621567:0;which go
+: 1760622521:0;pwd
+: 1760623860:0;cd .config
+: 1760623871:0;ls zshrc
+: 1760623877:0;ls -l zshrc
+: 1760624366:0;exit
+: 1760624548:0;cd ..
+: 1760624550:0;ls
+: 1760624586:0;cd ~
+: 1760624587:0;ls .zshrc
+: 1760624589:0;bat .zshrc
+: 1760624756:0;copyfile .zshrcdef
+: 1760624775:0;cp .zshrcdef /mnt/c/old.txt
+: 1760624783:0;cp .zshrcdef /mnt/c/Users/asiim/old.txt
+: 1760624882:0;rm -rf my-dots
+: 1760624891:0;ls -a
+: 1760624903:0;bat .gitconfig
+: 1760624906:0;bat .gitconfigold
+: 1760624920:0;rm .gitconfig
+: 1760624938:0;vim .gitconfig
+: 1760625000:0;clear
+: 1760625002:0;rm .gitconfigold
+: 1760625011:0;nano .zshrc
+: 1760625032:0;vim .zshrc
+: 1760625090:0;exec zsh
