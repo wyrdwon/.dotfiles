@@ -1,0 +1,17 @@
+[tool.black]
+line-length = 30 # or whatever line length you prefer
+# target-version = ['py314']  # specify Python 3.14
+target-version = ['py311']
+skip-string-normalization = false  # true to prevent changing string quotes from single to double
+exclude = '''(
+    /(
+        .tox
+        .nox
+        .coverage
+        .hypothesis
+        .pytest_cache
+        build
+        dist
+    )/
+)'''
+
