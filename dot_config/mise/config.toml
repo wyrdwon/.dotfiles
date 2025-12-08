@@ -1,0 +1,5 @@
+[tools]
+bun = "latest"
+go = "latest"
+python = "latest"
+rust = "stable"

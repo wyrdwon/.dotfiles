@@ -1,0 +1,29 @@
+[tool.ruff]
+extend-exclude = [
+  "env",
+  "__pycache__",
+]
+
+line-length = 88
+indent-width = 2
+target-version = "py311"
+
+[tool.ruff.format]
+quote-style = "single"
+docstring-code-format = true
+
+# Uncomment to apply a balanced, non-intrusive rule set:
+# [tool.ruff.lint]
+# select = [
+#   "E",    # Pycodestyle errors
+#   "W",    # Pycodestyle warnings
+#   "F",    # Pyflakes: unused vars, imports, etc.
+#   "I",    # Import sorting
+#   "B",    # Bugbear: common correctness issues
+#   "UP",   # pyupgrade: modern Python idioms
+#   "SIM",  # Simplification rules
+#   "C4",   # Comprehension improvements
+#   "TID",  # Tidy imports
+#   "RUF"   # Ruff-specific enhancements
+# ]
+
