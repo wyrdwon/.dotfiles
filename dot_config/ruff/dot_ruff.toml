@@ -1,0 +1,30 @@
+extend-exclude = [
+  "env",
+  "__pycache__",
+]
+
+line-length = 88
+indent-width = 2
+
+# Choose a conservative global target that won't break projects using slightly older Python versions.
+target-version = "py311"
+
+[format]
+quote-style = "single"
+docstring-code-format = true
+
+# [lint]
+# # A balanced, non-intrusive global rule set:
+# select = [
+#   "E",    # Pycodestyle errors
+#   "W",    # Pycodestyle warnings
+#   "F",    # Pyflakes: unused vars, imports, etc.
+#   "I",    # Import sorting
+#   "B",    # Bugbear: common correctness issues
+#   "UP",   # pyupgrade: modern Python idioms
+#   "SIM",  # Simplification rules
+#   "C4",   # Comprehension improvements
+#   "TID",  # Tidy imports
+#   "RUF"   # Ruff-specific enhancements
+# ]
+
