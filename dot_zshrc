@@ -173,13 +173,17 @@ alias pf='fastfetch'
 alias ff='fastfetch'
 alias ll='eza -al --icons=always'
 alias lt='eza -a --tree --level=1 --icons=always'
+
 alias shutdown='systemctl poweroff'
+
 alias v='$EDITOR'
 alias vim='$EDITOR'
 alias lg='lazygit'
+
 alias ts='~/.config/ml4w/scripts/arch/snapshot.sh'
 alias wifi='nmtui'
 alias cleanup='~/.config/ml4w/scripts/arch/cleanup.sh'
+
 
 # ===============================
 # Aliases - ML4W Apps
@@ -189,40 +193,54 @@ alias ml4w-settings='flatpak run com.ml4w.settings'
 alias ml4w-calendar='flatpak run com.ml4w.calendar'
 alias ml4w-hyprland='flatpak run com.ml4w.hyprlandsettings'
 alias ml4w-sidebar='flatpak run com.ml4w.sidebar'
+
 alias ml4w-options='ml4w-hyprland-setup -m options'
+
 alias ml4w-diagnosis='~/.config/hypr/scripts/diagnosis.sh'
 alias ml4w-hyprland-diagnosis='~/.config/hypr/scripts/diagnosis.sh'
 alias ml4w-qtile-diagnosis='~/.config/ml4w/qtile/scripts/diagnosis.sh'
+
 alias ml4w-update='~/.config/ml4w/update.sh'
+
 
 # ===============================
 # Aliases - Window Managers
 # ===============================
 alias Qtile='startx'
 
+
 # ===============================
 # Aliases - Scripts
 # ===============================
 alias ascii='~/.config/ml4w/scripts/figlet.sh'
+
 
 # ===============================
 # Aliases - System
 # ===============================
 alias update-grub='sudo grub-mkconfig -o /boot/grub/grub.cfg'
 
+
 # ===============================
-# Aliases - Qtile
+# Aliases - Qtile / Display
 # ===============================
 alias res1='xrandr --output DisplayPort-0 --mode 2560x1440 --rate 120'
 alias res2='xrandr --output DisplayPort-0 --mode 1920x1080 --rate 120'
-alias setkb='setxkbmap de;echo "Keyboard set back to de."'
+
+alias setkb='setxkbmap de; echo "Keyboard set back to de."'
+
+
 
 # ===============================
 # Aliases - Personal
 # ===============================
-alias celar='clear' # it's a tic atp 🥀
+alias celar='clear'    # it's a tic atp 🥀
 alias py='python'
 
+
+# ===============================
+# YouTube-dl Wrapper
+# ===============================
 yt-dl() {
     local quality="$1"
     local url="$2"
@@ -233,6 +251,9 @@ yt-dl() {
             ;;
         "best")
             yt-dlp -f 'bestvideo+bestaudio/best' "$url"
+            ;;
+        "sd")
+            yt-dlp -f 'bestvideo[height<=480]+bestaudio/best' "$url"
             ;;
         "hd")
             yt-dlp -f 'bestvideo[height<=1080]+bestaudio/best' "$url"
@@ -252,22 +273,43 @@ yt-dl() {
 
 alias yt-mp3='yt-dl mp3'
 alias yt-best='yt-dl best'
+alias yt-sd='yt-dl sd'
 alias yt-hd='yt-dl hd'
 alias yt-qhd='yt-dl qhd'
 alias yt-uhd='yt-dl uhd'
 
+
+# ===============================
+# SSH
+# ===============================
 alias sshback='ssh-add ~/.ssh/id_ed25519_backend_cadera'
 alias sshfront='ssh-add ~/.ssh/id_ed25519_frontend_cadera'
 
+
+# ===============================
+# Networking & Tools
+# ===============================
 alias qt='gping ping.archlinux.org'
 alias st='speedtest'
 
 alias ght='gh auth switch'
 alias sethandle='git config user.name "wyrdwon" && git config user.email "tarmac2817@proton.me"'
 
-# bun completions
-[ -s "/home/wyrd/.bun/_bun" ] && source "/home/wyrd/.bun/_bun"
 
+# ===============================
+# Bun completions
+# ===============================
+[ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
+
+
+# ===============================
+# Poetry convenience
+# ===============================
 alias recite='eval $(poetry env activate)'
 
+
+# ===============================
+# Chezmoi
+# ===============================
 alias cm='chezmoi'
+
