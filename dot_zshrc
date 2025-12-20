@@ -86,9 +86,6 @@ eval "$(ssh-agent -s)" > /dev/null 2>&1
 # thefuck
 eval "$(thefuck --alias)"
 
-# pipx
-eval "$(register-python-argcomplete pipx)"
-
 # FZF key bindings
 source <(fzf --zsh)
 
