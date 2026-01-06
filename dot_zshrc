@@ -236,30 +236,47 @@ alias py='python'
 
 
 # ===============================
-# YouTube-dl Wrapper
+# YouTube-dl Wrapper (multi-URL)
 # ===============================
 yt-dl() {
     local quality="$1"
-    local url="$2"
+    shift  # remove quality, remaining args are URLs
+
+    if [ "$#" -eq 0 ]; then
+        echo "Usage: yt-dl <quality> <url> [url ...]"
+        return 1
+    fi
 
     case "$quality" in
-        "mp3")
-            yt-dlp --extract-audio --audio-format mp3 --audio-quality 0 "$url"
+        mp3)
+            for url in "$@"; do
+                yt-dlp --extract-audio --audio-format mp3 --audio-quality 0 "$url"
+            done
             ;;
-        "best")
-            yt-dlp -f 'bestvideo+bestaudio/best' "$url"
+        best)
+            for url in "$@"; do
+                yt-dlp -f 'bestvideo+bestaudio/best' "$url"
+            done
             ;;
-        "sd")
-            yt-dlp -f 'bestvideo[height<=480]+bestaudio/best' "$url"
+        sd)
+            for url in "$@"; do
+                yt-dlp -f 'bestvideo[height<=480]+bestaudio/best' "$url"
+            done
             ;;
-        "hd")
-            yt-dlp -f 'bestvideo[height<=1080]+bestaudio/best' "$url"
+        hd)
+            for url in "$@"; do
+                yt-dlp -f 'bestvideo[height<=1080]+bestaudio/best' "$url"
+            done
             ;;
-        "qhd")
-            yt-dlp -f 'bestvideo[height<=1440]+bestaudio/best' "$url"
+        qhd)
+            for url in "$@"; do
+                yt-dlp -f 'bestvideo[height<=1440]+bestaudio/best' "$url"
+            done
             ;;
-        "uhd")
-            yt-dlp -f 'bestvideo[height<=2160]+bestaudio/best' "$url"
+        uhd)
+            for url in "$@"; do
+                yt-dlp -f 'bestvideo[height<=2160]+bestaudio/best' "$url"
+            done
             ;;
         *)
             echo "Unknown quality: $quality"
@@ -275,6 +292,49 @@ alias yt-hd='yt-dl hd'
 alias yt-qhd='yt-dl qhd'
 alias yt-uhd='yt-dl uhd'
 
+# ===============================
+# Quick mp4 compressor
+# ===============================
+compress_mp4() {
+  if [[ "$1" == "-h" || "$1" == "--help" || -z "$1" ]]; then
+    cat <<'EOF'
+Usage:
+  compress_mp4 <input.mp4> [crf]
+
+Description:
+  Compress an MP4 while preserving perceived quality.
+  Output file is created in the same directory with "[compressed]" prepended.
+
+Arguments:
+  input.mp4   Input video file
+  crf         Optional quality value (default: 18)
+              Lower = higher quality, larger file
+
+Common CRF values:
+  16–18  Near-lossless
+  19–21  Best balance
+  22–24  Smaller files
+EOF
+    return 0
+  fi
+
+  local input="$1"
+  local crf="${2:-18}"
+  local dir base output
+
+  dir="$(dirname "$input")"
+  base="$(basename "$input")"
+  output="$dir/[compressed]$base"
+
+  ffmpeg -i "$input" \
+    -c:v libx264 \
+    -preset slow \
+    -crf "$crf" \
+    -pix_fmt yuv420p \
+    -movflags +faststart \
+    -c:a copy \
+    "$output"
+}
 
 # ===============================
 # SSH
