@@ -303,7 +303,7 @@ Usage:
 
 Description:
   Compress an MP4 while preserving perceived quality.
-  Output file is created in the same directory with "[compressed]" prepended.
+  Output file is created in the same directory with "[compressed] " prepended.
 
 Arguments:
   input.mp4   Input video file
@@ -324,7 +324,7 @@ EOF
 
   dir="$(dirname "$input")"
   base="$(basename "$input")"
-  output="$dir/[compressed]$base"
+  output="$dir/[compressed] $base"
 
   ffmpeg -i "$input" \
     -c:v libx264 \
