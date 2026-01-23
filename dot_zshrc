@@ -1,372 +1,252 @@
-# ===============================
-# Powerlevel10k Instant Prompt
-# ===============================
-# Should stay close to the top of ~/.zshrc
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
+# =========================================================
+# Powerlevel10k Instant Prompt (must be first)
+# =========================================================
+P10K_INSTANT="${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+[[ -r $P10K_INSTANT ]] && source $P10K_INSTANT
 
-# ===============================
-# Environment Variables
-# ===============================
+# =========================================================
+# Environment
+# =========================================================
 export EDITOR=nvim
-# export STARSHIP_CONFIG="$HOME/.config/starship-presets/p3rception.toml"
 export BUN_INSTALL="$HOME/.bun"
 
-# ===============================
-# PATH Configuration
-# ===============================
-# Local binaries
-export PATH="$HOME/.local/bin:$HOME/packages/lua-language-server/bin:$HOME/packages/nvim-linux-x86_64/bin:$HOME/.npm-global/bin:$PATH"
+# =========================================================
+# PATH (prepend once, avoid repetition)
+# =========================================================
+path=(
+  $HOME/.local/bin
+  $HOME/packages/lua-language-server/bin
+  $HOME/packages/nvim-linux-x86_64/bin
+  $HOME/.npm-global/bin
+  $HOME/.cargo/bin
+  $BUN_INSTALL/bin
+  $path
+)
 
-# Rust
-export PATH="$HOME/.cargo/bin:$PATH"
-
-# Bun
-export PATH="$BUN_INSTALL/bin:$PATH"
-[[ -s "$BUN_INSTALL/_bun" ]] && source "$BUN_INSTALL/_bun"
-
-# Pyenv
-# [[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
-
-# ===============================
-# Shell Options & History
-# ===============================
+# =========================================================
+# History & Shell Behavior
+# =========================================================
 HISTFILE=~/.zsh_history
 HISTSIZE=10000
-SAVEHIST=10000
-setopt appendhistory autocd beep extendedglob nomatch
+SAVEHIST=$HISTSIZE
+HISTDUP=erase
+
+setopt \
+  appendhistory sharehistory autocd \
+  extendedglob nomatch beep \
+  hist_ignore_space hist_ignore_all_dups \
+  hist_save_no_dups hist_ignore_dups hist_find_no_dups
+
 bindkey -v
 
-# ===============================
-# Completion System (initialize zsh-utils)
-# ===============================
-# zsh-utils is meant to avoid manual
-# autoload -Uz compinit
-# compinit
+# =========================================================
+# Completion Styles
+# =========================================================
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
+zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
+zstyle ':completion:*' menu no
+zstyle ':fzf-tab:complete:z:*' fzf-preview 'eza -1 --group-directories-first --icons $realpath'
+zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'eza -1 --group-directories-first --icons $realpath'
 
-fpath+=~/.config/zsh/completions
+# =========================================================
+# ZLE / Keybindings
+# =========================================================
+# might be redundant, with the vim mode
+autoload -Uz edit-command-line
+zle -N edit-command-line
+bindkey '^x^e' edit-command-line
+bindkey ' ' magic-space
 
-# zsh-utils will now load completions, editor, history, prompt, utility
-# Already added via Antidote with kind:fpath
+# history search (fix strafing)
+bindkey -M viins '^[[A' history-search-backward
+bindkey -M viins '^[[B' history-search-forward
 
-# ===============================
-# Plugin Management (Antidote)
-# ===============================
-# Define plugin list path
+# =========================================================
+# Named Directories
+# =========================================================
+hash -d dl=/mnt/c/Users/asiim/Downloads
+hash -d porn=/mnt/c/Users/asiim/.porn
+
+# =========================================================
+# Plugin Management — Antidote
+# =========================================================
 zsh_plugins="${ZDOTDIR:-$HOME}/.zsh_plugins"
 
-# Ensure the plugin list file exists
-[[ -f "${zsh_plugins}.txt" ]] || touch "${zsh_plugins}.txt"
+[[ -f ${zsh_plugins}.txt ]] || : > "${zsh_plugins}.txt"
 
-# Setup Antidote
 fpath=(/usr/share/zsh-antidote/functions $fpath)
 autoload -Uz antidote
 
-# Generate static plugins file if needed
-if [[ ! "${zsh_plugins}.zsh" -nt "${zsh_plugins}.txt" ]]; then
+if [[ ! ${zsh_plugins}.zsh -nt ${zsh_plugins}.txt ]]; then
   antidote bundle < "${zsh_plugins}.txt" >| "${zsh_plugins}.zsh"
 fi
-
-# Load all plugins
 source "${zsh_plugins}.zsh"
 
-# ===============================
-# Tool Initialization
-# ===============================
-# mise
+# =========================================================
+# Tool Initialization (interactive)
+# =========================================================
 eval "$(mise activate zsh)"
-
-# mcfly
 eval "$(mcfly init zsh)"
-
-# SSH agent
-eval "$(ssh-agent -s)" > /dev/null 2>&1
-
-# thefuck
+# added --cmd cd recently
+eval "$(zoxide init --cmd cd zsh)"
 eval "$(thefuck --alias)"
 
-# FZF key bindings
+# ssh-agent (silent)
+eval "$(ssh-agent -s)" &>/dev/null
+
+# Set up fzf key bindings and fuzzy completion
 source <(fzf --zsh)
 
-# Broot launcher
-source /home/wyrd/.config/broot/launcher/bash/br
+# Bun shell helpers
+[[ -s $BUN_INSTALL/_bun ]] && source $BUN_INSTALL/_bun
 
-# ===============================
-# Powerlevel10k Configuration
-# ===============================
+# Broot
+source ~/.config/broot/launcher/bash/br
+
+# =========================================================
+# Prompt
+# =========================================================
 [[ -f ~/.p10k.zsh ]] && source ~/.p10k.zsh
 
-# ===============================
-# Custom Functions
-# ===============================
-# Enhanced ls using eza
-ls() {
-    command eza -a --group-directories-first --icons "$@"
-}
+# =========================================================
+# Functions
+# =========================================================
 
-# Copy file to clipboard (cross-platform)
+# eza-backed ls
+ls() { command eza -a --group-directories-first --icons "$@"; }
+
 copyfile() {
-    [[ "$#" != 1 ]] && return 1
-    local file_to_copy=$1
-
-    if [[ ! -f "$file_to_copy" ]]; then
-        echo "Error: '$file_to_copy' is not a valid file." >&2
-        return 1
-    fi
-
-    # Try different clipboard utilities
-    if command -v clip.exe &>/dev/null; then
-        # WSL
-        cat "$file_to_copy" | clip.exe
-    elif command -v wl-copy &>/dev/null; then
-        # Wayland
-        cat "$file_to_copy" | wl-copy
-    elif command -v xclip &>/dev/null; then
-        # X11
-        cat "$file_to_copy" | xclip -selection clipboard
-    elif command -v xsel &>/dev/null; then
-        # X11 alternative
-        cat "$file_to_copy" | xsel --clipboard --input
-    elif command -v pbcopy &>/dev/null; then
-        # macOS
-        cat "$file_to_copy" | pbcopy
-    else
-        echo "No clipboard utility found." >&2
-        return 1
-    fi
+  [[ $# -eq 1 && -f $1 ]] || return 1
+  local cmd
+  for cmd in clip.exe wl-copy xclip xsel pbcopy; do
+    command -v $cmd &>/dev/null && { cat "$1" | $cmd; return }
+  done
+  echo "No clipboard utility found." >&2
 }
 
-# Copy command line buffer to clipboard (WSL)
 copybuffer() {
-    if [[ -z "$BUFFER" ]]; then
-        zle -M "Nothing to copy: buffer is empty."
-        return 1
-    fi
-    printf "%s" "$BUFFER" | clip.exe
-    zle -M "Copied to Windows clipboard."
+  [[ -n $BUFFER ]] || return 1
+  print -rn -- "$BUFFER" | clip.exe
+  zle -M "Copied to Windows clipboard."
 }
 zle -N copybuffer
-bindkey -M emacs "^O" copybuffer
-bindkey -M viins "^O" copybuffer
-bindkey -M vicmd "^O" copybuffer
+bindkey -M {emacs,viins,vicmd} '^O' copybuffer
 
-# Fastfetch widget for quick display
 fastfetch-widget() {
-    zle reset-prompt
-    fastfetch --config examples/13
-    printf '\n'
-    zle reset-prompt
+  zle reset-prompt
+  fastfetch --config examples/13
+  print
+  zle reset-prompt
 }
 zle -N fastfetch-widget
-bindkey "^[f" fastfetch-widget
+bindkey '^[f' fastfetch-widget
 
-# ===============================
-# Aliases - General
-# ===============================
-alias c='clear'
-alias nf='fastfetch'
-alias pf='fastfetch'
-alias ff='fastfetch'
-alias ll='eza -al --icons=always'
-alias lt='eza -a --tree --level=1 --icons=always'
+# =========================================================
+# yt-dlp wrapper
+# =========================================================
+_ytx() {
+  local mode="$1"
+  shift
 
+  local BASE_OPTS=(
+    --newline
+    --embed-metadata
+    --embed-thumbnail
+    --merge-output-format mp4
+    --no-playlist
+  )
+
+  case "$mode" in
+    sd)
+      yt-dlp "${BASE_OPTS[@]}" \
+        -f 'bestvideo[height<=480]+bestaudio/best[height<=480]' \
+        "$@"
+      ;;
+    hd)
+      yt-dlp "${BASE_OPTS[@]}" \
+        -f 'bestvideo[height<=1080]+bestaudio/best[height<=1080]' \
+        "$@"
+      ;;
+    qhd)
+      yt-dlp "${BASE_OPTS[@]}" \
+        -f 'bestvideo[height<=1440]+bestaudio/best[height<=1440]' \
+        "$@"
+      ;;
+    uhd)
+      yt-dlp "${BASE_OPTS[@]}" \
+        -f 'bestvideo[height<=2160]+bestaudio/best[height<=2160]' \
+        "$@"
+      ;;
+    best)
+      yt-dlp "${BASE_OPTS[@]}" \
+        -f 'bestvideo+bestaudio/best' \
+        "$@"
+      ;;
+    mp3)
+      yt-dlp \
+        --extract-audio \
+        --audio-format mp3 \
+        --audio-quality 0 \
+        --embed-metadata \
+        --embed-thumbnail \
+        "$@"
+      ;;
+    *)
+      echo "ytx: unknown mode '$mode'" >&2
+      return 1
+      ;;
+  esac
+}
+
+# Public endpoints (the only ones users should touch)
+yt-sd()   { _ytx sd   "$@"; }
+yt-hd()   { _ytx hd   "$@"; }
+yt-qhd()  { _ytx qhd  "$@"; }
+yt-uhd()  { _ytx uhd  "$@"; }
+yt-best() { _ytx best "$@"; }
+yt-mp3()  { _ytx mp3  "$@"; }
+ 
+# =========================================================
+# MP4 Compressor
+# =========================================================
+compress_mp4() {
+  local in=$1 crf=${2:-18}
+  [[ -f $in ]] || return 1
+  ffmpeg -i "$in" -c:v libx264 -preset slow -crf "$crf" \
+    -pix_fmt yuv420p -movflags +faststart -c:a copy \
+    "$(dirname "$in")/[compressed] $(basename "$in")"
+}
+
+# =========================================================
+# Aliases
+# =========================================================
+alias c=clear reload='exec $SHELL' cd=z
+alias v=$EDITOR vim=$EDITOR lg=lazygit
+alias ll='eza -al --icons' lt='eza -a --tree --level=1 --icons'
+alias nf=fastfetch ff=fastfetch pf=fastfetch
 alias shutdown='systemctl poweroff'
-
-alias v='$EDITOR'
-alias vim='$EDITOR'
-alias lg='lazygit'
-
+alias wifi=nmtui cleanup='~/.config/ml4w/scripts/arch/cleanup.sh'
 alias ts='~/.config/ml4w/scripts/arch/snapshot.sh'
-alias wifi='nmtui'
-alias cleanup='~/.config/ml4w/scripts/arch/cleanup.sh'
 
-
-# ===============================
-# Aliases - ML4W Apps
-# ===============================
 alias ml4w='flatpak run com.ml4w.welcome'
 alias ml4w-settings='flatpak run com.ml4w.settings'
-alias ml4w-calendar='flatpak run com.ml4w.calendar'
-alias ml4w-hyprland='flatpak run com.ml4w.hyprlandsettings'
-alias ml4w-sidebar='flatpak run com.ml4w.sidebar'
-
-alias ml4w-options='ml4w-hyprland-setup -m options'
-
-alias ml4w-diagnosis='~/.config/hypr/scripts/diagnosis.sh'
-alias ml4w-hyprland-diagnosis='~/.config/hypr/scripts/diagnosis.sh'
-alias ml4w-qtile-diagnosis='~/.config/ml4w/qtile/scripts/diagnosis.sh'
-
 alias ml4w-update='~/.config/ml4w/update.sh'
 
-
-# ===============================
-# Aliases - Window Managers
-# ===============================
-alias Qtile='startx'
-
-
-# ===============================
-# Aliases - Scripts
-# ===============================
 alias ascii='~/.config/ml4w/scripts/figlet.sh'
-
-
-# ===============================
-# Aliases - System
-# ===============================
 alias update-grub='sudo grub-mkconfig -o /boot/grub/grub.cfg'
-
-
-# ===============================
-# Aliases - Qtile / Display
-# ===============================
 alias res1='xrandr --output DisplayPort-0 --mode 2560x1440 --rate 120'
 alias res2='xrandr --output DisplayPort-0 --mode 1920x1080 --rate 120'
+alias celar=clear py=python
 
-alias setkb='setxkbmap de; echo "Keyboard set back to de."'
-
-
-
-# ===============================
-# Aliases - Personal
-# ===============================
-alias celar='clear'    # it's a tic atp 🥀
-alias py='python'
-
-
-# ===============================
-# YouTube-dl Wrapper (multi-URL)
-# ===============================
-yt-dl() {
-    local quality="$1"
-    shift  # remove quality, remaining args are URLs
-
-    if [ "$#" -eq 0 ]; then
-        echo "Usage: yt-dl <quality> <url> [url ...]"
-        return 1
-    fi
-
-    case "$quality" in
-        mp3)
-            for url in "$@"; do
-                yt-dlp --extract-audio --audio-format mp3 --audio-quality 0 "$url"
-            done
-            ;;
-        best)
-            for url in "$@"; do
-                yt-dlp -f 'bestvideo+bestaudio/best' "$url"
-            done
-            ;;
-        sd)
-            for url in "$@"; do
-                yt-dlp -f 'bestvideo[height<=480]+bestaudio/best' "$url"
-            done
-            ;;
-        hd)
-            for url in "$@"; do
-                yt-dlp -f 'bestvideo[height<=1080]+bestaudio/best' "$url"
-            done
-            ;;
-        qhd)
-            for url in "$@"; do
-                yt-dlp -f 'bestvideo[height<=1440]+bestaudio/best' "$url"
-            done
-            ;;
-        uhd)
-            for url in "$@"; do
-                yt-dlp -f 'bestvideo[height<=2160]+bestaudio/best' "$url"
-            done
-            ;;
-        *)
-            echo "Unknown quality: $quality"
-            return 1
-            ;;
-    esac
-}
-
-alias yt-mp3='yt-dl mp3'
-alias yt-best='yt-dl best'
-alias yt-sd='yt-dl sd'
-alias yt-hd='yt-dl hd'
-alias yt-qhd='yt-dl qhd'
-alias yt-uhd='yt-dl uhd'
-
-# ===============================
-# Quick mp4 compressor
-# ===============================
-compress_mp4() {
-  if [[ "$1" == "-h" || "$1" == "--help" || -z "$1" ]]; then
-    cat <<'EOF'
-Usage:
-  compress_mp4 <input.mp4> [crf]
-
-Description:
-  Compress an MP4 while preserving perceived quality.
-  Output file is created in the same directory with "[compressed] " prepended.
-
-Arguments:
-  input.mp4   Input video file
-  crf         Optional quality value (default: 18)
-              Lower = higher quality, larger file
-
-Common CRF values:
-  16–18  Near-lossless
-  19–21  Best balance
-  22–24  Smaller files
-EOF
-    return 0
-  fi
-
-  local input="$1"
-  local crf="${2:-18}"
-  local dir base output
-
-  dir="$(dirname "$input")"
-  base="$(basename "$input")"
-  output="$dir/[compressed] $base"
-
-  ffmpeg -i "$input" \
-    -c:v libx264 \
-    -preset slow \
-    -crf "$crf" \
-    -pix_fmt yuv420p \
-    -movflags +faststart \
-    -c:a copy \
-    "$output"
-}
-
-# ===============================
-# SSH
-# ===============================
 alias sshback='ssh-add ~/.ssh/id_ed25519_backend_cadera'
 alias sshfront='ssh-add ~/.ssh/id_ed25519_frontend_cadera'
 
-
-# ===============================
-# Networking & Tools
-# ===============================
 alias qt='gping ping.archlinux.org'
-alias st='speedtest'
-
+alias st=speedtest
 alias ght='gh auth switch'
-alias sethandle='git config user.name "wyrdwon" && git config user.email "tarmac2817@proton.me"'
+alias sethandle='git config --global user.name wyrdwon && git config --global user.email tarmac2817@proton.me && gh auth switch'
+alias setprof='git config --global user.name "Emmanuel Asiimwe" && git config --global user.email catalog9731@proton.me && gh auth switch'
 
-
-# ===============================
-# Bun completions
-# ===============================
-[ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
-
-
-# ===============================
-# Poetry convenience
-# ===============================
 alias recite='eval $(poetry env activate)'
-
-
-# ===============================
-# Chezmoi
-# ===============================
-alias cm='chezmoi'
+alias cm=chezmoi
 
