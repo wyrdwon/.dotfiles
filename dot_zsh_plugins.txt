@@ -1,33 +1,38 @@
-# Powerlevel10k prompt
+# =========================================================
+# Prompt
+# =========================================================
 romkatv/powerlevel10k
-romkatv/zsh-bench kind:path
 
-# Zsh completion helpers (must come before git plugin)
-mattmc3/ez-compinit             # fast + lazy compinit
-zsh-users/zsh-completions kind:fpath path:src
+# =========================================================
+# Core Zsh functions (autoload helpers)
+# =========================================================
+mattmc3/zephyr path:plugins/zfunctions
 
-# Zsh utilities (also populate fpath)
-belak/zsh-utils kind:fpath path:editor
-belak/zsh-utils kind:fpath path:history
-belak/zsh-utils kind:fpath path:prompt
-belak/zsh-utils kind:fpath path:utility
+# =========================================================
+# Completion definitions (must come before git plugin)
+# =========================================================
+# mattmc3/ez-compinit # replaced by zeyphr completion
+mattmc3/zephyr path:plugins/completion
 
-# Oh My Zsh plugins
+# =========================================================
+# Oh My Zsh plugins (can call compdef, expect compinit done)
+# =========================================================
 ohmyzsh/ohmyzsh path:plugins/archlinux
-ohmyzsh/ohmyzsh path:plugins/git      # calls compdef
+ohmyzsh/ohmyzsh path:plugins/git
 ohmyzsh/ohmyzsh path:plugins/sudo
 ohmyzsh/ohmyzsh path:plugins/colored-man-pages
-# ohmyzsh/ohmyzsh path:plugins/gh # doesn't seem to work
-# xianmin/oh-my-zsh path:plugins/copydir  # optional, commented out
 
-# Zsh enhancements
+# =========================================================
+# FZF Tab Completion (must load AFTER compinit)
+# =========================================================
+Aloxaf/fzf-tab
+
+# =========================================================
+# Widget wrappers (MUST BE LAST)
+# =========================================================
 zdharma-continuum/fast-syntax-highlighting
 zsh-users/zsh-autosuggestions
 MichaelAquilina/zsh-you-should-use
-zshzoo/magic-enter # Recommend replacing with native implementation
-olets/zsh-abbr kind:defer              # expand-as-you-type aliases
-
-# Optional Zephyr plugins
-# mattmc3/zephyr path:plugins/zfunctions
-# mattmc3/zephyr path:plugins/utility
+zshzoo/magic-enter
+olets/zsh-abbr kind:defer
 
