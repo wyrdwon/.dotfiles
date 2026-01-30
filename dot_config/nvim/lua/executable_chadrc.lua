@@ -6,12 +6,12 @@
 local M = {}
 
 M.base46 = {
-  theme = "nightfox",
-
-  hl_override = {
-    Comment = { italic = true },
-    ["@comment"] = { italic = true },
-  },
+	theme = "nightfox",
+	transparency = false,
+	hl_override = {
+		Comment = { italic = true },
+		["@comment"] = { italic = true },
+	},
 }
 
 -- M.nvdash = { load_on_startup = true }

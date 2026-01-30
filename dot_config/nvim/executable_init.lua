@@ -1,5 +1,5 @@
 -- for wsl clipboard support (+y, +p etc)
-vim.opt.clipboard:append("unnamedplus")
+vim.opt.clipboard:append "unnamedplus"
 
 vim.g.base46_cache = vim.fn.stdpath "data" .. "/base46/"
 vim.g.mapleader = " "
