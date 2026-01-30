@@ -65,7 +65,8 @@ bindkey -M viins '^[[B' history-search-forward
 # Named Directories
 # =========================================================
 hash -d dl=/mnt/c/Users/asiim/Downloads
-hash -d porn=/mnt/c/Users/asiim/.porn
+hash -d sfx=/mnt/c/Users/asiim/Music/sfx
+hash -d porn=/mnt/nuncipher/work
 
 # =========================================================
 # Plugin Management — Antidote
@@ -87,8 +88,7 @@ source "${zsh_plugins}.zsh"
 # =========================================================
 eval "$(mise activate zsh)"
 eval "$(mcfly init zsh)"
-# added --cmd cd recently
-eval "$(zoxide init --cmd cd zsh)"
+eval "$(zoxide init zsh)"
 eval "$(thefuck --alias)"
 
 # ssh-agent (silent)
@@ -142,69 +142,10 @@ zle -N fastfetch-widget
 bindkey '^[f' fastfetch-widget
 
 # =========================================================
-# yt-dlp wrapper
+# personal scripts
 # =========================================================
-_ytx() {
-  local mode="$1"
-  shift
-
-  local BASE_OPTS=(
-    --newline
-    --embed-metadata
-    --embed-thumbnail
-    --merge-output-format mp4
-    --no-playlist
-  )
-
-  case "$mode" in
-    sd)
-      yt-dlp "${BASE_OPTS[@]}" \
-        -f 'bestvideo[height<=480]+bestaudio/best[height<=480]' \
-        "$@"
-      ;;
-    hd)
-      yt-dlp "${BASE_OPTS[@]}" \
-        -f 'bestvideo[height<=1080]+bestaudio/best[height<=1080]' \
-        "$@"
-      ;;
-    qhd)
-      yt-dlp "${BASE_OPTS[@]}" \
-        -f 'bestvideo[height<=1440]+bestaudio/best[height<=1440]' \
-        "$@"
-      ;;
-    uhd)
-      yt-dlp "${BASE_OPTS[@]}" \
-        -f 'bestvideo[height<=2160]+bestaudio/best[height<=2160]' \
-        "$@"
-      ;;
-    best)
-      yt-dlp "${BASE_OPTS[@]}" \
-        -f 'bestvideo+bestaudio/best' \
-        "$@"
-      ;;
-    mp3)
-      yt-dlp \
-        --extract-audio \
-        --audio-format mp3 \
-        --audio-quality 0 \
-        --embed-metadata \
-        --embed-thumbnail \
-        "$@"
-      ;;
-    *)
-      echo "ytx: unknown mode '$mode'" >&2
-      return 1
-      ;;
-  esac
-}
-
-# Public endpoints (the only ones users should touch)
-yt-sd()   { _ytx sd   "$@"; }
-yt-hd()   { _ytx hd   "$@"; }
-yt-qhd()  { _ytx qhd  "$@"; }
-yt-uhd()  { _ytx uhd  "$@"; }
-yt-best() { _ytx best "$@"; }
-yt-mp3()  { _ytx mp3  "$@"; }
+source ~/.local/bin/yt-stuff.zsh
+source ~/.local/bin/git_switch.sh
  
 # =========================================================
 # MP4 Compressor
@@ -244,8 +185,6 @@ alias sshfront='ssh-add ~/.ssh/id_ed25519_frontend_cadera'
 alias qt='gping ping.archlinux.org'
 alias st=speedtest
 alias ght='gh auth switch'
-alias sethandle='git config --global user.name wyrdwon && git config --global user.email tarmac2817@proton.me && gh auth switch'
-alias setprof='git config --global user.name "Emmanuel Asiimwe" && git config --global user.email catalog9731@proton.me && gh auth switch'
 
 alias recite='eval $(poetry env activate)'
 alias cm=chezmoi
