@@ -1,8 +1,9 @@
 return {
+	{ "catppuccin/nvim", name = "catppuccin", priority = 1000 },
 	{
 		"stevearc/conform.nvim",
-		event = { "BufWritePRe", "BufNewFile" }, -- uncomment for format on save
-		opts = require "configs.conform",
+		event = "BufRead",
+		opts = require "configs.conform", -- Adjust with your custom config
 	},
 
 	{

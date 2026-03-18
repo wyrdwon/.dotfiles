@@ -2,6 +2,7 @@ local options = {
 	formatters_by_ft = {
 		lua = { "stylua" },
 		python = { "isort", "black" },
+		zsh = { "shfmt" },
 		-- rust = { "rust_analyzer", lsp_format = "fallback" },
 
 		-- Default: everything else uses prettierd
@@ -9,7 +10,7 @@ local options = {
 	},
 
 	format_on_save = {
-		timeout_ms = 500,
+		timeout_ms = 5000,
 		lsp_fallback = true, -- Use LSP formatting as fallback if formatter fails
 	},
 }

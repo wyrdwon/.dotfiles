@@ -61,12 +61,14 @@ bindkey ' ' magic-space
 bindkey -M viins '^[[A' history-search-backward
 bindkey -M viins '^[[B' history-search-forward
 
+
 # =========================================================
 # Named Directories
 # =========================================================
 hash -d dl=/mnt/c/Users/asiim/Downloads
+hash -d docs=/mnt/c/Users/asiim/Onedrive/Documents
 hash -d sfx=/mnt/c/Users/asiim/Music/sfx
-hash -d porn=/mnt/nuncipher/work
+hash -d hehe=/mnt/nuncipher/NSFW
 
 # =========================================================
 # Plugin Management — Antidote
@@ -90,6 +92,7 @@ eval "$(mise activate zsh)"
 eval "$(mcfly init zsh)"
 eval "$(zoxide init zsh)"
 eval "$(thefuck --alias)"
+# eval "$(register-python-argcomplete pipx)"
 
 # ssh-agent (silent)
 eval "$(ssh-agent -s)" &>/dev/null
@@ -107,6 +110,7 @@ source ~/.config/broot/launcher/bash/br
 # Prompt
 # =========================================================
 [[ -f ~/.p10k.zsh ]] && source ~/.p10k.zsh
+# eval "$(starship init zsh)"
 
 # =========================================================
 # Functions
@@ -164,6 +168,7 @@ compress_mp4() {
 alias c=clear reload='exec $SHELL' cd=z
 alias v=$EDITOR vim=$EDITOR lg=lazygit
 alias ll='eza -al --icons' lt='eza -a --tree --level=1 --icons'
+alias tar_extract='tar -xzf'
 alias nf=fastfetch ff=fastfetch pf=fastfetch
 alias shutdown='systemctl poweroff'
 alias wifi=nmtui cleanup='~/.config/ml4w/scripts/arch/cleanup.sh'
@@ -183,9 +188,11 @@ alias sshback='ssh-add ~/.ssh/id_ed25519_backend_cadera'
 alias sshfront='ssh-add ~/.ssh/id_ed25519_frontend_cadera'
 
 alias qt='gping ping.archlinux.org'
-alias st=speedtest
 alias ght='gh auth switch'
 
 alias recite='eval $(poetry env activate)'
 alias cm=chezmoi
+alias batman=btop
 
+# fixing tab completion lag
+unsetopt pathdirs
