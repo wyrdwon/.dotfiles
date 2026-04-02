@@ -5,28 +5,17 @@ P10K_INSTANT="${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh
 [[ -r $P10K_INSTANT ]] && source $P10K_INSTANT
 
 # =========================================================
-# Environment
-# =========================================================
-export EDITOR=nvim
-export BUN_INSTALL="$HOME/.bun"
-
-# =========================================================
-# PATH (prepend once, avoid repetition)
+# PATH (interactive-only additions; core PATH is in .zshenv)
 # =========================================================
 path=(
-  $HOME/.local/bin
-  $HOME/packages/lua-language-server/bin
-  $HOME/packages/nvim-linux-x86_64/bin
-  $HOME/.npm-global/bin
-  $HOME/.cargo/bin
-  $BUN_INSTALL/bin
   $path
 )
+typeset -U path
 
 # =========================================================
 # History & Shell Behavior
 # =========================================================
-HISTFILE=~/.zsh_history
+# HISTFILE is set in .zshenv
 HISTSIZE=10000
 SAVEHIST=$HISTSIZE
 HISTDUP=erase
@@ -51,7 +40,7 @@ zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'eza -1 --group-directories-
 # =========================================================
 # ZLE / Keybindings
 # =========================================================
-# might be redundant, with the vim mode
+# might be redundant with vim mode
 autoload -Uz edit-command-line
 zle -N edit-command-line
 bindkey '^x^e' edit-command-line
@@ -61,14 +50,18 @@ bindkey ' ' magic-space
 bindkey -M viins '^[[A' history-search-backward
 bindkey -M viins '^[[B' history-search-forward
 
-
 # =========================================================
 # Named Directories
 # =========================================================
-hash -d dl=/mnt/c/Users/asiim/Downloads
-hash -d docs=/mnt/c/Users/asiim/Onedrive/Documents
-hash -d sfx=/mnt/c/Users/asiim/Music/sfx
-hash -d hehe=/mnt/nuncipher/NSFW
+# WSL-specific: /mnt/c paths only exist under WSL
+if [[ -d /mnt/c ]]; then
+  hash -d dl=/mnt/c/Users/asiim/Downloads
+  hash -d docs=/mnt/c/Users/asiim/Onedrive/Documents
+  hash -d sfx=/mnt/c/Users/asiim/Music/sfx
+fi
+
+# Mount-conditional (portable drive, may or may not be present)
+[[ -d /mnt/nuncipher ]] && hash -d nsfw=/mnt/nuncipher/NSFW
 
 # =========================================================
 # Plugin Management — Antidote
@@ -89,15 +82,18 @@ source "${zsh_plugins}.zsh"
 # Tool Initialization (interactive)
 # =========================================================
 eval "$(mise activate zsh)"
-eval "$(mcfly init zsh)"
 eval "$(zoxide init zsh)"
-eval "$(thefuck --alias)"
 # eval "$(register-python-argcomplete pipx)"
 
-# ssh-agent (silent)
-eval "$(ssh-agent -s)" &>/dev/null
+# SSH agent — only spawn if no agent is already running.
+# On native Linux with a DE or systemd user session, SSH_AUTH_SOCK
+# will already be set by the session and this block is skipped entirely.
+# Under WSL (no session manager), it spawns one on first shell open.
+if [[ -z "$SSH_AUTH_SOCK" ]]; then
+  eval "$(ssh-agent -s)" &>/dev/null
+fi
 
-# Set up fzf key bindings and fuzzy completion
+# fzf key bindings and fuzzy completion
 source <(fzf --zsh)
 
 # Bun shell helpers
@@ -113,29 +109,49 @@ source ~/.config/broot/launcher/bash/br
 # eval "$(starship init zsh)"
 
 # =========================================================
+# Clipboard — resolve once, use everywhere
+# Precedence: WSL → Wayland → X11 (xclip) → X11 (xsel) → macOS
+# =========================================================
+_clipboard_copy() {
+  if command -v clip.exe &>/dev/null; then
+    clip.exe
+  elif command -v wl-copy &>/dev/null; then
+    wl-copy
+  elif command -v xclip &>/dev/null; then
+    xclip -selection clipboard
+  elif command -v xsel &>/dev/null; then
+    xsel --clipboard --input
+  elif command -v pbcopy &>/dev/null; then
+    pbcopy
+  else
+    echo "No clipboard utility found." >&2
+    return 1
+  fi
+}
+
+# =========================================================
 # Functions
 # =========================================================
 
 # eza-backed ls
 ls() { command eza -a --group-directories-first --icons "$@"; }
 
+# Copy a file's contents to clipboard
 copyfile() {
   [[ $# -eq 1 && -f $1 ]] || return 1
-  local cmd
-  for cmd in clip.exe wl-copy xclip xsel pbcopy; do
-    command -v $cmd &>/dev/null && { cat "$1" | $cmd; return }
-  done
-  echo "No clipboard utility found." >&2
+  cat "$1" | _clipboard_copy
 }
 
+# Copy the current ZLE buffer to clipboard (bound to ^O)
 copybuffer() {
   [[ -n $BUFFER ]] || return 1
-  print -rn -- "$BUFFER" | clip.exe
-  zle -M "Copied to Windows clipboard."
+  print -rn -- "$BUFFER" | _clipboard_copy
+  zle -M "Copied to clipboard."
 }
 zle -N copybuffer
 bindkey -M {emacs,viins,vicmd} '^O' copybuffer
 
+# Fastfetch widget
 fastfetch-widget() {
   zle reset-prompt
   fastfetch --config examples/13
@@ -145,15 +161,7 @@ fastfetch-widget() {
 zle -N fastfetch-widget
 bindkey '^[f' fastfetch-widget
 
-# =========================================================
-# personal scripts
-# =========================================================
-source ~/.local/bin/yt-stuff.zsh
-source ~/.local/bin/git_switch.sh
- 
-# =========================================================
-# MP4 Compressor
-# =========================================================
+# MP4 compressor
 compress_mp4() {
   local in=$1 crf=${2:-18}
   [[ -f $in ]] || return 1
@@ -161,6 +169,12 @@ compress_mp4() {
     -pix_fmt yuv420p -movflags +faststart -c:a copy \
     "$(dirname "$in")/[compressed] $(basename "$in")"
 }
+
+# =========================================================
+# Personal Scripts
+# =========================================================
+source ~/.local/bin/yt-stuff.zsh
+source ~/.local/bin/git_switch.sh
 
 # =========================================================
 # Aliases
@@ -171,17 +185,6 @@ alias ll='eza -al --icons' lt='eza -a --tree --level=1 --icons'
 alias tar_extract='tar -xzf'
 alias nf=fastfetch ff=fastfetch pf=fastfetch
 alias shutdown='systemctl poweroff'
-alias wifi=nmtui cleanup='~/.config/ml4w/scripts/arch/cleanup.sh'
-alias ts='~/.config/ml4w/scripts/arch/snapshot.sh'
-
-alias ml4w='flatpak run com.ml4w.welcome'
-alias ml4w-settings='flatpak run com.ml4w.settings'
-alias ml4w-update='~/.config/ml4w/update.sh'
-
-alias ascii='~/.config/ml4w/scripts/figlet.sh'
-alias update-grub='sudo grub-mkconfig -o /boot/grub/grub.cfg'
-alias res1='xrandr --output DisplayPort-0 --mode 2560x1440 --rate 120'
-alias res2='xrandr --output DisplayPort-0 --mode 1920x1080 --rate 120'
 alias celar=clear py=python
 
 alias sshback='ssh-add ~/.ssh/id_ed25519_backend_cadera'
@@ -194,5 +197,25 @@ alias recite='eval $(poetry env activate)'
 alias cm=chezmoi
 alias batman=btop
 
-# fixing tab completion lag
+# =========================================================
+# Native Linux — gate on absence of WSL, commented until DE is built
+# =========================================================
+# if [[ -z "$WSL_DISTRO_NAME" ]]; then
+#   alias wifi=nmtui
+#   alias update-grub='sudo grub-mkconfig -o /boot/grub/grub.cfg'
+#   alias res1='xrandr --output DisplayPort-0 --mode 2560x1440 --rate 120'
+#   alias res2='xrandr --output DisplayPort-0 --mode 1920x1080 --rate 120'
+#
+#   # ml4w rice framework — re-enable once DE is assembled
+#   # alias cleanup='~/.config/ml4w/scripts/arch/cleanup.sh'
+#   # alias ts='~/.config/ml4w/scripts/arch/snapshot.sh'
+#   # alias ml4w='flatpak run com.ml4w.welcome'
+#   # alias ml4w-settings='flatpak run com.ml4w.settings'
+#   # alias ml4w-update='~/.config/ml4w/update.sh'
+#   # alias ascii='~/.config/ml4w/scripts/figlet.sh'
+# fi
+
+# =========================================================
+# Completion performance
+# =========================================================
 unsetopt pathdirs

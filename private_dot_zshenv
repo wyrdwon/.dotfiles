@@ -1,0 +1,25 @@
+# =========================================================
+# .zshenv — sourced for ALL zsh instances (interactive and not)
+# Keep this lean: only what non-interactive shells genuinely need.
+# =========================================================
+
+# Editor (needed by git, crontab, etc. in non-interactive contexts)
+export EDITOR=nvim
+
+# History file location (set here so all zsh instances agree on it)
+export HISTFILE="$HOME/.zsh_history"
+
+# Cargo (explicit, replaces sourcing .cargo/env)
+export CARGO_HOME="$HOME/.cargo"
+
+# Bun
+export BUN_INSTALL="$HOME/.bun"
+
+# PATH — tools that non-interactive shells may need to resolve
+path=(
+  $HOME/.local/bin
+  $CARGO_HOME/bin
+  $BUN_INSTALL/bin
+  $path
+)
+typeset -U path   # deduplicate
