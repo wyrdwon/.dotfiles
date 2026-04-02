@@ -1,0 +1,370 @@
+
+# 2026-02-20 10:50:16.529780
++sele
+
+# 2026-02-20 10:50:24.512396
++\qt
+
+# 2026-02-20 10:50:29.367562
++\dT
+
+# 2026-02-20 10:51:12.661485
++\dt
+
+# 2026-02-20 10:51:21.335182
++select * from 'Class';
+
+# 2026-02-20 10:51:27.883079
++select * from "Class";
+
+# 2026-02-20 10:53:05.050387
++select * from "Role";
+
+# 2026-02-20 10:53:33.958197
++select * from "User" where "roleId" is "df25d9fc-7712-477a-bafa-0dd42ebde7f4";
+
+# 2026-02-20 10:54:00.873575
++select * from "User" where "roleId" = "df25d9fc-7712-477a-bafa-0dd42ebde7f4";
+
+# 2026-02-20 10:54:09.973960
++select * from "User" where "roleId" = 'df25d9fc-7712-477a-bafa-0dd42ebde7f4';
+
+# 2026-02-20 10:56:38.968748
++\dt
+
+# 2026-02-20 10:57:10.099941
++select * from "Collection";
+
+# 2026-02-20 11:00:43.306051
++exit
+
+# 2026-02-20 11:30:26.188625
++\dt
+
+# 2026-02-20 11:32:35.199696
++select * from "StudentReport";
+
+# 2026-02-20 12:33:47.524781
++\dt
+
+# 2026-02-20 12:34:17.736537
++select * from "StudentReport";
+
+# 2026-02-20 12:35:17.824505
++SELECT id, studentId, collectionId, archivedData
+
+# 2026-02-20 12:35:37.771895
++SELECT id, studentId, collectionId, archivedData FROM StudentReport WHERE archivedData IS NOT NULL;
+
+# 2026-02-20 12:35:47.931903
++SELECT id, studentId, collectionId, archivedData FROM "StudentReport" WHERE archivedData IS NOT NULL;
+
+# 2026-02-20 12:36:18.260041
++SELECT id, "studentId", "collectionId", "archivedData" FROM "StudentReport" WHERE "archivedData" IS NOT NULL;
+
+# 2026-02-20 12:37:35.176774
++clear
+
+# 2026-02-20 12:38:20.279326
++SELECT id, studentId, collectionId, archivedData FROM "StudentReport" WHERE archivedData IS NOT NULL;
+
+# 2026-02-20 12:38:24.872417
++SELECT id, "studentId", "collectionId", "archivedData" FROM "StudentReport" WHERE "archivedData" IS NOT NULL;
+
+# 2026-02-20 12:38:40.895606
++SELECT id, "studentId", "collectionId", key, value
++FROM "StudentReport", 
++LATERAL jsonb_each_text("archivedData") AS x(key, value)
++WHERE "archivedData" IS NOT NULL
++LIMIT 10;
+
+# 2026-02-20 12:45:28.870973
++\q
+
+# 2026-02-20 13:35:14.879394
++\dt
+
+# 2026-02-20 17:23:44.024144
++exit
+
+# 2026-02-21 09:54:23.545720
++\dt
+
+# 2026-02-21 09:54:38.489279
++select * from "Student";
+
+# 2026-02-21 09:57:55.072247
++select * from "StudentReport";
+
+# 2026-02-21 19:36:57.917148
++\dt
+
+# 2026-02-21 19:37:09.804482
++select * from "ReportLog";
+
+# 2026-02-21 20:05:26.875887
++select * from "Student";
+
+# 2026-02-21 20:30:45.253997
++select * from "User";
+
+# 2026-02-21 22:12:17.909922
++exit
+
+# 2026-02-23 21:23:10.659051
++enable row level security;
+
+# 2026-02-23 21:23:54.929877
++alter table public."Student"
+
+# 2026-02-23 22:49:02.237036
++exit
+
+# 2026-02-24 17:03:35.694105
++alter table "User" enable row level security;
+
+# 2026-02-24 17:03:42.611155
++exit
+
+# 2026-02-26 09:55:53.660593
++\dt
+
+# 2026-02-26 09:56:04.012546
++select * from "Tenant";
+
+# 2026-02-26 09:56:21.667782
++select * from "User";
+
+# 2026-02-26 09:58:43.948503
++exit
+
+# 2026-02-27 12:41:40.169211
++\dt
+
+# 2026-02-27 12:41:46.729179
++select * from "User";
+
+# 2026-02-27 12:42:03.287241
++select * from "Student";
+
+# 2026-02-27 12:59:00.409741
++select * from "Class";
+
+# 2026-02-27 13:55:19.560604
++\dt
+
+# 2026-02-27 13:55:36.889041
++select * from "User" where ema
+
+# 2026-02-27 13:55:50.068857
++select * from "User" where email = "head@deez.edu";
+
+# 2026-02-27 13:55:57.791676
++select * from "User" where email is "head@deez.edu";
+
+# 2026-02-27 13:56:09.404563
++select * from "User" where email == "head@deez.edu";
+
+# 2026-02-27 13:56:13.071580
++select * from "User" where email === "head@deez.edu";
+
+# 2026-02-27 13:56:16.951317
++clear
+
+# 2026-02-27 13:56:18.420887
++exit
+
+# 2026-02-27 13:56:24.976608
++\dt
+
+# 2026-02-27 13:56:32.587855
++select * from "User";
+
+# 2026-02-27 13:57:32.701822
++select * from "Role";
+
+# 2026-02-27 13:57:36.632527
++exit
+
+# 2026-02-28 02:54:09.186525
++select * from "User";
+
+# 2026-02-28 03:22:25.285430
++exit
+
+# 2026-02-28 03:37:40.516620
++\dt
+
+# 2026-02-28 03:37:45.981577
++select * from "User";
+
+# 2026-02-28 09:02:12.690336
++\dt
+
+# 2026-02-28 09:02:20.911935
++select * from "TeachingAssi
+
+# 2026-02-28 09:02:25.442755
++select * from "TeachingAssignment";
+
+# 2026-02-28 09:02:53.232842
++select * from "User";
+
+# 2026-02-28 09:03:02.431685
++select * from "TeachingAssignment";
+
+# 2026-02-28 09:03:42.022151
++select * from "User";
+
+# 2026-02-28 09:04:31.826919
++\dt
+
+# 2026-02-28 09:04:46.972466
++select * from "RolePermission";
+
+# 2026-02-28 09:05:01.312552
++select * from "PromotionLog";
+
+# 2026-02-28 09:05:54.702320
++select * from "ClassAdvisory";
+
+# 2026-02-28 09:07:13.570475
++-- TeachingAssignments
++SELECT EXISTS (
++    SELECT 1
++    FROM "TeachingAssignments"
++    WHERE "userId" = 'f30d7f7b-ffb3-45c4-ba63-226d70586c58'
++);
++
++-- ClassAdvisory
++SELECT EXISTS (
++    SELECT 1
++    FROM "ClassAdvisory"
++    WHERE "userId" = 'f30d7f7b-ffb3-45c4-ba63-226d70586c58'
++);
+
+# 2026-02-28 09:07:18.803822
++\dt
+
+# 2026-02-28 09:07:29.032310
++-- TeachingAssignments
++SELECT EXISTS (
++    SELECT 1
++    FROM "TeachingAssignment"
++    WHERE "userId" = 'f30d7f7b-ffb3-45c4-ba63-226d70586c58'
++);
++
++-- ClassAdvisory
++SELECT EXISTS (
++    SELECT 1
++    FROM "ClassAdvisory"
++    WHERE "userId" = 'f30d7f7b-ffb3-45c4-ba63-226d70586c58'
++);
+
+# 2026-02-28 09:12:42.819628
++select * from "ReportLog";
+
+# 2026-02-28 09:12:58.711313
++select * from "Tenant";
+
+# 2026-02-28 09:20:01.637875
++exit
+
+# 2026-02-28 09:21:34.145755
++\dt
+
+# 2026-02-28 09:21:48.620613
++select * from "User":
+
+# 2026-02-28 09:21:50.200983
++select * from "User";
+
+# 2026-02-28 09:24:43.968375
++exit
+
+# 2026-02-28 09:33:58.633086
++\dt
+
+# 2026-02-28 09:34:06.736765
++select * from "Tenant";
+
+# 2026-02-28 09:34:17.081343
++select * from "User";
+
+# 2026-02-28 13:12:47.002117
++exit
+
+# 2026-02-28 16:50:31.375515
++select * from "User";
+
+# 2026-02-28 16:53:53.841233
++exit
+
+# 2026-03-02 06:15:53.625438
++select * from "User";
+
+# 2026-03-02 06:16:44.397598
++exi
+
+# 2026-03-02 06:16:45.628595
++exit
+
+# 2026-03-19 13:11:24.127872
++\dt
+
+# 2026-03-19 13:11:27.698828
++select * from "User";
+
+# 2026-03-19 13:11:45.780212
++exit
+
+# 2026-03-19 13:15:23.319567
++\dt
+
+# 2026-03-19 13:15:31.586980
++exit
+
+# 2026-03-19 13:18:30.585316
++select * from "User";
+
+# 2026-03-19 15:08:55.477002
++exit
+
+# 2026-03-19 15:32:42.052003
++select * from "User";
+
+# 2026-03-19 15:35:50.368205
++exit
+
+# 2026-03-19 16:26:40.759467
++select * from "User";
+
+# 2026-03-19 17:07:52.594126
++\dt
+
+# 2026-03-19 17:07:58.201905
++select * from "GraduatedStudent";
+
+# 2026-03-19 17:14:30.329459
++exit
+
+# 2026-03-19 17:31:00.386150
++select * from "Student";
+
+# 2026-03-19 17:32:00.776831
++select * from "Student" where id is 1198763804;
+
+# 2026-03-19 17:32:03.999923
++select * from "Student" where id = 1198763804;
+
+# 2026-03-19 17:32:34.289830
++SELECT * FROM "Student" WHERE id = 1198763804;
+
+# 2026-03-19 17:32:50.472179
++SELECT * FROM "Student" WHERE id = '1198763804';
+
+# 2026-03-23 15:35:07.806197
++select * from "User";
+
+# 2026-03-23 15:36:50.642765
++exit
