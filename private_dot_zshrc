@@ -173,8 +173,8 @@ compress_mp4() {
 # =========================================================
 # Personal Scripts
 # =========================================================
-source ~/.local/bin/yt-stuff.zsh
-source ~/.local/bin/git_switch.sh
+source ~/.local/scripts/yt-stuff.zsh
+source ~/.local/scripts/git_switch.sh
 
 # =========================================================
 # Aliases
