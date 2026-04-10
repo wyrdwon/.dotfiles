@@ -138,7 +138,6 @@ ls() {
   command eza -a --icons \
     --group-directories-first \
     --sort=extension \
-    --sort=name \
     "$@"
 }
 
