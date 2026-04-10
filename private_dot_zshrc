@@ -134,7 +134,13 @@ _clipboard_copy() {
 # =========================================================
 
 # eza-backed ls
-ls() { command eza -a --group-directories-first --icons "$@"; }
+ls() {
+  command eza -a --icons \
+    --group-directories-first \
+    --sort=extension \
+    --sort=name \
+    "$@"
+}
 
 # Copy a file's contents to clipboard
 copyfile() {
