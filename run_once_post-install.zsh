@@ -11,9 +11,9 @@
 
 set -euo pipefail
 
-info()    { printf '\e[34m[post-install]\e[0m  %s\n' "$*"; }
+info() { printf '\e[34m[post-install]\e[0m  %s\n' "$*"; }
 success() { printf '\e[32m[post-install]\e[0m  %s\n' "$*"; }
-warn()    { printf '\e[33m[post-install]\e[0m  %s\n' "$*"; }
+warn() { printf '\e[33m[post-install]\e[0m  %s\n' "$*"; }
 
 # -------------------------------------------------------------
 # 1. Antidote — compile plugin bundle from ~/.zsh_plugins.txt
@@ -21,8 +21,10 @@ warn()    { printf '\e[33m[post-install]\e[0m  %s\n' "$*"; }
 if [[ -f ~/.zsh_plugins.txt ]]; then
   info "Compiling antidote plugin bundle..."
   if [[ -f /usr/share/zsh-antidote/functions/antidote ]]; then
+    set +u
     source /usr/share/zsh-antidote/functions/antidote
-    antidote bundle < ~/.zsh_plugins.txt >| ~/.zsh_plugins.zsh
+    set -u
+    antidote bundle <~/.zsh_plugins.txt >|~/.zsh_plugins.zsh
     success "antidote bundle compiled."
   else
     warn "antidote not found at expected path — skipping."
@@ -47,9 +49,9 @@ fi
 # -------------------------------------------------------------
 if command -v nvim &>/dev/null; then
   info "Syncing neovim plugins (headless)..."
-  nvim --headless "+Lazy! sync" +qa 2>/dev/null \
-    && success "Neovim plugins synced." \
-    || warn "Neovim plugin sync exited non-zero — check manually with 'nvim +Lazy'."
+  nvim --headless "+Lazy! sync" +qa 2>/dev/null &&
+    success "Neovim plugins synced." ||
+    warn "Neovim plugin sync exited non-zero — check manually with 'nvim +Lazy'."
 else
   warn "nvim not found — skipping plugin sync."
 fi
