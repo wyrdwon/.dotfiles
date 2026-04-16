@@ -20,14 +20,13 @@ warn() { printf '\e[33m[post-install]\e[0m  %s\n' "$*"; }
 # -------------------------------------------------------------
 if [[ -f ~/.zsh_plugins.txt ]]; then
   info "Compiling antidote plugin bundle..."
-  if [[ -f /usr/share/zsh-antidote/functions/antidote ]]; then
-    set +u
-    source /usr/share/zsh-antidote/functions/antidote
-    set -u
-    antidote bundle <~/.zsh_plugins.txt >|~/.zsh_plugins.zsh
+  if [[ -d /usr/share/zsh-antidote/functions ]]; then
+    fpath=(/usr/share/zsh-antidote/functions $fpath)
+    autoload -Uz antidote
+    antidote bundle < ~/.zsh_plugins.txt > ~/.zsh_plugins.zsh
     success "antidote bundle compiled."
   else
-    warn "antidote not found at expected path — skipping."
+    warn "antidote functions directory not found — skipping."
   fi
 else
   warn "~/.zsh_plugins.txt not found — skipping antidote."
