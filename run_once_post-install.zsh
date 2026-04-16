@@ -36,11 +36,15 @@ fi
 # 2. mise — install all runtimes defined in ~/.config/mise/config.toml
 # -------------------------------------------------------------
 if command -v mise &>/dev/null; then
-  info "Installing mise runtimes..."
+  info "mise found. Installing runtimes..."
   mise install
   success "mise runtimes installed."
 else
-  warn "mise not found — skipping runtime installs."
+  warn "mise not found. Installing mise..."
+  curl https://mise.run | sh
+  info "mise installed. Now installing runtimes..."
+  mise install
+  success "mise runtimes installed."
 fi
 
 # -------------------------------------------------------------
