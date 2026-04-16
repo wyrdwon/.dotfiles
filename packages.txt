@@ -76,12 +76,9 @@ upower
 wget
 xclip
 xsel
-yay
-yay-debug
 yt-dlp
 zip
 zsh
-zsh-antidote
 
 [aur]
 yay
