@@ -1,0 +1,136 @@
+# =============================================================
+# packages.txt — package manifest for bootstrap install
+# Sections: pacman, aur, cargo, pipx
+# Lines starting with # are comments and are ignored by install.sh
+# =============================================================
+
+
+# -------------------------------------------------------------
+# PACMAN
+# -------------------------------------------------------------
+[pacman]
+
+# Core system
+base
+base-devel
+sudo
+openssh
+
+# Shell
+zsh
+zsh-antidote
+chezmoi
+
+# Terminal utilities
+bat
+bc
+btop
+chafa
+cmatrix          # aesthetic
+duf
+eza
+fastfetch
+fd
+fzf
+gping
+hyperfine
+imagemagick
+img2pdf
+inetutils
+jless
+jpegoptim
+jq
+lazygit
+less
+nano             # fallback editor
+pandoc-cli
+poppler
+procs
+ripgrep
+sl               # aesthetic
+tldr
+tmux
+tree
+unzip
+wget
+zip
+7zip
+
+# Media / conversion
+ffmpeg
+yt-dlp
+
+# Development
+cmake
+docker
+docker-compose
+git
+git-delta
+github-cli
+neovim
+nodejs           # NOTE: mise also manages node versions; consider removing if mise is sole authority
+npm              # same caveat as nodejs
+pnpm
+postgresql-libs  # client libs only; no server
+
+# X11 clipboard (needed for WSL↔Windows and native X sessions)
+xclip
+xsel
+
+# Fonts / typesetting
+texlive-fontsextra
+texlive-latex
+texlive-latexextra
+texlive-mathscience
+
+# Python tooling
+python-pipx
+
+# Pacman tooling
+pacman-contrib
+
+# Hardware / system
+upower
+
+# Misc
+espeak-ng        # NOTE: verify this is intentional and not an orphaned dependency
+gtk3             # likely pulled in by something; verify if direct install is needed
+libxcb           # same
+libxss           # same
+nspr             # same
+nss              # same
+
+# Already present as AUR but listed in pacman too — install via pacman for simplicity
+# yay is bootstrapped separately in install.sh before this list is read
+
+
+# -------------------------------------------------------------
+# AUR (via yay, installed after yay bootstrap)
+# -------------------------------------------------------------
+[aur]
+
+# yay itself is bootstrapped manually in install.sh — nothing else is AUR-exclusive
+# Add AUR packages here as needed
+
+
+# -------------------------------------------------------------
+# CARGO
+# -------------------------------------------------------------
+[cargo]
+
+broot
+du-dust
+zoxide     # NOTE: also available in pacman; cargo version kept per current setup
+
+
+# -------------------------------------------------------------
+# PIPX
+# -------------------------------------------------------------
+[pipx]
+
+grip
+jupyterlab
+notebook
+pgcli
+poetry
+sherlock-project
