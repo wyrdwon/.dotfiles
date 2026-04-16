@@ -1,0 +1,19 @@
+# =============================================================
+# packages.local
+#
+# Packages that are intentional but machine-specific — they
+# should not appear in the shared manifest and won't be
+# installed on other machines by the bootstrap script.
+#
+# Typical candidates:
+#   - Hardware drivers (GPU, Wi-Fi, etc.)
+#   - WSL-specific tooling
+#   - Packages tied to local infrastructure
+#
+# One package name per line. Lines starting with # are ignored.
+# =============================================================
+
+# Examples:
+# nvidia-dkms
+xclip          # WSL clipboard bridge — add here if not wanted on native
+# xsel           # same

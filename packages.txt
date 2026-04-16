@@ -42,6 +42,7 @@ jpegoptim
 jq
 lazygit
 less
+man-db
 nano             # fallback editor
 pandoc-cli
 poppler

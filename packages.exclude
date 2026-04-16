@@ -1,0 +1,14 @@
+# =============================================================
+# packages.exclude
+#
+# Packages installed on this system that should NOT replicate
+# to other machines. Typically: experiments, one-off tools,
+# orphaned dependencies you haven't removed yet.
+#
+# One package name per line. Lines starting with # are ignored.
+# pmsync reads this file and suppresses matches from packages.txt.
+# =============================================================
+
+# Examples:
+# some-experimental-tool
+# leftover-dep
