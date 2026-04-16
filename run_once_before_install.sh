@@ -1,47 +1,42 @@
 #!/usr/bin/env bash
 # =============================================================
-# install.sh — bootstrap a fresh Arch installation
+# run_once_before_install.sh
 #
-# Idempotent: safe to run multiple times. Each step checks
-# before acting. Run this BEFORE chezmoi apply.
+# Executed by chezmoi exactly once, BEFORE dotfiles are applied.
+# Re-runs only if this file's content changes.
 #
-# Usage:
-#   chmod +x install.sh
-#   ./install.sh
+# Prerequisites (the only manual step on a fresh machine):
+#   sudo pacman -S --needed git chezmoi
+#   chezmoi init --apply https://github.com/you/dotfiles
 #
-# What it does, in order:
-#   1. Verify we're on Arch
-#   2. Full system update
-#   3. Install pacman packages from packages.txt
-#   4. Bootstrap yay if absent
-#   5. Install AUR packages from packages.txt
-#   6. Install rustup + cargo packages from packages.txt
-#   7. Install pipx packages from packages.txt
-#   8. Set zsh as default shell if not already
-#   9. Install chezmoi and apply dotfiles
+# This script then handles everything else:
+#   1. System update
+#   2. Pacman packages
+#   3. yay bootstrap + AUR packages
+#   4. rustup + cargo packages
+#   5. pipx packages
+#   6. zsh as default shell
 # =============================================================
 
 set -euo pipefail
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-PACKAGES_FILE="$SCRIPT_DIR/packages.txt"
+PACKAGES_FILE="$(chezmoi source-path)/packages.txt"
 
 # -------------------------------------------------------------
 # Helpers
 # -------------------------------------------------------------
-info()    { printf '\e[34m[info]\e[0m  %s\n' "$*"; }
-success() { printf '\e[32m[ok]\e[0m    %s\n' "$*"; }
-warn()    { printf '\e[33m[warn]\e[0m  %s\n' "$*"; }
-die()     { printf '\e[31m[error]\e[0m %s\n' "$*" >&2; exit 1; }
+info()    { printf '\e[34m[bootstrap]\e[0m  %s\n' "$*"; }
+success() { printf '\e[32m[bootstrap]\e[0m  %s\n' "$*"; }
+warn()    { printf '\e[33m[bootstrap]\e[0m  %s\n' "$*"; }
+die()     { printf '\e[31m[bootstrap]\e[0m  %s\n' "$*" >&2; exit 1; }
 
-# Parse a section from packages.txt, stripping comments and blanks
 parse_section() {
   local section="$1"
   awk "/^\[${section}\]/{found=1; next} /^\[/{found=0} found && /^[^#]/ && NF" "$PACKAGES_FILE"
 }
 
 # -------------------------------------------------------------
-# 0. Sanity checks
+# Sanity checks
 # -------------------------------------------------------------
 [[ -f /etc/arch-release ]] || die "This script is for Arch Linux only."
 [[ -f "$PACKAGES_FILE" ]] || die "packages.txt not found at $PACKAGES_FILE"
@@ -135,7 +130,7 @@ done
 # 6. pipx packages
 # -------------------------------------------------------------
 if ! command -v pipx &>/dev/null; then
-  warn "pipx not found — skipping pipx packages. Install python-pipx first."
+  warn "pipx not found — skipping. It should have been installed via pacman (python-pipx)."
 else
   info "Installing pipx packages..."
   mapfile -t pipx_pkgs < <(parse_section pipx)
@@ -164,29 +159,7 @@ else
 fi
 
 # -------------------------------------------------------------
-# 8. chezmoi — apply dotfiles
-# -------------------------------------------------------------
-if ! command -v chezmoi &>/dev/null; then
-  die "chezmoi not found. It should have been installed in the pacman step — check packages.txt."
-fi
-
-CHEZMOI_SOURCE="${CHEZMOI_SOURCE:-}"   # allow override via env var
-CHEZMOI_REPO="${CHEZMOI_REPO:-}"       # e.g. https://github.com/you/dotfiles
-
-if [[ -d "$HOME/.local/share/chezmoi/.git" ]]; then
-  info "chezmoi source already initialised — running apply..."
-  chezmoi apply
-elif [[ -n "$CHEZMOI_REPO" ]]; then
-  info "Initialising chezmoi from $CHEZMOI_REPO..."
-  chezmoi init --apply "$CHEZMOI_REPO"
-else
-  warn "No chezmoi repo specified. Set CHEZMOI_REPO=https://github.com/you/dotfiles and re-run,"
-  warn "or run 'chezmoi init --apply <repo>' manually."
-fi
-
-# -------------------------------------------------------------
 # Done
 # -------------------------------------------------------------
 printf '\n'
-success "Bootstrap complete."
-info "Open a new shell or run 'exec zsh' to pick up the new environment."
+success "Bootstrap complete — chezmoi will now apply dotfiles."

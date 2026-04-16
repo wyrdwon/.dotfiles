@@ -2,36 +2,37 @@
 # =============================================================
 # run_once_post-install.zsh
 #
-# Executed by chezmoi exactly once after dotfiles are applied
-# (re-runs only if this file's content changes).
+# Executed by chezmoi exactly once, AFTER dotfiles are applied.
+# Re-runs only if this file's content changes.
 #
-# Assumes install.sh has already run: zsh, mise, antidote,
-# neovim, and cargo are all expected to be present.
+# Assumes run_once_before_install.sh has already completed:
+# zsh, mise, antidote, neovim, cargo are all expected present.
 # =============================================================
 
 set -euo pipefail
 
-info()    { printf '\e[34m[chezmoi/post]\e[0m  %s\n' "$*"; }
-success() { printf '\e[32m[chezmoi/post]\e[0m  %s\n' "$*"; }
-warn()    { printf '\e[33m[chezmoi/post]\e[0m  %s\n' "$*"; }
+info()    { printf '\e[34m[post-install]\e[0m  %s\n' "$*"; }
+success() { printf '\e[32m[post-install]\e[0m  %s\n' "$*"; }
+warn()    { printf '\e[33m[post-install]\e[0m  %s\n' "$*"; }
 
 # -------------------------------------------------------------
-# 1. Antidote — compile plugin bundle
-# Generates ~/.zsh_plugins.zsh from ~/.zsh_plugins.txt
+# 1. Antidote — compile plugin bundle from ~/.zsh_plugins.txt
 # -------------------------------------------------------------
 if [[ -f ~/.zsh_plugins.txt ]]; then
   info "Compiling antidote plugin bundle..."
-  source /usr/share/zsh-antidote/functions/antidote 2>/dev/null \
-    || { warn "antidote not found at expected path — skipping."; }
-  antidote bundle < ~/.zsh_plugins.txt >| ~/.zsh_plugins.zsh
-  success "antidote bundle compiled."
+  if [[ -f /usr/share/zsh-antidote/functions/antidote ]]; then
+    source /usr/share/zsh-antidote/functions/antidote
+    antidote bundle < ~/.zsh_plugins.txt >| ~/.zsh_plugins.zsh
+    success "antidote bundle compiled."
+  else
+    warn "antidote not found at expected path — skipping."
+  fi
 else
   warn "~/.zsh_plugins.txt not found — skipping antidote."
 fi
 
 # -------------------------------------------------------------
-# 2. mise — install all configured runtimes
-# Reads ~/.config/mise/config.toml (applied by chezmoi already)
+# 2. mise — install all runtimes defined in ~/.config/mise/config.toml
 # -------------------------------------------------------------
 if command -v mise &>/dev/null; then
   info "Installing mise runtimes..."
@@ -54,8 +55,9 @@ else
 fi
 
 # -------------------------------------------------------------
-# 4. Broot — install launcher
-# Generates the shell launcher scripts under ~/.config/broot/launcher/
+# 4. Broot — generate shell launcher if not already present
+# Chezmoi does not track the launcher (generated output);
+# broot --install writes it fresh on each new machine.
 # -------------------------------------------------------------
 if command -v broot &>/dev/null; then
   if [[ ! -f ~/.config/broot/launcher/zsh/br ]]; then
@@ -70,12 +72,8 @@ else
 fi
 
 # -------------------------------------------------------------
-# 5. zoxide — nothing to install, init is handled in .zshrc
-# -------------------------------------------------------------
-success "zoxide init is handled in .zshrc — nothing to do here."
-
-# -------------------------------------------------------------
 # Done
 # -------------------------------------------------------------
 printf '\n'
 success "Post-install complete."
+info "Start a new zsh session to pick up the full environment."
