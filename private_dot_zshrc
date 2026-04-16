@@ -100,7 +100,7 @@ source <(fzf --zsh)
 [[ -s $BUN_INSTALL/_bun ]] && source $BUN_INSTALL/_bun
 
 # Broot
-source ~/.config/broot/launcher/bash/br
+source ~/.config/broot/launcher/zsh/br
 
 # =========================================================
 # Prompt
