@@ -20,13 +20,23 @@ warn() { printf '\e[33m[post-install]\e[0m  %s\n' "$*"; }
 # -------------------------------------------------------------
 if [[ -f ~/.zsh_plugins.txt ]]; then
   info "Compiling antidote plugin bundle..."
-  if [[ -d /usr/share/zsh-antidote/functions ]]; then
-    fpath=(/usr/share/zsh-antidote/functions $fpath)
-    autoload -Uz antidote
+
+  # Locate antidote.zsh — handle both package manager and git installs
+  local antidote_zsh=""
+  if [[ -f /usr/share/zsh-antidote/antidote.zsh ]]; then
+    antidote_zsh=/usr/share/zsh-antidote/antidote.zsh
+  elif [[ -f ${ZDOTDIR:-$HOME}/.antidote/antidote.zsh ]]; then
+    antidote_zsh=${ZDOTDIR:-$HOME}/.antidote/antidote.zsh
+  fi
+
+  if [[ -n $antidote_zsh ]]; then
+    # Disable nounset: antidote.zsh references $BASH_VERSION which is unset in zsh,
+    # and -u would kill the script before antidote's own guard can handle it.
+    setopt LOCAL_OPTIONS
+    unsetopt NOUNSET
+    source "$antidote_zsh"
     antidote bundle < ~/.zsh_plugins.txt > ~/.zsh_plugins.zsh
     success "antidote bundle compiled."
-  else
-    warn "antidote functions directory not found — skipping."
   fi
 else
   warn "~/.zsh_plugins.txt not found — skipping antidote."
