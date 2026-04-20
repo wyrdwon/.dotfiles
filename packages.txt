@@ -64,10 +64,6 @@ python-pipx
 ripgrep
 sl
 sudo
-texlive-fontsextra
-texlive-latex
-texlive-latexextra
-texlive-mathscience
 tldr
 tmux
 tree
@@ -76,9 +72,12 @@ upower
 wget
 xclip
 xsel
+yay
+yay-debug
 yt-dlp
 zip
 zsh
+zsh-antidote
 
 [aur]
 yay
