@@ -35,6 +35,7 @@
     os_icon                 # os identifier
     dir                     # current directory
     vcs                     # git status
+    git_identity            # active gh account (handle vs prof)
     # =========================[ Line #2 ]=========================
     newline                 # \n
     prompt_char             # prompt symbol
@@ -121,7 +122,7 @@
   typeset -g POWERLEVEL9K_MODE=nerdfont-v3
   # When set to `moderate`, some icons will have an extra space after them. This is meant to avoid
   # icon overlap when using non-monospace fonts. When set to `none`, spaces are not added.
-  typeset -g POWERLEVEL9K_ICON_PADDING=moderate
+  typeset -g POWERLEVEL9K_ICON_PADDING=none
 
   # Basic style options that define the overall look of your prompt. You probably don't want to
   # change them.
@@ -1648,6 +1649,53 @@
   # typeset -g POWERLEVEL9K_TIME_VISUAL_IDENTIFIER_EXPANSION='⭐'
   # Custom prefix.
   # typeset -g POWERLEVEL9K_TIME_PREFIX='%fat '
+
+  ####################[ git_identity: active gh account indicator ]#####################
+  # Color for the handle (personal) account.
+  typeset -g POWERLEVEL9K_GIT_IDENTITY_HANDLE_FOREGROUND=39    # blue
+  # Color for the professional account.
+  typeset -g POWERLEVEL9K_GIT_IDENTITY_PROF_FOREGROUND=214     # orange
+  # Fallback color when identity is unknown.
+  typeset -g POWERLEVEL9K_GIT_IDENTITY_FOREGROUND=244          # grey
+
+  # Shows the active GitHub identity. Reads from $GH_ACTIVE_IDENTITY, which git_switch.sh
+  # must export on every switch. Falls back to a one-shot `gh auth status` parse only when
+  # the variable is unset (i.e. on first shell load). This keeps the prompt fast.
+  function prompt_git_identity() {
+    local identity
+
+    if [[ -n $GH_ACTIVE_IDENTITY ]]; then
+      identity=$GH_ACTIVE_IDENTITY
+    else
+      # Cold-start: parse gh auth status once and cache it.
+      local raw
+      raw=$(gh auth status 2>&1)
+      identity=$(print -r -- "$raw" \
+        | grep -B2 'Active account: true' \
+        | grep 'Logged in to github.com account' \
+        | sed -n 's/.*account \([^ ]*\).*/\1/p')
+      export GH_ACTIVE_IDENTITY=$identity
+    fi
+
+    [[ -z $identity ]] && return
+
+    # Match against known usernames to pick color and label.
+    # Edit these patterns to match your actual account usernames.
+    if [[ $identity == ${ACCOUNT_CONFIG[handle_username]:-__handle__} ]]; then
+      p10k segment -f ${POWERLEVEL9K_GIT_IDENTITY_HANDLE_FOREGROUND} -i '' -t "$identity"
+    elif [[ $identity == ${ACCOUNT_CONFIG[prof_username]:-__prof__} ]]; then
+      p10k segment -f ${POWERLEVEL9K_GIT_IDENTITY_PROF_FOREGROUND}   -i '󰭟' -t "$identity"
+    else
+      p10k segment -f ${POWERLEVEL9K_GIT_IDENTITY_FOREGROUND}        -i '' -t "$identity"
+    fi
+  }
+
+  # instant_prompt variant: only show if we already have the cached variable.
+  # Avoids blocking instant prompt with a subprocess call.
+  function instant_prompt_git_identity() {
+    [[ -z $GH_ACTIVE_IDENTITY ]] && return
+    prompt_git_identity
+  }
 
   # Example of a user-defined prompt segment. Function prompt_example will be called on every
   # prompt if `example` prompt segment is added to POWERLEVEL9K_LEFT_PROMPT_ELEMENTS or
