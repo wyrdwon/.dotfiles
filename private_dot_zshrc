@@ -196,6 +196,7 @@ alias ght='gh auth switch'
 alias recite='eval $(poetry env activate)'
 alias cm=chezmoi
 alias batman=btop
+alias hyprconf='chezmoi edit ~/.config/hypr/hyprland.conf'
 
 # =========================================================
 # Native Linux — gate on absence of WSL, commented until DE is built
@@ -219,3 +220,4 @@ alias batman=btop
 # Completion performance
 # =========================================================
 unsetopt pathdirs
+
