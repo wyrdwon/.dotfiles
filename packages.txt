@@ -26,6 +26,7 @@ cmake
 cmatrix
 docker
 docker-compose
+dosfstools
 duf
 efibootmgr
 espeak-ng
@@ -51,6 +52,7 @@ inetutils
 jless
 jpegoptim
 jq
+keyd
 lazygit
 less
 libxcb
