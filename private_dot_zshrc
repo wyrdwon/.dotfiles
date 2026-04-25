@@ -170,6 +170,19 @@ compress_mp4() {
     "$(dirname "$in")/[compressed] $(basename "$in")"
 }
 
+# edit hyprland main config
+hyprconf() {
+    local file="$HOME/.config/hypr/hyprland.conf"
+
+    # Open editor (fallback to nano if $EDITOR not set)
+    "${EDITOR:-nano}" "$file"
+
+    # After editor exits, push changes into chezmoi
+    chezmoi re-add "$file"
+
+    echo "Hyprland config synced to chezmoi."
+}
+
 # =========================================================
 # Personal Scripts
 # =========================================================
@@ -196,7 +209,6 @@ alias ght='gh auth switch'
 alias recite='eval $(poetry env activate)'
 alias cm=chezmoi
 alias batman=btop
-alias hyprconf='chezmoi edit ~/.config/hypr/hyprland.conf'
 
 # =========================================================
 # Native Linux — gate on absence of WSL, commented until DE is built
