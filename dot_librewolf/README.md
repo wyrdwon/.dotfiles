@@ -13,7 +13,7 @@ dot_librewolf/
   search.json.mozlz4         # custom search engines
   persdict.dat               # personal spellcheck dictionary
   bookmarks-latest.json      # decoded from most recent bookmarkbackups/*.jsonlz4
-  extensions.txt             # manually maintained list of extension IDs/AMO slugs
+  extensions.yml             # manually maintained list of extension IDs/AMO slugs
 
   scripts/
     resolve-librewolf-profile.zsh   # run once after install: creates symlink
@@ -44,7 +44,7 @@ It is safe to re-run (idempotent).
 zsh ~/.local/share/chezmoi/dot_librewolf/scripts/resolve-librewolf-profile.zsh
 # 3. Deploy config:
 zsh ~/.local/share/chezmoi/dot_librewolf/scripts/deploy-librewolf.zsh
-# 4. Install extensions (see extensions.txt), then restore:
+# 4. Install extensions (see extensions.yml), then restore:
 #    - containers.json is already deployed; Firefox Containers reads it on launch
 #    - search engines are in search.json.mozlz4
 #    - import bookmarks.html via Bookmarks > Import
@@ -80,7 +80,7 @@ Extensions cannot be reliably automated across platforms because:
 - Some extensions (Tree Style Tab, Simple Tab Groups) store substantial state
   in IndexedDB, not in trackable files
 
-**Recommended approach: `extensions.txt`**
+**Recommended approach: `extensions.yml`**
 
 Maintain a plain-text list of AMO page URLs or extension IDs.
 On a fresh machine, install from this list manually or via a policy file.

@@ -1,0 +1,45 @@
+# extensions.yaml
+# Manually maintained list of extensions for this LibreWolf profile.
+# Install these on a fresh machine after running deploy-librewolf.zsh.
+
+extensions:
+
+  privacy_and_access_control:
+    - uBlock Origin
+    - CanvasBlocker
+    - I Still Don’t Care About Cookies
+    - Privacy Badger
+    - Multi-Account Containers
+    - LibrRedirect
+    - Terms of Service; Didn’t Read
+    - Bitwarden Password Manager
+
+  interface_and_navigation:
+    - Dark Reader
+    - Tabliss
+    - Bonjourr Startpage
+    - Tree Style Tab
+    - Simple Tab Groups
+    - Adaptive Tab Bar Color
+
+  content_manipulation:
+    - SponsorBlock
+    - YouTube Search Fixer
+    - Return YouTube Dislikes
+    - YouTube NonStop
+    - Unhook
+    - Buster CAPTCHA Solver
+    - Bypass Paywalls Clean (Magnolia)
+
+  productivity_and_information:
+    - Definer
+    - LeechBlock NG
+    - Feedbro (RSS Reader)
+    - Search by Image
+    - Save WebP as PNG/JPEG
+    - Web Archive
+    - Consumer Rights Wiki
+
+  developer_and_execution:
+    - User-Agent Switcher
+    - Violentmonkey
