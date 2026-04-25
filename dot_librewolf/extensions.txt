@@ -1,0 +1,57 @@
+# extensions.txt
+# Manually maintained list of extensions for this LibreWolf profile.
+# Install these on a fresh machine after running deploy-librewolf.zsh.
+# Format: extension-id | AMO slug or install URL
+
+# --- Core / Privacy ---
+uBlock0@raymondhill.net             | https://addons.mozilla.org/en-US/firefox/addon/ublock-origin/
+CanvasBlocker@kkapsner.de           | https://addons.mozilla.org/en-US/firefox/addon/canvasblocker/
+idcac-pub@guus.ninja                | https://addons.mozilla.org/en-US/firefox/addon/i-dont-care-about-cookies/
+addon@darkreader.org                | https://addons.mozilla.org/en-US/firefox/addon/darkreader/
+leechblockng@proginosko.com         | https://addons.mozilla.org/en-US/firefox/addon/leechblock-ng/
+
+# --- Tab management ---
+treestyletab@piro.sakura.ne.jp      | https://addons.mozilla.org/en-US/firefox/addon/tree-style-tab/
+simple-tab-groups@drive4ik          | https://addons.mozilla.org/en-US/firefox/addon/simple-tab-groups/
+ATBC@EasonWong                      | https://addons.mozilla.org/en-US/firefox/addon/auto-tab-discard/
+
+# --- Containers ---
+@testpilot-containers               | https://addons.mozilla.org/en-US/firefox/addon/multi-account-containers/
+
+# --- Content / Paywall ---
+magnolia@12.34                      | https://addons.mozilla.org/en-US/firefox/addon/magnolia1/ # Bypass Paywalls Clean
+
+# --- Media ---
+sponsorBlocker@ajay.app             | https://addons.mozilla.org/en-US/firefox/addon/sponsorblock/
+MinYT@example.org                   | https://addons.mozilla.org/en-US/firefox/addon/minyt/
+myallychou@gmail.com                | https://addons.mozilla.org/en-US/firefox/addon/youtube-audio/ # or equivalent
+
+# --- Productivity ---
+definer@lumetrium.com               | https://addons.mozilla.org/en-US/firefox/addon/definer/
+7esoorv3@alefvanoon.anonaddy.me     | https://addons.mozilla.org/en-US/firefox/addon/anonaddy/ # SimpleLogin/AnonAddy
+@crw-extension-firefox              | # CRX/webstore redirect tool
+
+# --- New tab / Homepage ---
+{4f391a9e-8717-4ba6-a5b1-488a34931fcb} | # Tabliss (new tab page)
+
+# --- Privacy / Misc ---
+extension@tabliss.io                | https://addons.mozilla.org/en-US/firefox/addon/tabliss/
+savewebpas@jeffersonscher.com       | https://addons.mozilla.org/en-US/firefox/addon/save-webp-as-png-or-jpeg/
+jid0-3GUEt1r69sQNSrca5p8kx9Ezc3U@jetpack | # flagfox or similar
+
+# --- Unknown / Unresolved IDs ---
+# {762f9885-5a13-4abd-9c77-433dcd38b8fd}  — identify and add AMO link
+# {0d7cafdd-501c-49ca-8ebb-e3341caaa55e}  — identify and add AMO link (YouTube-related based on origins)
+# {a6c4a591-f1b2-4f03-b3ff-767e5bedf4e7}  — identify and add AMO link
+# {a9c2ad37-e940-4892-8dce-cd73c6cbbc0c}  — identify and add AMO link
+# {e58d3966-3d76-4cd9-8552-1582fbc800c1}  — identify and add AMO link
+# {2e5ff8c8-32fe-46d0-9fc8-6b8986621f3c}  — nav bar extension, identify
+# {036a55b4-5e72-4d05-a06c-cba2dfcc134a}  — identify
+# {74145f27-f039-47ce-a470-a662b129930a}  — identify
+# danabok16@gmail.com                      — identify
+# jid1-MnnxcxisBPnSXQ@jetpack             — identify
+# jid1-oy8xu5bskzqa6a@jetpack             — identify
+# jid1-kkzogwgsw3ao4q@jetpack             — identify
+# hide-sat-answers@example.com            — identify
+# support@feedbin.com                     — identify (Feedbin integration?)
+# 1094918@gmail.com                       — Instagram/Threads extension based on origins
