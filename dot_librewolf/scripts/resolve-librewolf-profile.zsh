@@ -23,7 +23,7 @@ fi
 # Parse the Default= key from profiles.ini.
 # profiles.ini uses Windows-style INI; Default= points to the relative path.
 # Example line: Default=xxxxxxxx.default-default
-profile_rel=$(awk -F= '/^Default=/ { print $2; exit }' "${PROFILES_INI}")
+profile_rel=$(awk -F= '/^Default=/ && $2 !~ /^[0-9]+$/ { print $2; exit }' "${PROFILES_INI}")
 
 if [[ -z "${profile_rel}" ]]; then
   # Fallback: find Path= under the first [Profile] section marked Default=1
