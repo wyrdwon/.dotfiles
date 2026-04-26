@@ -3,7 +3,7 @@
 ## Layout
 
 ```
-dot_librewolf/
+dot_config/librewolf/bewtstrap
   user.js                    # preference overrides — the only file you edit
   chrome/
     userChrome.css           # UI modifications
@@ -21,14 +21,17 @@ dot_librewolf/
     export-librewolf.zsh            # profile → dotfiles (after in-browser changes)
 ```
 
+> couldn't use dot_librewolf since librewolf interprets that as config path (over XDG one)
+> perk of the arch version is that you'll have to make the dir first before starting librewolf
+
 ## Profile path resolution
 
 LibreWolf generates a hex-prefixed profile directory (`xxxxxxxx.default-default`).
-`resolve-librewolf-profile.zsh` reads `~/.librewolf/profiles.ini`, resolves the
+`resolve-librewolf-profile.zsh` reads `~/.config/librewolf/librewolf/profiles.ini`, resolves the
 default profile path, and creates:
 
 ```
-~/.librewolf/active-profile -> ~/.librewolf/xxxxxxxx.default-default
+~/.config/librewolf/librewolf/active-profile -> ~/.librewolf/xxxxxxxx.default-default
 ```
 
 All scripts reference this symlink. Run it once after first LibreWolf launch.
@@ -41,9 +44,9 @@ It is safe to re-run (idempotent).
 ```zsh
 # 1. Install LibreWolf, launch it once (creates profile), close it.
 # 2. Resolve profile path:
-zsh ~/.local/share/chezmoi/dot_librewolf/scripts/resolve-librewolf-profile.zsh
+zsh ~/.local/share/chezmoi/dot_config/librewolf/bewtstrap/scripts/resolve-librewolf-profile.zsh
 # 3. Deploy config:
-zsh ~/.local/share/chezmoi/dot_librewolf/scripts/deploy-librewolf.zsh
+zsh ~/.local/share/chezmoi/dot_config/librewolf/bewtstrap/scripts/deploy-librewolf.zsh
 # 4. Install extensions (see extensions.yml), then restore:
 #    - containers.json is already deployed; Firefox Containers reads it on launch
 #    - search engines are in search.json.mozlz4
@@ -53,16 +56,16 @@ zsh ~/.local/share/chezmoi/dot_librewolf/scripts/deploy-librewolf.zsh
 ### After changing settings in the browser
 
 ```zsh
-zsh ~/.local/share/chezmoi/dot_librewolf/scripts/export-librewolf.zsh
+zsh ~/.local/share/chezmoi/dot_config/librewolf/bewtstrap/scripts/export-librewolf.zsh
 chezmoi diff          # review
-chezmoi re-add ~/.local/share/chezmoi/dot_librewolf
+chezmoi re-add ~/.local/share/chezmoi/dot_config/librewolf/bewtstrap
 git -C ~/.local/share/chezmoi add -p && git commit
 ```
 
 ### After editing user.js directly in dotfiles
 
 ```zsh
-zsh ~/.local/share/chezmoi/dot_librewolf/scripts/deploy-librewolf.zsh
+zsh ~/.local/share/chezmoi/dot_config/librewolf/bewtstrap/scripts/deploy-librewolf.zsh
 # Then launch LibreWolf.
 ```
 
@@ -99,7 +102,7 @@ to auto-install extensions:
 }
 ```
 Place at: `/usr/lib/librewolf/distribution/policies.json` (system-wide)
-or: `~/.librewolf/policies.json` (user-level, if supported by your LibreWolf build).
+or: `~/.config/librewolf/librewolf/policies.json` (user-level, if supported by your LibreWolf build).
 
 Extension *preferences* (not the binaries) can be partially preserved via
 `extension-preferences.json` — track it alongside the others if desired,

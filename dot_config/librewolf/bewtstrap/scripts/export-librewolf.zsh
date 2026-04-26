@@ -23,7 +23,7 @@
 set -euo pipefail
 
 SYMLINK="${HOME}/.config/librewolf/librewolf/active-profile"
-DOTFILES_LIBREWOLF="${CHEZMOI_SOURCE_DIR:-${HOME}/.local/share/chezmoi}/dot_librewolf"
+DOTFILES_LIBREWOLF="${CHEZMOI_SOURCE_DIR:-${HOME}/.local/share/chezmoi}/dot_config/librewolf/bewtstrap"
 
 if [[ ! -L "${SYMLINK}" ]]; then
   print -u2 "Error: ${SYMLINK} does not exist."
