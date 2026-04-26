@@ -10,23 +10,20 @@ extensions:
     - I Still Don’t Care About Cookies
     - Privacy Badger
     - Multi-Account Containers
-    - LibrRedirect
+    - LibRedirect
     - Terms of Service; Didn’t Read
     - Bitwarden Password Manager
 
   interface_and_navigation:
     - Dark Reader
-    - Tabliss
     - Bonjourr Startpage
     - Tree Style Tab
-    - Simple Tab Groups
     - Adaptive Tab Bar Color
 
   content_manipulation:
     - SponsorBlock
     - YouTube Search Fixer
-    - Return YouTube Dislikes
-    - YouTube NonStop
+    - Return YouTube Dislike
     - Unhook
     - Buster CAPTCHA Solver
     - Bypass Paywalls Clean (Magnolia)
@@ -36,8 +33,7 @@ extensions:
     - LeechBlock NG
     - Feedbro (RSS Reader)
     - Search by Image
-    - Save WebP as PNG/JPEG
-    - Web Archive
+    - Web Archives
     - Consumer Rights Wiki
 
   developer_and_execution:
