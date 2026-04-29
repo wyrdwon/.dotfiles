@@ -66,6 +66,8 @@ neovim
 networkmanager
 nodejs
 npm
+nspr
+nss
 openssh
 pacman-contrib
 pandoc-cli
@@ -80,6 +82,10 @@ qt6-wayland
 ripgrep
 sl
 sudo
+texlive-basic
+texlive-fontsrecommended
+texlive-latex
+texlive-latexrecommended
 tldr
 tmux
 tree
