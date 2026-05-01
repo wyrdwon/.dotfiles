@@ -196,7 +196,11 @@ alias ght='gh auth switch'
 alias recite='eval $(poetry env activate)'
 alias cm=chezmoi
 alias batman=btop
-alias hyprconf='chezmoi edit --apply .config/hypr/hyprland.conf'
+
+# hot dotfile conf
+alias hyprconf='chezmoi edit --apply ~/.config/hypr/hyprland.conf'
+alias shellconf='chezmoi edit --apply ~/.zshrc'
+alias termconf='chezmoi edit --apply ~/.config/alacritty/alacritty.toml'
 
 # =========================================================
 # Native Linux — gate on absence of WSL, commented until DE is built
