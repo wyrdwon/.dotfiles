@@ -61,6 +61,7 @@ linux
 linux-firmware
 mako
 man-db
+mullvad-vpn
 nano
 neovim
 networkmanager
@@ -77,6 +78,7 @@ poppler
 postgresql-libs
 procs
 python-pipx
+qbittorrent
 qt5-wayland
 qt6-wayland
 ripgrep
@@ -91,6 +93,7 @@ tmux
 tree
 unzip
 upower
+vlc
 waybar
 wget
 wireplumber
@@ -104,6 +107,10 @@ zip
 zsh
 
 [aur]
+librewolf-bin
+librewolf-bin-debug
+localsend-bin
+pear-desktop
 yay
 yay-debug
 zsh-antidote
