@@ -1,3 +1,0 @@
-[submodule "dot_config/waybar"]
-	path = dot_config/waybar
-	url = https://github.com/wyrdwon/mechabar
