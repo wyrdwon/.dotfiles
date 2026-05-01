@@ -170,6 +170,22 @@ compress_mp4() {
     "$(dirname "$in")/[compressed] $(basename "$in")"
 }
 
+# used in .file aliases
+chez_edit() {
+  local file="$1"
+
+  if [[ -z "$file" ]]; then
+    echo "usage: chez_edit <file>"
+    return 1
+  fi
+
+  # Open the real file in your editor
+  ${EDITOR:-nvim} "$file"
+
+  # Re-add it to chezmoi after editing
+  chezmoi re-add "$file"
+}
+
 # =========================================================
 # Personal Scripts
 # =========================================================
@@ -198,9 +214,9 @@ alias cm=chezmoi
 alias batman=btop
 
 # hot dotfile conf
-alias hyprconf='chezmoi edit --apply ~/.config/hypr/hyprland.conf'
-alias shellconf='chezmoi edit --apply ~/.zshrc'
-alias termconf='chezmoi edit --apply ~/.config/alacritty/alacritty.toml'
+alias hyprconf='chez_edit ~/.config/hypr/hyprland.conf'
+alias shellconf='chez_edit ~/.zshrc'
+alias termconf='chez_edit ~/.config/alacritty/alacritty.toml'
 
 # =========================================================
 # Native Linux — gate on absence of WSL, commented until DE is built
