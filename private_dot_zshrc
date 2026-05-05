@@ -212,6 +212,7 @@ alias ght='gh auth switch'
 alias recite='eval $(poetry env activate)'
 alias cm=chezmoi
 alias batman=btop
+alias imgpreview=chafa
 
 # hot dotfile conf
 alias hyprconf='chez_edit ~/.config/hypr/hyprland.conf'
