@@ -186,6 +186,25 @@ chez_edit() {
   chezmoi re-add "$file"
 }
 
+function problem() {
+    # Check if an argument is provided
+    if [[ -z "$1" ]]; then
+        echo "Usage: problem <name>"
+        return 1
+    fi
+
+    # Convert the argument to uppercase
+    local name_upper="${1:u}"
+
+    # Create the folder
+    mkdir -p "$name_upper"
+
+    # Create the cpp file inside the folder
+    touch "$name_upper/$name_upper.cpp"
+
+    echo "Created folder '$name_upper' with file '$name_upper/$name_upper.cpp'"
+}
+
 # =========================================================
 # Personal Scripts
 # =========================================================
