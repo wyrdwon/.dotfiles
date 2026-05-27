@@ -21,6 +21,7 @@ btop
 chafa
 chezmoi
 chrony
+clang
 cliphist
 cmake
 cmatrix
@@ -59,6 +60,7 @@ libxcb
 libxss
 linux
 linux-firmware
+llvm
 mako
 man-db
 mullvad-vpn
@@ -81,6 +83,7 @@ python-pipx
 qbittorrent
 qt5-wayland
 qt6-wayland
+reflector
 ripgrep
 sl
 sudo
@@ -118,6 +121,7 @@ zsh-antidote
 [cargo]
 broot
 du-dust
+tree-sitter-cli
 zoxide
 
 [pipx]
