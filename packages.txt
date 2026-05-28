@@ -17,6 +17,7 @@ base
 base-devel
 bat
 bc
+bitwarden-cli
 btop
 chafa
 chezmoi
@@ -67,7 +68,6 @@ mullvad-vpn
 nano
 neovim
 networkmanager
-nodejs
 npm
 nspr
 nss
