@@ -1,0 +1,40 @@
+[user]
+	name = {{ (bitwarden "item" "github-handle").login.username }}
+	email = {{ (bitwardenFields "item" "github-handle").email.value }}
+
+[core]
+    pager = delta
+	editor = nvim
+	excludesfile = /home/wyrd/.gitignore_global
+
+[interactive]
+    diffFilter = delta --color-only
+
+[delta]
+    navigate = true
+    dark = true
+    side-by-side = true
+
+[merge]
+    conflictstyle = zdiff3
+
+[credential]
+    helper = cache
+
+[credential "https://github.com"]
+    helper = !/usr/bin/gh auth git-credential
+
+[credential "https://gist.github.com"]
+    helper = !/usr/bin/gh auth git-credential
+
+[pull]
+	rebase = true
+
+[gc]
+    reflogExpire = never
+    pruneExpire = never
+
+[init]
+	defaultBranch = master
+[color]
+	ui = auto
