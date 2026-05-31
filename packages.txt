@@ -126,7 +126,6 @@ tree-sitter-cli
 zoxide
 
 [pipx]
-grip
 jupyterlab
 notebook
 pgcli
