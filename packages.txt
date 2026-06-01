@@ -52,6 +52,7 @@ hyprpolkitagent
 imagemagick
 img2pdf
 inetutils
+intel-ucode
 jless
 jpegoptim
 jq
@@ -97,6 +98,7 @@ tmux
 tree
 unzip
 upower
+veracrypt
 vlc
 waybar
 wget
@@ -126,6 +128,7 @@ tree-sitter-cli
 zoxide
 
 [pipx]
+grip
 jupyterlab
 notebook
 pgcli
