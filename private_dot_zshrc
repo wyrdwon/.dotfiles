@@ -234,7 +234,7 @@ alias batman=btop
 alias sshserver='ssh-add -t 10800 ~/.ssh/id_ed25519'
 
 # hot dotfile conf
-alias hyprconf='chez_edit ~/.config/hypr/hyprland.conf'
+alias hyprconf='chez_edit ~/.config/hypr/hyprland.lua'
 alias shellconf='chez_edit ~/.zshrc'
 alias termconf='chez_edit ~/.config/alacritty/alacritty.toml'
 
