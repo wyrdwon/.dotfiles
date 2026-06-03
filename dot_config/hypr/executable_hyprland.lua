@@ -24,7 +24,7 @@ hl.monitor({
     output   = "",
     mode     = "preferred",
     position = "auto",
-    scale    = "auto",
+    scale    = "1",
 })
 
 
@@ -173,12 +173,12 @@ hl.animation({ leaf = "zoomFactor",    enabled = true, speed = 7,    bezier = "q
 -- })
 
 -- See https://wiki.hypr.land/Configuring/Layouts/Dwindle-Layout/ for more
-hl.config({
-    dwindle = {
-        pseudotile     = true,  -- master switch for pseudotiling (bound to mainMod + P below)
-        preserve_split = true,
-    },
-})
+-- hl.config({
+--     dwindle = {
+--         pseudotile     = true,  -- master switch for pseudotiling (bound to mainMod + P below)
+--         preserve_split = true,
+--     },
+-- })
 
 -- See https://wiki.hypr.land/Configuring/Layouts/Master-Layout/ for more
 hl.config({
@@ -264,7 +264,7 @@ hl.bind(mainMod .. " + down",  hl.dsp.focus({ direction = "down"  }))
 for i = 1, 10 do
     local key = i % 10  -- 10 maps to key 0
     hl.bind(mainMod .. " + " .. key,           hl.dsp.focus({ workspace = i }))
-    hl.bind(mainMod .. " + ALT + " .. key,     hl.dsp.window.move({ workspace = i }))
+    hl.bind(mainMod .. " + SHIFT + " .. key,     hl.dsp.window.move({ workspace = i }))
 end
 
 -- Special workspace (scratchpad)
