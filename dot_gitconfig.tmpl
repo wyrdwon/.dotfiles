@@ -1,6 +1,6 @@
 [user]
-	name = {{ (bitwarden "item" "github-handle").login.username }}
-	email = {{ (bitwardenFields "item" "github-handle").email.value }}
+	name = {{ (rbw "github-handle").data.username }}
+	email = {{ (rbwFields "github-handle").email.value }}
 
 [core]
     pager = delta

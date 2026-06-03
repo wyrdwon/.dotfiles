@@ -3,13 +3,13 @@
 # Configuration for accounts
 # Modify these variables to match your actual accounts
 declare -A ACCOUNT_CONFIG=(
-  ["handle_username"]={{ (bitwarden "item" "github-handle").login.username }}
-  ["handle_name"]={{ (bitwarden "item" "github-handle").login.username }}
-  ["handle_email"]={{ (bitwardenFields "item" "github-handle").email.value }}
+  ["handle_username"]={{ (rbw "github-handle").data.username }}
+  ["handle_name"]={{ (rbw "github-handle").data.username }}
+  ["handle_email"]={{ (rbwFields "github-handle").email.value }}
 
-  ["prof_username"]={{ (bitwarden "item" "github-prof").login.username }}
-  ["prof_name"]={{ (bitwarden "item" "github-prof").login.username }}
-  ["prof_email"]={{ (bitwardenFields "item" "github-prof").email.value }}
+  ["prof_username"]={{ (rbw "github-prof").data.username }}
+  ["prof_name"]={{ (rbw "github-prof").data.username }}
+  ["prof_email"]={{ (rbwFields "github-prof").email.value }}
 )
 
 # Function to get the currently active GitHub account

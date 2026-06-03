@@ -1660,8 +1660,8 @@
 
   # Usernames that map to each role. Keep in sync with ACCOUNT_CONFIG in git_switch.sh.
   # Defined here so the segment has no runtime dependency on git_switch.sh's scope.
-  typeset -g _GIT_IDENTITY_HANDLE_USER={{ (bitwarden "item" "github-handle").login.username }}
-  typeset -g _GIT_IDENTITY_PROF_USER={{ (bitwarden "item" "github-prof").login.username }}
+  typeset -g _GIT_IDENTITY_HANDLE_USER={{ (rbw "github-handle").data.username }}
+  typeset -g _GIT_IDENTITY_PROF_USER={{ (rbw "github-prof").data.username }}
 
   # Reads $GH_ACTIVE_IDENTITY only. No subprocess, no network, no gh CLI call.
   # git_switch.sh populates this from a local cache file on source and updates
