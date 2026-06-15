@@ -141,7 +141,6 @@ broot
 du-dust
 tree-sitter-cli
 zoxide
-uv
 
 [uv]
 jupyterlab
