@@ -76,9 +76,9 @@ filter=$(mktemp)
 aur_installed=$(mktemp)
 pacman_installed=$(mktemp)
 cargo_installed=$(mktemp)
-pipx_installed=$(mktemp)
+uv_installed=$(mktemp)
 output=$(mktemp)
-trap 'rm -f "$filter" "$aur_installed" "$pacman_installed" "$cargo_installed" "$pipx_installed" "$output"' EXIT
+trap 'rm -f "$filter" "$aur_installed" "$pacman_installed" "$cargo_installed" "$uv_installed" "$output"' EXIT
 
 # -------------------------------------------------------------
 # Ensure control files exist
@@ -120,16 +120,16 @@ cargo install --list 2>/dev/null \
   | awk '{print $1}' \
   | sort > "$cargo_installed"
 
-# pipx
-pipx list --short 2>/dev/null \
-  | awk '{print $1}' \
-  | sort > "$pipx_installed"
+# uv
+uv tool list 2>/dev/null \
+  | awk '/^[^[:space:]-]+ v/ {print $1}' \
+  | sort > "$uv_installed"
 
 # Apply filter to each
 pacman_final=$(comm -23 "$pacman_installed" "$filter")
 aur_final=$(comm -23 "$aur_installed" "$filter")
 cargo_final=$(comm -23 "$cargo_installed" "$filter")
-pipx_final=$(comm -23 "$pipx_installed" "$filter")
+uv_final=$(comm -23 "$uv_installed" "$filter")
 
 # -------------------------------------------------------------
 # Compose output
@@ -158,8 +158,8 @@ HEADER
   echo "[cargo]"
   echo "$cargo_final"
   echo ""
-  echo "[pipx]"
-  echo "$pipx_final"
+  echo "[uv]"
+  echo "$uv_final"
 } >> "$output"
 
 # -------------------------------------------------------------

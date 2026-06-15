@@ -14,7 +14,7 @@
 #   2. Pacman packages
 #   3. yay bootstrap + AUR packages
 #   4. rustup + cargo packages
-#   5. pipx packages
+#   5. uv packages
 #   6. zsh as default shell
 # =============================================================
 
@@ -127,20 +127,20 @@ for pkg in "${cargo_pkgs[@]}"; do
 done
 
 # -------------------------------------------------------------
-# 6. pipx packages
+# 6. uv packages
 # -------------------------------------------------------------
-if ! command -v pipx &>/dev/null; then
-  warn "pipx not found — skipping. It should have been installed via pacman (python-pipx)."
+if ! command -v uv &>/dev/null; then
+  warn "uv not found — skipping. It should have been installed via installer."
 else
-  info "Installing pipx packages..."
-  mapfile -t pipx_pkgs < <(parse_section pipx)
+  info "Installing uv packages..."
+  mapfile -t uv_pkgs < <(parse_section uv)
 
-  for pkg in "${pipx_pkgs[@]}"; do
-    if pipx list --short 2>/dev/null | grep -q "^${pkg} "; then
-      success "pipx: $pkg already installed."
+  for pkg in "${uv_pkgs[@]}"; do
+    if uv tool list 2>/dev/null | grep -q "^${pkg} "; then
+      success "uv: $pkg already installed."
     else
-      info "pipx install $pkg"
-      pipx install "$pkg"
+      info "uv tool install $pkg"
+      uv tool install "$pkg"
     fi
   done
 fi

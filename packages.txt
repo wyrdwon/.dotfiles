@@ -91,7 +91,6 @@ poppler
 postgresql-libs
 procs
 protonmail-bridge
-python-pipx
 qbittorrent
 qt5-wayland
 qt6-wayland
@@ -142,11 +141,11 @@ broot
 du-dust
 tree-sitter-cli
 zoxide
+uv
 
-[pipx]
+[uv]
 grip
 jupyterlab
 notebook
 pgcli
-poetry
 sherlock-project

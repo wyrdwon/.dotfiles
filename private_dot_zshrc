@@ -68,13 +68,13 @@ fi
 # =========================================================
 zsh_plugins="${ZDOTDIR:-$HOME}/.zsh_plugins"
 
-[[ -f ${zsh_plugins}.txt ]] || : > "${zsh_plugins}.txt"
+[[ -f ${zsh_plugins}.txt ]] || : >"${zsh_plugins}.txt"
 
 fpath=(/usr/share/zsh-antidote/functions $fpath)
 autoload -Uz antidote
 
 if [[ ! ${zsh_plugins}.zsh -nt ${zsh_plugins}.txt ]]; then
-  antidote bundle < "${zsh_plugins}.txt" >| "${zsh_plugins}.zsh"
+  antidote bundle <"${zsh_plugins}.txt" >|"${zsh_plugins}.zsh"
 fi
 source "${zsh_plugins}.zsh"
 
@@ -83,6 +83,7 @@ source "${zsh_plugins}.zsh"
 # =========================================================
 eval "$(mise activate zsh)"
 eval "$(zoxide init zsh)"
+eval "$(uv generate-shell-completion zsh)"
 # eval "$(register-python-argcomplete pipx)"
 
 # SSH agent — only spawn if no agent is already running.
@@ -170,6 +171,40 @@ compress_mp4() {
     "$(dirname "$in")/[compressed] $(basename "$in")"
 }
 
+# PDF compressor
+pdf_compress() {
+  local input="$1"
+  local output="${2:-compressed.pdf}"
+  local quality="${3:-ebook}"
+
+  if [[ "$quality" == "mono" ]]; then
+    gs \
+      -sDEVICE=pdfwrite \
+      -dCompatibilityLevel=1.4 \
+      -dNOPAUSE \
+      -dQUIET \
+      -dBATCH \
+      -sColorConversionStrategy=Gray \
+      -dProcessColorModel=/DeviceGray \
+      -dMonoImageDownsampleType=/Subsample \
+      -dMonoImageResolution=200 \
+      -dEncodeMonoImages=true \
+      -dMonoImageFilter=/CCITTFaxEncode \
+      -sOutputFile="$output" \
+      "$input"
+  else
+    gs \
+      -sDEVICE=pdfwrite \
+      -dCompatibilityLevel=1.4 \
+      -dPDFSETTINGS="/${quality}" \
+      -dNOPAUSE \
+      -dQUIET \
+      -dBATCH \
+      -sOutputFile="$output" \
+      "$input"
+  fi
+}
+
 # used in .file aliases
 chez_edit() {
   local file="$1"
@@ -187,22 +222,22 @@ chez_edit() {
 }
 
 function problem() {
-    # Check if an argument is provided
-    if [[ -z "$1" ]]; then
-        echo "Usage: problem <name>"
-        return 1
-    fi
+  # Check if an argument is provided
+  if [[ -z "$1" ]]; then
+    echo "Usage: problem <name>"
+    return 1
+  fi
 
-    # Convert the argument to uppercase
-    local name_upper="${1:u}"
+  # Convert the argument to uppercase
+  local name_upper="${1:u}"
 
-    # Create the folder
-    mkdir -p "$name_upper"
+  # Create the folder
+  mkdir -p "$name_upper"
 
-    # Create the cpp file inside the folder
-    touch "$name_upper/$name_upper.cpp"
+  # Create the cpp file inside the folder
+  touch "$name_upper/$name_upper.cpp"
 
-    echo "Created folder '$name_upper' with file '$name_upper/$name_upper.cpp'"
+  echo "Created folder '$name_upper' with file '$name_upper/$name_upper.cpp'"
 }
 
 # =========================================================
@@ -234,7 +269,7 @@ alias batman=btop
 alias sshserver='ssh-add -t 10800 ~/.ssh/id_ed25519'
 
 # hot dotfile conf
-alias hyprconf='chez_edit ~/.config/hypr/hyprland.lua'
+alias hyprconf='chez_edit ~/.config/hypr/hyprland.conf'
 alias shellconf='chez_edit ~/.zshrc'
 alias termconf='chez_edit ~/.config/alacritty/alacritty.toml'
 
@@ -260,4 +295,3 @@ alias termconf='chez_edit ~/.config/alacritty/alacritty.toml'
 # Completion performance
 # =========================================================
 unsetopt pathdirs
-
