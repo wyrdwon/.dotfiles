@@ -144,7 +144,6 @@ zoxide
 uv
 
 [uv]
-grip
 jupyterlab
 notebook
 pgcli
