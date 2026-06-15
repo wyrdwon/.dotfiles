@@ -81,7 +81,6 @@ source "${zsh_plugins}.zsh"
 # =========================================================
 # Tool Initialization (interactive)
 # =========================================================
-eval "$(mise activate zsh)"
 eval "$(zoxide init zsh)"
 eval "$(uv generate-shell-completion zsh)"
 # eval "$(register-python-argcomplete pipx)"

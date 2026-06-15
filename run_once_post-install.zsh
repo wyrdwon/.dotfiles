@@ -21,8 +21,7 @@ warn() { printf '\e[33m[post-install]\e[0m  %s\n' "$*"; }
 if [[ -f ~/.zsh_plugins.txt ]]; then
   info "Compiling antidote plugin bundle..."
 
-  # Locate antidote.zsh — handle both package manager and git installs
-  local antidote_zsh=""
+  antidote_zsh=""
   if [[ -f /usr/share/zsh-antidote/antidote.zsh ]]; then
     antidote_zsh=/usr/share/zsh-antidote/antidote.zsh
   elif [[ -f ${ZDOTDIR:-$HOME}/.antidote/antidote.zsh ]]; then
@@ -30,31 +29,27 @@ if [[ -f ~/.zsh_plugins.txt ]]; then
   fi
 
   if [[ -n $antidote_zsh ]]; then
-    # Disable nounset: antidote.zsh references $BASH_VERSION which is unset in zsh,
-    # and -u would kill the script before antidote's own guard can handle it.
     setopt LOCAL_OPTIONS
     unsetopt NOUNSET
     source "$antidote_zsh"
-    antidote bundle < ~/.zsh_plugins.txt > ~/.zsh_plugins.zsh
+    antidote bundle <~/.zsh_plugins.txt >~/.zsh_plugins.zsh
     success "antidote bundle compiled."
+  else
+    warn "antidote.zsh not found — skipping bundle compilation."
   fi
 else
   warn "~/.zsh_plugins.txt not found — skipping antidote."
 fi
 
 # -------------------------------------------------------------
-# 2. mise — install all runtimes defined in ~/.config/mise/config.toml
+# 2. uv Python runtimes
 # -------------------------------------------------------------
-if command -v mise &>/dev/null; then
-  info "mise found. Installing runtimes..."
-  mise install
-  success "mise runtimes installed."
+if command -v uv &>/dev/null; then
+  info "Installing uv-managed Python runtime..."
+  uv python install
+  success "uv Python runtime installed."
 else
-  warn "mise not found. Installing mise..."
-  curl https://mise.run | sh
-  info "mise installed. Now installing runtimes..."
-  mise install
-  success "mise runtimes installed."
+  warn "uv not found — skipping Python runtime install."
 fi
 
 # -------------------------------------------------------------

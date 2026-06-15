@@ -39,8 +39,6 @@ vim.schedule(function()
   require "mappings"
 end)
 
--- Prepend mise shims to PATH
-local shims = vim.env.HOME .. "/.local/share/mise/shims"
 if vim.fn.isdirectory(shims) == 1 then
   vim.env.PATH = shims .. ":" .. vim.env.PATH
 end

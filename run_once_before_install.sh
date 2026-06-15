@@ -106,7 +106,6 @@ fi
 if ! command -v rustup &>/dev/null; then
   info "rustup not found — installing..."
   curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --no-modify-path
-  # shellcheck source=/dev/null
   source "$HOME/.cargo/env"
   success "rustup installed."
 else
@@ -127,26 +126,35 @@ for pkg in "${cargo_pkgs[@]}"; do
 done
 
 # -------------------------------------------------------------
-# 6. uv packages
+# 6. uv bootstrap
 # -------------------------------------------------------------
 if ! command -v uv &>/dev/null; then
-  warn "uv not found — skipping. It should have been installed via installer."
+  info "uv not found — installing via official installer..."
+  curl --proto '=https' --tlsv1.2 -sSf https://astral.sh/uv/install.sh | sh
+  # installer writes to ~/.local/bin by default
+  export PATH="$HOME/.local/bin:$PATH"
+  success "uv installed."
 else
-  info "Installing uv packages..."
-  mapfile -t uv_pkgs < <(parse_section uv)
-
-  for pkg in "${uv_pkgs[@]}"; do
-    if uv tool list 2>/dev/null | grep -q "^${pkg} "; then
-      success "uv: $pkg already installed."
-    else
-      info "uv tool install $pkg"
-      uv tool install "$pkg"
-    fi
-  done
+  success "uv already present."
 fi
 
 # -------------------------------------------------------------
-# 7. Default shell → zsh
+# 7. uv tools 
+# -------------------------------------------------------------
+info "Installing uv tools..."
+mapfile -t uv_pkgs < <(parse_section uv)
+
+for pkg in "${uv_pkgs[@]}"; do
+  if uv tool list 2>/dev/null | grep -q "^${pkg} "; then
+    success "uv: $pkg already installed."
+  else
+    info "uv tool install $pkg"
+    uv tool install "$pkg"
+  fi
+done
+
+# -------------------------------------------------------------
+# 8. Default shell → zsh
 # -------------------------------------------------------------
 ZSH_PATH="$(command -v zsh)"
 if [[ "$SHELL" != "$ZSH_PATH" ]]; then
