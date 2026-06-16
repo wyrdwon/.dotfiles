@@ -21,6 +21,7 @@ bc
 bitwarden-cli
 bluez
 bluez-utils
+brightnessctl
 btop
 chafa
 chezmoi
@@ -98,6 +99,7 @@ qt6-wayland
 rbw
 reflector
 ripgrep
+signal-desktop
 sl
 sudo
 texlive-basic
