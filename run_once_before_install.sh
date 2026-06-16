@@ -130,7 +130,7 @@ done
 # -------------------------------------------------------------
 if ! command -v uv &>/dev/null; then
   info "uv not found — installing via official installer..."
-  curl --proto '=https' --tlsv1.2 -sSf https://astral.sh/uv/install.sh | sh
+  curl --proto '=https' --tlsv1.2 -LsSf https://astral.sh/uv/install.sh | sh
   # installer writes to ~/.local/bin by default
   export PATH="$HOME/.local/bin:$PATH"
   success "uv installed."
