@@ -48,6 +48,7 @@ git-filter-repo
 github-cli
 gnome-keyring
 gping
+gradle
 grub
 gtk3
 hyperfine
