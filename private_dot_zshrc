@@ -220,23 +220,37 @@ chez_edit() {
   chezmoi re-add "$file"
 }
 
-function problem() {
-  # Check if an argument is provided
-  if [[ -z "$1" ]]; then
-    echo "Usage: problem <name>"
-    return 1
-  fi
+problem() {
+  local name="$1"
 
-  # Convert the argument to uppercase
-  local name_upper="${1:u}"
+  # base directory
+  local dir="$HOME/CP/$name"
+  local file="$dir/input.cpp"
 
-  # Create the folder
-  mkdir -p "$name_upper"
+  # create directory
+  mkdir -p "$dir"
 
-  # Create the cpp file inside the folder
-  touch "$name_upper/$name_upper.cpp"
+  # write standard CP template
+  cat >"$file" <<'EOF'
+#include <bits/stdc++.h>
+using namespace std;
 
-  echo "Created folder '$name_upper' with file '$name_upper/$name_upper.cpp'"
+using ll = long long;
+using pii = pair<int,int>;
+using vi = vector<int>;
+
+#define all(x) (x).begin(), (x).end()
+#define fastio ios::sync_with_stdio(false); cin.tie(nullptr);
+
+int main() {
+    fastio;
+
+    return 0;
+}
+EOF
+
+  # open with default editor (fallback to nano if EDITOR not set)
+  ${EDITOR:-nano} "$file"
 }
 
 # =========================================================
