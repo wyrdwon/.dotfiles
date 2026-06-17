@@ -304,6 +304,41 @@ EOF
   echo "recorded: ${record}"
 }
 
+cpcomp() {
+  # feat: compile CP problem by ID, emit binary in cwd
+
+  if [[ -z "$1" ]]; then
+    echo "usage: cpcomp <id>  (e.g. cpcomp 1a)" >&2
+    return 1
+  fi
+
+  local input="${1}"
+
+  if [[ ! "$input" =~ '^[0-9]+[a-zA-Z0-9]*$' ]]; then
+    echo "error: input must match [int][alphanum]" >&2
+    return 1
+  fi
+
+  local dir_name="${input:u}"
+  local file_name="${input:l}"
+  local file="$HOME/CP/${dir_name}/${file_name}.cpp"
+  local binary="./${file_name}"
+
+  if [[ ! -f "$file" ]]; then
+    echo "error: no file found at ${file}" >&2
+    return 1
+  fi
+
+  echo "compiling: ${file} -> ${binary}"
+  g++ -O2 -std=c++17 -Wall -Wextra -o "$binary" "$file"
+
+  if [[ $? -eq 0 ]]; then
+    echo "ok: binary at ${binary}"
+  else
+    return 1
+  fi
+}
+
 # =========================================================
 # Personal Scripts
 # =========================================================
