@@ -220,27 +220,31 @@ chez_edit() {
   chezmoi re-add "$file"
 }
 
-function problem() {
+# for CP :)
+problem() {
   if [[ -z "$1" ]]; then
     echo "usage: problem <id>  (e.g. problem 1a)" >&2
     return 1
   fi
 
   local input="${1}"
-  local dir_name="${input:u}"  # uppercase: 1a -> 1A
-  local file_name="${input:l}" # lowercase: 1A -> 1a
-  local dir="$HOME/CP/${dir_name}"
-  local file="${dir}/${file_name}.cpp"
 
   if [[ ! "$input" =~ '^[0-9]+[a-zA-Z0-9]*$' ]]; then
     echo "error: input must match [int][alphanum] (e.g. 1a, 42b3)" >&2
     return 1
   fi
 
+  local dir_name="${input:u}"
+  local file_name="${input:l}"
+  local dir="$HOME/CP/${dir_name}"
+  local file="${dir}/${file_name}.cpp"
+  local is_reopen=0
+
   mkdir -p "$dir" || return 1
 
   if [[ -f "$file" ]]; then
-    echo "note: ${file} already exists, opening without overwriting"
+    echo "note: ${file} already exists, opening without overwriting (re-attempt will be recorded)"
+    is_reopen=1
   else
     cat >"$file" <<'EOF'
 #include <bits/stdc++.h>
@@ -256,24 +260,48 @@ typedef vector<ll> vl;
 #define sz(x) (int)(x).size()
 #define pb push_back
 
-void solve() {
+// --- globals (reset in solve() if using multi-test) ---
 
+void solve() {
+  
 }
 
 int main() {
   ios_base::sync_with_stdio(false);
   cin.tie(nullptr);
-
   int t = 1;
   // cin >> t;
   while (t--) solve();
-
   return 0;
 }
 EOF
   fi
 
-  ${EDITOR:-${VISUAL:-vi}} "$file"
+  local start_ts=$EPOCHSECONDS
+
+  if [[ "$(basename ${EDITOR:-vi})" == "nvim" ]]; then
+    nvim "+/void solve" "+normal! jA" "$file"
+  else
+    ${EDITOR:-${VISUAL:-vi}} "$file"
+  fi
+
+  local elapsed=$((EPOCHSECONDS - start_ts))
+  local minutes=$((elapsed / 60))
+  local seconds=$((elapsed % 60))
+  local timestamp="$(date '+%Y-%m-%d %H:%M:%S')"
+  local attempt_label=""
+  [[ $is_reopen -eq 1 ]] && attempt_label=" (re-attempt)"
+
+  local record="// solved: ${timestamp} | time: ${minutes}m ${seconds}s${attempt_label}"
+
+  # Prepend record to file
+  local tmpfile="$(mktemp)"
+  {
+    echo "$record"
+    cat "$file"
+  } >"$tmpfile" && mv "$tmpfile" "$file"
+
+  echo "recorded: ${record}"
 }
 
 # =========================================================
