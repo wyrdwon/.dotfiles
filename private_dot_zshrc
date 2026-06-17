@@ -220,37 +220,60 @@ chez_edit() {
   chezmoi re-add "$file"
 }
 
-problem() {
-  local name="$1"
+function problem() {
+  if [[ -z "$1" ]]; then
+    echo "usage: problem <id>  (e.g. problem 1a)" >&2
+    return 1
+  fi
 
-  # base directory
-  local dir="$HOME/CP/$name"
-  local file="$dir/input.cpp"
+  local input="${1}"
+  local dir_name="${input:u}"  # uppercase: 1a -> 1A
+  local file_name="${input:l}" # lowercase: 1A -> 1a
+  local dir="$HOME/CP/${dir_name}"
+  local file="${dir}/${file_name}.cpp"
 
-  # create directory
-  mkdir -p "$dir"
+  if [[ ! "$input" =~ '^[0-9]+[a-zA-Z0-9]*$' ]]; then
+    echo "error: input must match [int][alphanum] (e.g. 1a, 42b3)" >&2
+    return 1
+  fi
 
-  # write standard CP template
-  cat >"$file" <<'EOF'
+  mkdir -p "$dir" || return 1
+
+  if [[ -f "$file" ]]; then
+    echo "note: ${file} already exists, opening without overwriting"
+  else
+    cat >"$file" <<'EOF'
 #include <bits/stdc++.h>
 using namespace std;
 
-using ll = long long;
-using pii = pair<int,int>;
-using vi = vector<int>;
+typedef long long ll;
+typedef pair<int,int> pii;
+typedef vector<int> vi;
+typedef vector<ll> vl;
 
+#define rep(i, a, b) for (int i = (a); i < (b); i++)
 #define all(x) (x).begin(), (x).end()
-#define fastio ios::sync_with_stdio(false); cin.tie(nullptr);
+#define sz(x) (int)(x).size()
+#define pb push_back
+
+void solve() {
+
+}
 
 int main() {
-    fastio;
+  ios_base::sync_with_stdio(false);
+  cin.tie(nullptr);
 
-    return 0;
+  int t = 1;
+  // cin >> t;
+  while (t--) solve();
+
+  return 0;
 }
 EOF
+  fi
 
-  # open with default editor (fallback to nano if EDITOR not set)
-  ${EDITOR:-nano} "$file"
+  ${EDITOR:-${VISUAL:-vi}} "$file"
 }
 
 # =========================================================
