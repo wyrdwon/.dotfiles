@@ -37,6 +37,7 @@ dosfstools
 duf
 efibootmgr
 espeak-ng
+exfatprogs
 eza
 fastfetch
 fd
@@ -82,6 +83,7 @@ networkmanager
 npm
 nspr
 nss
+nwg-look
 openssh
 pacman-contrib
 pandoc-cli
@@ -93,8 +95,11 @@ poppler
 postgresql-libs
 procs
 protonmail-bridge
+python-matplotlib
+python-numpy
 qbittorrent
 qt5-wayland
+qt6ct
 qt6-wayland
 rbw
 reflector
@@ -108,6 +113,9 @@ texlive-latex
 texlive-latexrecommended
 thunderbird
 tldr
+tlp
+tlp-pd
+tlp-rdw
 tmux
 tree
 unzip
@@ -131,6 +139,7 @@ zip
 zsh
 
 [aur]
+catppuccin-gtk-theme-macchiato
 librewolf-bin
 librewolf-bin-debug
 localsend-bin
@@ -149,4 +158,3 @@ zoxide
 jupyterlab
 notebook
 pgcli
-sherlock-project
