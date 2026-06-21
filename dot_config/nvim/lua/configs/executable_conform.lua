@@ -1,7 +1,7 @@
 local options = {
 	formatters_by_ft = {
 		lua = { "stylua" },
-		python = { "isort", "black" },
+		python = { "ruff" },
 		zsh = { "shfmt" },
 		-- rust = { "rust_analyzer", lsp_format = "fallback" },
 
