@@ -102,6 +102,7 @@ qt6-wayland
 rbw
 reflector
 ripgrep
+seahorse
 signal-desktop
 sl
 sudo
