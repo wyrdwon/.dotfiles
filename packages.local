@@ -17,3 +17,5 @@
 # nvidia-dkms
 xclip          # WSL clipboard bridge — add here if not wanted on native
 # xsel           # same
+nspr
+nss

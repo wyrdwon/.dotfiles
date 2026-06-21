@@ -81,8 +81,6 @@ nano
 neovim
 networkmanager
 npm
-nspr
-nss
 nwg-look
 openssh
 pacman-contrib
