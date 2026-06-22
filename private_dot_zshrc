@@ -117,20 +117,20 @@ done
 # =========================================================
 # Native Linux — gate on absence of WSL, commented until DE is built
 # =========================================================
-# if [[ -z "$WSL_DISTRO_NAME" ]]; then
-#   alias wifi=nmtui
-#   alias update-grub='sudo grub-mkconfig -o /boot/grub/grub.cfg'
-#   alias res1='xrandr --output DisplayPort-0 --mode 2560x1440 --rate 120'
-#   alias res2='xrandr --output DisplayPort-0 --mode 1920x1080 --rate 120'
-#
-#   # ml4w rice framework — re-enable once DE is assembled
-#   # alias cleanup='~/.config/ml4w/scripts/arch/cleanup.sh'
-#   # alias ts='~/.config/ml4w/scripts/arch/snapshot.sh'
-#   # alias ml4w='flatpak run com.ml4w.welcome'
-#   # alias ml4w-settings='flatpak run com.ml4w.settings'
-#   # alias ml4w-update='~/.config/ml4w/update.sh'
-#   # alias ascii='~/.config/ml4w/scripts/figlet.sh'
-# fi
+if [[ -z "$WSL_DISTRO_NAME" ]]; then
+  alias wifi=nmtui
+  alias update-grub='sudo grub-mkconfig -o /boot/grub/grub.cfg'
+  alias res1='xrandr --output DisplayPort-0 --mode 2560x1440 --rate 120'
+  alias res2='xrandr --output DisplayPort-0 --mode 1920x1080 --rate 120'
+
+  # ml4w rice framework — re-enable once DE is assembled
+  # alias cleanup='~/.config/ml4w/scripts/arch/cleanup.sh'
+  # alias ts='~/.config/ml4w/scripts/arch/snapshot.sh'
+  # alias ml4w='flatpak run com.ml4w.welcome'
+  # alias ml4w-settings='flatpak run com.ml4w.settings'
+  # alias ml4w-update='~/.config/ml4w/update.sh'
+  # alias ascii='~/.config/ml4w/scripts/figlet.sh'
+fi
 
 # =========================================================
 # Completion performance
