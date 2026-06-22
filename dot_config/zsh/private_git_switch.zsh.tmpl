@@ -89,22 +89,3 @@ gitprof() {
   local cache="${XDG_CACHE_HOME:-$HOME/.cache}/git_identity"
   [[ -z "$GH_ACTIVE_IDENTITY" && -r "$cache" ]] && export GH_ACTIVE_IDENTITY="$(<$cache)"
 }
-
-# If script is executed directly with an argument, run the corresponding function
-if [[ "${(%):-%N}" == "$0" ]]; then
-  case "$1" in
-  handle)
-    githandle
-    ;;
-  prof)
-    gitprof
-    ;;
-  status)
-    echo "Current active account: $(get_active_account)"
-    ;;
-  *)
-    echo "Usage: $0 {handle|prof|status}"
-    exit 1
-    ;;
-  esac
-fi
