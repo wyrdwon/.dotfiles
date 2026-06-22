@@ -34,6 +34,7 @@ local terminal = "alacritty"
 local fileManager = "yazi"
 local menu = "fuzzel"
 local browser = "librewolf"
+local lock = "hyprlock"
 
 -------------------
 ---- AUTOSTART ----
@@ -41,7 +42,7 @@ local browser = "librewolf"
 
 -- See https://wiki.hypr.land/Configuring/Basics/Autostart/
 hl.on("hyprland.start", function()
-	hl.exec_cmd("waybar & hyprpaper")
+	hl.exec_cmd("waybar & hyprpaper & hyprlock")
 	hl.exec_cmd("systemctl --user start hyprpolkitagent")
 	hl.exec_cmd("protonmail-bridge")
 end)
@@ -240,9 +241,10 @@ local mainMod = "SUPER" -- "Windows" key as main modifier
 hl.bind(mainMod .. " + BACKSPACE", hl.dsp.exec_cmd(terminal))
 hl.bind(mainMod .. " + Q", hl.dsp.window.close())
 hl.bind(
-	mainMod .. " + M",
+	mainMod .. " + Delete",
 	hl.dsp.exec_cmd("command -v hyprshutdown >/dev/null 2>&1 && hyprshutdown || hyprctl dispatch 'hl.dsp.exit()'")
 )
+hl.bind(mainMod .. " + L", hl.dsp.exec_cmd(lock))
 hl.bind(mainMod .. " + E", hl.dsp.exec_cmd(fileManager))
 hl.bind(mainMod .. " + P", hl.dsp.window.float({ action = "toggle" }))
 hl.bind(mainMod .. " + F", hl.dsp.exec_cmd(menu))
