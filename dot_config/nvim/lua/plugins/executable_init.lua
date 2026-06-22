@@ -3,13 +3,13 @@ return {
 	{
 		"stevearc/conform.nvim",
 		event = "BufRead",
-		opts = require "configs.conform", -- Adjust with your custom config
+		opts = require("configs.conform"), -- Adjust with your custom config
 	},
 
 	{
 		"neovim/nvim-lspconfig",
 		config = function()
-			require "configs.lspconfig"
+			require("configs.lspconfig")
 		end,
 	},
 
@@ -53,8 +53,8 @@ return {
 		"lukas-reineke/indent-blankline.nvim",
 		main = "ibl",
 		config = function()
-			local ibl = require "ibl"
-			local hooks = require "ibl.hooks"
+			local ibl = require("ibl")
+			local hooks = require("ibl.hooks")
 
 			local rainbow_highlight = {
 				"RainbowRed",
@@ -88,7 +88,7 @@ return {
 				highlight = rainbow_highlight,
 			}
 
-			ibl.setup {
+			ibl.setup({
 				indent = {
 					char = "│",
 					highlight = { "MyIblIndent" },
@@ -100,7 +100,7 @@ return {
 				whitespace = {
 					highlight = { "MyIblWhitespace" },
 				},
-			}
+			})
 		end,
 	},
 
@@ -212,15 +212,15 @@ return {
 		ft = "prisma",
 	},
 
-	-- -- plugins/plenary.lua
-	-- {
-	--   {
-	--     "nvim-lua/plenary.nvim",
-	--     lazy = true, -- or `false` depending on how often you use it
-	--     -- no build step needed, it's pure Lua
-	--     -- no setup function necessary, since plenary is mostly utilities you `require(...)` when needed
-	--   },
-	-- },
+	-- plugins/plenary.lua
+	{
+		{
+			"nvim-lua/plenary.nvim",
+			lazy = true, -- or `false` depending on how often you use it
+			-- no build step needed, it's pure Lua
+			-- no setup function necessary, since plenary is mostly utilities you `require(...)` when needed
+		},
+	},
 
 	{
 		"pmizio/typescript-tools.nvim",
@@ -240,12 +240,12 @@ return {
 		dependencies = { "nvzone/volt" },
 		lazy = false,
 		config = function()
-			require("triforce").setup {
+			require("triforce").setup({
 				-- Optional: Add your configuration here
 				keymap = {
 					show_profile = "<leader>tp", -- Open profile with <leader>tp
 				},
-			}
+			})
 		end,
 	},
 	-- Lazy.nvim
@@ -253,9 +253,9 @@ return {
 		"xvzc/chezmoi.nvim",
 		dependencies = { "nvim-lua/plenary.nvim" },
 		config = function()
-			require("chezmoi").setup {
+			require("chezmoi").setup({
 				-- your configurations
-			}
+			})
 		end,
 	},
 
