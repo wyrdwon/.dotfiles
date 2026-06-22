@@ -1,5 +1,7 @@
 #!/bin/zsh
 
+typeset -gr GIT_IDENTITY_CACHE="${XDG_CACHE_HOME:-$HOME/.cache}/git_identity"
+
 # Configuration for accounts
 # Modify these variables to match your actual accounts
 declare -A ACCOUNT_CONFIG=(
@@ -37,7 +39,12 @@ switch_gh_account() {
   # Check if already on the target account (idempotent check)
   if [[ "$current_account" == "$target_username" ]]; then
     echo "Already using account: $target_username"
+
     export GH_ACTIVE_IDENTITY="$target_username"
+
+    mkdir -p "${GIT_IDENTITY_CACHE:h}"
+    print -r -- "$target_username" >| "${GIT_IDENTITY_CACHE}"
+
     return 0
   fi
 
@@ -57,7 +64,7 @@ switch_gh_account() {
 
   # Update the shell variable so the p10k segment reflects the change immediately.
   export GH_ACTIVE_IDENTITY="$target_username"
-  echo "$target_username" >|"${XDG_CACHE_HOME:-$HOME/.cache}/git_identity"
+  echo "$target_username" >|"${GIT_IDENTITY_CACHE}"
 
   echo "✓ Updated git config:"
   echo "  - user.name: $target_name"
@@ -86,6 +93,6 @@ gitprof() {
 # No need to export in modern shells
 
 () {
-  local cache="${XDG_CACHE_HOME:-$HOME/.cache}/git_identity"
-  [[ -z "$GH_ACTIVE_IDENTITY" && -r "$cache" ]] && export GH_ACTIVE_IDENTITY="$(<$cache)"
+  mkdir -p "${GIT_IDENTITY_CACHE:h}"
+  [[ -z "$GH_ACTIVE_IDENTITY" && -r "$GIT_IDENTITY_CACHE" ]] && export GH_ACTIVE_IDENTITY="$(<"$GIT_IDENTITY_CACHE")"
 }
