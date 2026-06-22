@@ -1658,24 +1658,24 @@
   # Fallback foreground when identity doesn't match either known account.
   typeset -g POWERLEVEL9K_GIT_IDENTITY_FOREGROUND=244 # grey
 
-  # Usernames that map to each role. Keep in sync with ACCOUNT_CONFIG in git_switch.sh.
-  # Defined here so the segment has no runtime dependency on git_switch.sh's scope.
+  # Usernames that map to each role. Keep in sync with ACCOUNT_CONFIG in git_switch.zsh.
+  # Defined here so the segment has no runtime dependency on git_switch.zsh's scope.
   typeset -g _GIT_IDENTITY_HANDLE_USER={{ (rbw "github-handle").data.username }}
   typeset -g _GIT_IDENTITY_PROF_USER={{ (rbw "github-prof").data.username }}
 
   # Reads $GH_ACTIVE_IDENTITY only. No subprocess, no network, no gh CLI call.
-  # git_switch.sh populates this from a local cache file on source and updates
+  # git_switch.zsh populates this from a local cache file on source and updates
   # it on every switch — so this function is always instant.
   function prompt_git_identity() {
     local identity=$GH_ACTIVE_IDENTITY
     [[ -z $identity ]] && return
 
     if [[ $identity == $_GIT_IDENTITY_HANDLE_USER ]]; then
-      p10k segment -f $POWERLEVEL9K_GIT_IDENTITY_HANDLE_FOREGROUND -i '' -t "$identity"
+      p10k segment -f $POWERLEVEL9K_GIT_IDENTITY_HANDLE_FOREGROUND -i '󰠥' -t "$identity"
     elif [[ $identity == $_GIT_IDENTITY_PROF_USER ]]; then
-      p10k segment -f $POWERLEVEL9K_GIT_IDENTITY_PROF_FOREGROUND -i '󰭟' -t "$identity"
+      p10k segment -f $POWERLEVEL9K_GIT_IDENTITY_PROF_FOREGROUND -i '󰳰' -t "$identity"
     else
-      p10k segment -f $POWERLEVEL9K_GIT_IDENTITY_FOREGROUND -i '' -t "$identity"
+      p10k segment -f $POWERLEVEL9K_GIT_IDENTITY_FOREGROUND -i '' -t "$identity"
     fi
   }
 
