@@ -55,6 +55,7 @@ grub
 gtk3
 hyperfine
 hyprland
+hyprlock
 hyprpaper
 hyprpolkitagent
 imagemagick
