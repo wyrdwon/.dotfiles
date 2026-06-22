@@ -1,5 +1,6 @@
+#!/bin/zsh
+
 # veracrypt.zsh — VeraCrypt convenience wrappers
-#
 #
 # Source from .zshrc or a dedicated sourced file, e.g.:
 #   source "${ZDOTDIR:-$HOME}/.config/zsh/veracrypt.zsh"
