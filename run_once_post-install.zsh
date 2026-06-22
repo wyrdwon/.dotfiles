@@ -6,7 +6,7 @@
 # Re-runs only if this file's content changes.
 #
 # Assumes run_once_before_install.sh has already completed:
-# zsh, mise, antidote, neovim, cargo are all expected present.
+# zsh, antidote, neovim, cargo are all expected present.
 # =============================================================
 
 set -euo pipefail
