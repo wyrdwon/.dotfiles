@@ -20,6 +20,7 @@ path=(
   $HOME/.local/bin
   $CARGO_HOME/bin
   $BUN_INSTALL/bin
+  $HOME/.local/share/nvim/mason/bin
   $path
 )
 typeset -U path   # deduplicate
