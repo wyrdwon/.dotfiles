@@ -3,6 +3,7 @@ local options = {
 		lua = { "stylua" },
 		python = { "ruff" },
 		zsh = { "shfmt" },
+		toml = { "tombi" },
 		-- rust = { "rust_analyzer", lsp_format = "fallback" },
 
 		-- Default: everything else uses prettierd
