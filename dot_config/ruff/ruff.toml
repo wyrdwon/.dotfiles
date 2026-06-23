@@ -1,4 +1,3 @@
-[tool.ruff]
 extend-exclude = [
   "env",
   "__pycache__",
@@ -8,12 +7,12 @@ line-length = 88
 indent-width = 2
 target-version = "py314"
 
-[tool.ruff.format]
+[format]
 quote-style = "single"
 docstring-code-format = true
 
 # Uncomment to apply a balanced, non-intrusive rule set:
-# [tool.ruff.lint]
+# [lint]
 # select = [
 #   "E",    # Pycodestyle errors
 #   "W",    # Pycodestyle warnings
@@ -26,4 +25,3 @@ docstring-code-format = true
 #   "TID",  # Tidy imports
 #   "RUF"   # Ruff-specific enhancements
 # ]
-
