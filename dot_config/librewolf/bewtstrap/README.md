@@ -35,7 +35,7 @@ default profile path, and creates:
 ```
 
 All scripts reference this symlink. Run it once after first LibreWolf launch.
-It is safe to re-run (idempotent).
+It is safe to rerun (idempotent).
 
 ## Workflow
 
@@ -78,6 +78,7 @@ Only `user.js` belongs in dotfiles.
 ## Extensions
 
 Extensions cannot be reliably automated across platforms because:
+
 - XPI binaries are profile-local, not portable
 - Extension UUIDs are regenerated per profile
 - Some extensions (Tree Style Tab, Simple Tab Groups) store substantial state
@@ -90,21 +91,25 @@ On a fresh machine, install from this list manually or via a policy file.
 
 LibreWolf supports a `policies.json` at the browser level (not profile level)
 to auto-install extensions:
+
 ```json
 {
-  "policies": {
-    "ExtensionSettings": {
-      "*": { "installation_mode": "allowed" },
-      "uBlock0@raymondhill.net": { "installation_mode": "force_installed",
-        "install_url": "https://addons.mozilla.org/firefox/downloads/latest/ublock-origin/latest.xpi" }
-    }
-  }
+	"policies": {
+		"ExtensionSettings": {
+			"*": { "installation_mode": "allowed" },
+			"uBlock0@raymondhill.net": {
+				"installation_mode": "force_installed",
+				"install_url": "https://addons.mozilla.org/firefox/downloads/latest/ublock-origin/latest.xpi"
+			}
+		}
+	}
 }
 ```
+
 Place at: `/usr/lib/librewolf/distribution/policies.json` (system-wide)
 or: `~/.config/librewolf/librewolf/policies.json` (user-level, if supported by your LibreWolf build).
 
-Extension *preferences* (not the binaries) can be partially preserved via
+Extension _preferences_ (not the binaries) can be partially preserved via
 `extension-preferences.json` — track it alongside the others if desired,
 but note that UUIDs will differ on a fresh install, so permissions may not
 map correctly. It is better treated as a reference, not a deploy target.
@@ -113,10 +118,10 @@ map correctly. It is better treated as a reference, not a deploy target.
 
 Two separate flows — keep them separate:
 
-| Method | Format | Trigger |
-|--------|--------|---------|
-| `export-librewolf.zsh` | `bookmarks-latest.json` (decoded from mozlz4 backup) | run manually after changes |
-| File > Export Bookmarks | `bookmarks.html` | run manually; import on fresh machine |
+| Method                  | Format                                               | Trigger                               |
+| ----------------------- | ---------------------------------------------------- | ------------------------------------- |
+| `export-librewolf.zsh`  | `bookmarks-latest.json` (decoded from mozlz4 backup) | run manually after changes            |
+| File > Export Bookmarks | `bookmarks.html`                                     | run manually; import on fresh machine |
 
 `bookmarks.html` is the portable, importable format. Keep it in the repo root
 (not in `dot_librewolf/`) so it is not deployed by the deploy script.
