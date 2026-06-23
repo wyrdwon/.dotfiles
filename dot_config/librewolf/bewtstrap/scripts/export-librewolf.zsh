@@ -65,22 +65,32 @@ if [[ -d "${BACKUPS_DIR}" ]]; then
   latest_backup=$(ls -t "${BACKUPS_DIR}"/*.jsonlz4 2>/dev/null | head -1)
   if [[ -n "${latest_backup}" ]]; then
     out="${DOTFILES_LIBREWOLF}/bookmarks-latest.json"
-    python3 - "${latest_backup}" "${out}" << 'PYEOF'
-import sys, json, lz4.block, struct
+    uv run --quiet - "${latest_backup}" "${out}" <<'PYEOF'
+# /// script
+# requires-python = ">=3.14"
+# dependencies = [
+#     "lz4>=4.4.5",
+# ]
+# ///
+
+import sys, json, lz4.block
 
 src, dst = sys.argv[1], sys.argv[2]
-with open(src, 'rb') as f:
+
+with open(src, "rb") as f:
     magic = f.read(8)
-    assert magic == b'mozLz40\0', f"Not a mozlz4 file: {src}"
-    raw = lz4.block.decompress(f.read(), uncompressed_size=struct.unpack('<I', f.read(4))[0]
-                               if False else 64 * 1024 * 1024)
+    assert magic == b"mozLz40\0", f"Not a mozlz4 file: {src}"
+    raw = lz4.block.decompress(f.read())
+
 data = json.loads(raw)
-with open(dst, 'w') as f:
+
+with open(dst, "w", encoding="utf-8") as f:
     json.dump(data, f, indent=2, ensure_ascii=False)
+
 print(f"  Decoded bookmarks -> {dst}")
 PYEOF
   else
-    print "  No bookmark backups found in ${BACKUPS_DIR}"
+    echo "  No bookmark backups found in ${BACKUPS_DIR}"
   fi
 fi
 
