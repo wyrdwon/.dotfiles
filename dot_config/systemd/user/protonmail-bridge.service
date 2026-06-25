@@ -1,0 +1,11 @@
+[Unit]
+Description=ProtonMail Bridge
+After=graphical-session.target
+
+[Service]
+ExecStart=/usr/bin/protonmail-bridge --no-window
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=graphical-session.target
