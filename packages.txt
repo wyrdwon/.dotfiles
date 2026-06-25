@@ -54,6 +54,7 @@ gradle
 grub
 gtk3
 hyperfine
+hypridle
 hyprland
 hyprlock
 hyprpaper
@@ -74,6 +75,7 @@ libxss
 linux
 linux-firmware
 llvm
+ly
 mako
 man-db
 mullvad-vpn
@@ -94,7 +96,6 @@ poppler
 postgresql-libs
 procs
 protonmail-bridge
-python-matplotlib
 python-numpy
 qbittorrent
 qt5-wayland
@@ -121,6 +122,7 @@ tree
 unzip
 upower
 usbutils
+uwsm
 veracrypt
 vlc
 vulkan-intel
