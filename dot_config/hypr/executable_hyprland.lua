@@ -44,6 +44,7 @@ local lock = "hyprlock"
 hl.on("hyprland.start", function()
 	hl.exec_cmd("waybar & hyprpaper & hypridle")
 	hl.exec_cmd("systemctl --user start hyprpolkitagent")
+	hl.exec_cmd("wl-paste --watch cliphist store")
 	hl.exec_cmd("protonmail-bridge")
 end)
 
@@ -251,6 +252,7 @@ hl.bind(mainMod .. " + F", hl.dsp.exec_cmd(menu))
 -- bind = $mainMod, P, pseudo  -- dwindle (commented in original)
 hl.bind(mainMod .. " + J", hl.dsp.layout("togglesplit")) -- dwindle
 hl.bind(mainMod .. " + B", hl.dsp.exec_cmd(browser))
+hl.bind(mainMod .. " + V", hl.dsp.exec_cmd("cliphist-fuzzel-img"))
 
 -- Move focus with mainMod + arrow keys
 hl.bind(mainMod .. " + left", hl.dsp.focus({ direction = "left" }))
