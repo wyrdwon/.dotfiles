@@ -42,7 +42,7 @@ local lock = "hyprlock"
 
 -- See https://wiki.hypr.land/Configuring/Basics/Autostart/
 hl.on("hyprland.start", function()
-	hl.exec_cmd("waybar & hyprpaper & hyprlock")
+	hl.exec_cmd("waybar & hyprpaper & hypridle")
 	hl.exec_cmd("systemctl --user start hyprpolkitagent")
 	hl.exec_cmd("protonmail-bridge")
 end)
