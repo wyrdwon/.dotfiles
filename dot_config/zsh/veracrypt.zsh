@@ -58,16 +58,25 @@ EXAMPLES
   local -a _fh _fH _fro _fph _opim _okf
 
   zparseopts -D -E -- \
-    h=_fh H=_fH   \
-    -pim:=_opim   \
+    h=_fh H=_fH \
+    -pim:=_opim \
     -keyfile:=_okf \
-    -readonly=_fro  \
+    -readonly=_fro \
     -protect-hidden=_fph \
-    2>/dev/null \
-    || { print -u2 "veramount: unknown option — try 'veramount -h'"; return 1 }
+    2>/dev/null ||
+    {
+      print -u2 "veramount: unknown option — try 'veramount -h'"
+      return 1
+    }
 
-  (( ${#_fh} )) && { print -- "$_short"; return 0 }
-  (( ${#_fH} )) && { print -- "$_long";  return 0 }
+  ((${#_fh})) && {
+    print -- "$_short"
+    return 0
+  }
+  ((${#_fH})) && {
+    print -- "$_long"
+    return 0
+  }
 
   # ── positional args ────────────────────────────────────────────────────────
   local device=${1:-}
@@ -94,7 +103,7 @@ EXAMPLES
 
   local -a keyfiles=()
   local i kf
-  for (( i = 2; i <= ${#_okf}; i += 2 )); do
+  for ((i = 2; i <= ${#_okf}; i += 2)); do
     kf=${_okf[$i]}
     if [[ ! -e $kf ]]; then
       print -u2 "veramount: keyfile '${kf}' not found"
@@ -103,13 +112,16 @@ EXAMPLES
     keyfiles+=("$kf")
   done
 
-  local is_readonly=$(( ${#_fro} > 0 ))
-  local is_protect=$(( ${#_fph} > 0 ))
+  local is_readonly=$((${#_fro} > 0))
+  local is_protect=$((${#_fph} > 0))
 
   # ── sudo credential warmup ─────────────────────────────────────────────────
   # Authenticate now so the password → VeraCrypt password ordering is clean.
   print 'veramount: caching sudo credentials…'
-  sudo -v || { print -u2 'veramount: sudo authentication failed'; return 1 }
+  sudo -v || {
+    print -u2 'veramount: sudo authentication failed'
+    return 1
+  }
 
   # ── mountpoint handling ────────────────────────────────────────────────────
   if [[ ! -d $mp ]]; then
@@ -133,7 +145,7 @@ EXAMPLES
     else
       # Propose next free /mnt/vcN as the default
       local x=1
-      while [[ -e /mnt/vc${x} ]]; do (( x++ )); done
+      while [[ -e /mnt/vc${x} ]]; do ((x++)); done
       local default_alt=/mnt/vc${x}
 
       local alt
@@ -154,7 +166,7 @@ EXAMPLES
   # Volume and mountpoint go last; options precede them.
   local -a vc_args=(--text "--pim=${pim}")
 
-  (( is_readonly )) && vc_args+=(--mount-options=ro)
+  ((is_readonly)) && vc_args+=(--mount-options=ro)
 
   for kf in "${keyfiles[@]}"; do
     vc_args+=(--keyfiles="$kf")
@@ -164,26 +176,27 @@ EXAMPLES
 
   # ── mount ──────────────────────────────────────────────────────────────────
   local rc
-  if (( is_protect )); then
+  if ((is_protect)); then
     # --stdin can only deliver one password; a second would require --protection-password
     # which leaks in ps(1). Hand off to VeraCrypt's own interactive prompts instead.
     vc_args+=(--protect-hidden=yes)
     print 'veramount: --protect-hidden active — VeraCrypt will prompt for both passwords'
-    sudo veracrypt "${vc_args[@]}"
+    sudo env -u DISPLAY -u WAYLAND_DISPLAY veracrypt "${vc_args[@]}"
     rc=$?
   else
     local pass=''
     print -n 'VeraCrypt password: '
     read -rs pass
-    print  # restore newline after silent read
+    print # restore newline after silent read
     # print is a zsh builtin; the variable never appears in a process argument list.
-    print -r -- "$pass" | sudo veracrypt --stdin "${vc_args[@]}"
+    vc_args+=(--non-interactive --stdin --protect-hidden=no)
+    print -r -- "$pass" | sudo env -u DISPLAY -u WAYLAND_DISPLAY veracrypt "${vc_args[@]}"
     rc=$?
-    pass=''  # best-effort; zsh cannot zero heap-allocated string memory
+    pass='' # best-effort; zsh cannot zero heap-allocated string memory
   fi
 
   # ── result ─────────────────────────────────────────────────────────────────
-  if (( rc == 0 )); then
+  if ((rc == 0)); then
     print "veramount: ✓ '${device}' → '${mp}'"
   else
     print -u2 "veramount: VeraCrypt exited with status ${rc}"
@@ -237,20 +250,29 @@ EXAMPLES
   local -a _fh _fH _fforce _fall
 
   zparseopts -D -E -- \
-    h=_fh H=_fH   \
+    h=_fh H=_fH \
     -force=_fforce \
-    -all=_fall     \
-    2>/dev/null \
-    || { print -u2 "veradismount: unknown option — try 'veradismount -h'"; return 1 }
+    -all=_fall \
+    2>/dev/null ||
+    {
+      print -u2 "veradismount: unknown option — try 'veradismount -h'"
+      return 1
+    }
 
-  (( ${#_fh} )) && { print -- "$_short"; return 0 }
-  (( ${#_fH} )) && { print -- "$_long";  return 0 }
+  ((${#_fh})) && {
+    print -- "$_short"
+    return 0
+  }
+  ((${#_fH})) && {
+    print -- "$_long"
+    return 0
+  }
 
   local target=${1:-}
-  local is_force=$(( ${#_fforce} > 0 ))
-  local is_all=$(( ${#_fall} > 0 ))
+  local is_force=$((${#_fforce} > 0))
+  local is_all=$((${#_fall} > 0))
 
-  if (( !is_all )) && [[ -z $target ]]; then
+  if ((!is_all)) && [[ -z $target ]]; then
     print -u2 "veradismount: target required (or use --all)"
     print -u2 "$_short"
     return 1
@@ -258,38 +280,41 @@ EXAMPLES
 
   # ── sudo credential warmup ─────────────────────────────────────────────────
   print 'veradismount: caching sudo credentials…'
-  sudo -v || { print -u2 'veradismount: sudo authentication failed'; return 1 }
+  sudo -v || {
+    print -u2 'veradismount: sudo authentication failed'
+    return 1
+  }
 
   # ── dismount ───────────────────────────────────────────────────────────────
   local -a vc_args=(--text --dismount)
-  (( is_force )) && vc_args+=(--force)
+  ((is_force)) && vc_args+=(--force)
   # Without a target, VeraCrypt dismounts all volumes.
-  (( !is_all  )) && vc_args+=("$target")
+  ((!is_all)) && vc_args+=("$target")
 
-  sudo veracrypt "${vc_args[@]}"
+  sudo env -u DISPLAY -u WAYLAND_DISPLAY veracrypt "${vc_args[@]}"
   local rc=$?
 
-  if (( rc != 0 )); then
+  if ((rc != 0)); then
     print -u2 "veradismount: VeraCrypt exited with status ${rc}"
     return $rc
   fi
 
   # ── cleanup: remove auto-created ephemeral mountpoints ────────────────────
   # (N) is a zsh null-glob qualifier: silently expands to nothing if no match.
-  if (( is_all )); then
+  if ((is_all)); then
     print 'veradismount: ✓ all volumes dismounted'
     local d
     for d in /mnt/vc*(N); do
       if [[ $d =~ ^/mnt/vc[0-9]+$ ]] && [[ -d $d ]]; then
-        sudo rmdir "$d" 2>/dev/null \
-          && print "veradismount: removed ephemeral mountpoint '${d}'"
+        sudo rmdir "$d" 2>/dev/null &&
+          print "veradismount: removed ephemeral mountpoint '${d}'"
       fi
     done
   else
     print "veradismount: ✓ '${target}' dismounted"
     if [[ $target =~ ^/mnt/vc[0-9]+$ ]]; then
-      sudo rmdir "$target" 2>/dev/null \
-        && print "veradismount: removed ephemeral mountpoint '${target}'"
+      sudo rmdir "$target" 2>/dev/null &&
+        print "veradismount: removed ephemeral mountpoint '${target}'"
     fi
   fi
 }
