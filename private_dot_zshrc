@@ -60,9 +60,6 @@ if [[ -d /mnt/c ]]; then
   hash -d sfx=/mnt/c/Users/asiim/Music/sfx
 fi
 
-# Mount-conditional (portable drive, may or may not be present)
-[[ -d /mnt/nuncipher ]] && hash -d nsfw=/mnt/nuncipher/NSFW
-
 # =========================================================
 # Plugin Management — Antidote
 # =========================================================
