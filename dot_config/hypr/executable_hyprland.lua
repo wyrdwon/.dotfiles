@@ -14,6 +14,11 @@
 --   [INFO]   exec-once → hl.on("hyprland.start", ...) with hl.exec_cmd()
 --   [INFO]   $var references resolved inline as Lua locals
 
+-- catppuccin (still needs references)
+local colors = require("themes.catppuccin-macchiato")
+-- local another = require("themes.")
+local base = colors.base
+
 --------------------
 ---- MONITORS ----
 --------------------
@@ -269,7 +274,7 @@ end
 
 -- Special workspace (scratchpad)
 hl.bind(mainMod .. " + S", hl.dsp.workspace.toggle_special("magic"))
-hl.bind(mainMod .. " + ALT + S", hl.dsp.window.move({ workspace = "special:magic" }))
+-- hl.bind(mainMod .. " + ALT + S", hl.dsp.window.move({ workspace = "special:magic" }))
 
 -- Scroll through existing workspaces with mainMod + scroll
 hl.bind(mainMod .. " + mouse_down", hl.dsp.focus({ workspace = "e+1" }))
@@ -309,6 +314,117 @@ hl.bind("XF86AudioNext", hl.dsp.exec_cmd("playerctl next"), { locked = true })
 hl.bind("XF86AudioPause", hl.dsp.exec_cmd("playerctl play-pause"), { locked = true })
 hl.bind("XF86AudioPlay", hl.dsp.exec_cmd("playerctl play-pause"), { locked = true })
 hl.bind("XF86AudioPrev", hl.dsp.exec_cmd("playerctl previous"), { locked = true })
+
+-- ── 1. SUPER + G  →  toggle fullscreen for active window ─────────────────
+hl.bind(mainMod .. " + G", hl.dsp.window.fullscreen())
+
+-- ── 2. SUPER + SHIFT + N / P  →  swap window with next/prev in split ─────
+-- swapnext cycles forward; "prev" goes backward.
+-- Ergonomically paired: same chord family as your focus arrows.
+-- hl.bind(mainMod .. " + SHIFT + N", hl.dsp.window.swap_next())
+-- hl.bind(mainMod .. " + SHIFT + P", hl.dsp.window.swap_next("prev"))
+hl.bind(mainMod .. " + SHIFT + S", hl.dsp.layout("swapsplit"))
+
+-- ── 3. SUPER + ALT + [1-0]  →  swap current workspace with workspace N ───
+--
+-- No native dispatcher exists for same-monitor workspace swapping.
+-- Strategy:
+--   a) Collect windows on current WS and target WS.
+--   b) Move all current-WS windows to target WS (silently).
+--   c) Move all target-WS windows (now identified beforehand) to current WS.
+--   d) Navigate to the target WS (so you follow your windows there).
+--
+-- CAVEAT: hl.dsp.window.move() takes a workspace selector. We pass the
+-- numeric ID. The function captures current/target IDs before moving anything.
+--
+local function swap_workspace(target_id)
+	local current_ws = hl.get_active_workspace()
+	if current_ws == nil then
+		return
+	end
+
+	local current_id = current_ws.id
+
+	-- Bail if target is same as current or target is a special workspace (< 1)
+	if current_id == target_id or target_id < 1 then
+		return
+	end
+
+	local all_windows = hl.get_windows()
+
+	-- Snapshot: which windows belong to each workspace BEFORE any moves
+	local on_current = {}
+	local on_target = {}
+	for _, w in ipairs(all_windows) do
+		if w.workspace.id == current_id then
+			table.insert(on_current, w)
+		elseif w.workspace.id == target_id then
+			table.insert(on_target, w)
+		end
+	end
+
+	-- Move current-WS windows → target WS (silent: don't follow)
+	for _, w in ipairs(on_current) do
+		hl.dispatch(hl.dsp.window.move({ workspace = target_id, window = w, follow = false }))
+	end
+
+	-- Move target-WS windows → current WS (silent)
+	for _, w in ipairs(on_target) do
+		hl.dispatch(hl.dsp.window.move({ workspace = current_id, window = w, follow = false }))
+	end
+
+	-- Follow your windows to the target workspace
+	hl.dispatch(hl.dsp.focus({ workspace = target_id }))
+end
+
+for i = 1, 10 do
+	local key = i % 10 -- 10 → key 0, matching your existing loop convention
+	local target = i
+	hl.bind(mainMod .. " + ALT + " .. key, function()
+		swap_workspace(target)
+	end)
+end
+
+-- ── 4. SUPER + ALT + DELETE  →  close current workspace if empty ──────────
+--
+-- Hyprland auto-destroys non-persistent workspaces when their last window
+-- closes. This bind handles the case where you navigate to a workspace
+-- manually and want to "discard" it if it has nothing in it.
+-- If non-empty: shows a notification and does nothing.
+-- If empty: moves to the previous workspace (e-1), letting Hyprland clean up.
+--
+hl.bind(mainMod .. " + ALT + Delete", function()
+	local ws = hl.get_active_workspace()
+	if ws == nil then
+		return
+	end
+
+	-- Count windows on this workspace
+	local count = 0
+	for _, w in ipairs(hl.get_windows()) do
+		if w.workspace.id == ws.id then
+			count = count + 1
+		end
+	end
+
+	if count > 0 then
+		hl.notification.create({
+			text = "Workspace "
+				.. ws.id
+				.. " is not empty ("
+				.. count
+				.. " window"
+				.. (count == 1 and "" or "s")
+				.. ")",
+			timeout = 2000,
+			icon = "warning",
+		})
+		return
+	end
+
+	-- Navigate away; Hyprland will auto-destroy the now-empty, non-persistent WS
+	hl.dispatch(hl.dsp.focus({ workspace = "e-1" }))
+end)
 
 --------------------------------
 ---- WINDOWS AND WORKSPACES ----
