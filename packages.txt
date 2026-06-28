@@ -33,6 +33,7 @@ cmatrix
 dmidecode
 docker
 docker-compose
+dolphin
 dosfstools
 duf
 efibootmgr
@@ -70,6 +71,7 @@ keyd
 lazygit
 less
 libinput-tools
+libreoffice-fresh
 libxcb
 libxss
 linux
@@ -107,6 +109,7 @@ ripgrep
 seahorse
 signal-desktop
 sl
+speedcrunch
 sudo
 texlive-basic
 texlive-fontsrecommended
