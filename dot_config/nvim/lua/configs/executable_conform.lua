@@ -4,6 +4,7 @@ local options = {
 		python = { "ruff" },
 		zsh = { "shfmt" },
 		toml = { "tombi" },
+		cpp = { "clang-format" },
 		-- rust = { "rust_analyzer", lsp_format = "fallback" },
 
 		-- Default: everything else uses prettierd
