@@ -48,7 +48,7 @@ problem() {
 using namespace std;
 
 typedef long long ll;
-typedef pair<int,int> pii;
+typedef pair<int, int> pii;
 typedef vector<int> vi;
 typedef vector<ll> vl;
 
@@ -68,7 +68,8 @@ int main() {
   cin.tie(nullptr);
   int t = 1;
   // cin >> t;
-  while (t--) solve();
+  while (t--)
+    solve();
   return 0;
 }
 EOF
