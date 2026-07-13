@@ -1,7 +1,7 @@
 #!/bin/zsh
 
 # eza-backed ls
-ls() { command eza -a --group-directories-first --icons "$@"; }
+ls() { command eza -a --group-directories-first --icons auto "$@"; }
 
 # Fastfetch widget
 fastfetch-widget() {
@@ -12,4 +12,3 @@ fastfetch-widget() {
 }
 zle -N fastfetch-widget
 bindkey '^[f' fastfetch-widget
-

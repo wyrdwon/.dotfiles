@@ -2,7 +2,7 @@
 
 alias c=clear reload='exec $SHELL' cd=z
 alias v=$EDITOR vim=$EDITOR lg=lazygit
-alias ll='eza -al --icons' lt='eza -a --tree --level=1 --icons'
+alias ll='eza -al --icons auto' lt='eza -aT --icons=auto'
 alias tar_extract='tar -xzf'
 alias nf=fastfetch ff=fastfetch pf=fastfetch
 alias shutdown='systemctl poweroff'

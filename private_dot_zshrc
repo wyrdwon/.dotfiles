@@ -34,8 +34,8 @@ bindkey -v
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
 zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
 zstyle ':completion:*' menu no
-zstyle ':fzf-tab:complete:z:*' fzf-preview 'eza -1 --group-directories-first --icons $realpath'
-zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'eza -1 --group-directories-first --icons $realpath'
+zstyle ':fzf-tab:complete:z:*' fzf-preview 'eza -1 --group-directories-first --icons auto $realpath'
+zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'eza -1 --group-directories-first --icons auto $realpath'
 
 # =========================================================
 # ZLE / Keybindings
