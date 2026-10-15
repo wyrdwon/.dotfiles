@@ -1,0 +1,11 @@
+this is preliminary.
+
+noticed i won't remember my workflow if it's not hot in memory.
+
+the basic gist is that this is based on chezmoi, and i've added some logic before & after chezmoi's dotfile initialization.
+some tools are at the same "level". one was mise, but it's not anymore because it wasn't worth the (figurative) buck.
+
+i intend to use the repo by initializing a bunch of machines a bunch of times, and correcting the inefficiencies.
+
+might all be in vain, though, since your space always has more entropy by virtue of it being your space.
+i'd have to keep doing this perpetual audit for efficiency, so i'll probably call it quits at some point
