@@ -8,4 +8,5 @@ some tools are at the same "level". one was mise, but it's not anymore because i
 i intend to use the repo by initializing a bunch of machines a bunch of times, and correcting the inefficiencies.
 
 might all be in vain, though, since your space always has more entropy by virtue of it being your space.
+the difference between its actual state and its "neat" save-able state is never zero.
 i'd have to keep doing this perpetual audit for efficiency, so i'll probably call it quits at some point
