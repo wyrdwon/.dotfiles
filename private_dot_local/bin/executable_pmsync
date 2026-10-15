@@ -25,6 +25,9 @@
 # After running, commit the result:
 #   chezmoi re-add   (if packages.txt is tracked via chezmoi)
 #   chezmoi git -- add -A && chezmoi git -- commit
+# 
+# could lowkey be improved by not having to commit result
+# but i have to think about design choices
 # =============================================================
 
 set -euo pipefail
