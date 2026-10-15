@@ -10,3 +10,5 @@ i intend to use the repo by initializing a bunch of machines a bunch of times, a
 might all be in vain, though, since your space always has more entropy by virtue of it being your space.
 the difference between its actual state and its "neat" save-able state is never zero.
 i'd have to keep doing this perpetual audit for efficiency, so i'll probably call it quits at some point
+
+i track total package state of my machine (that is, managed by the distro's pacman and my own tech stack) via a custom script 'pmsync'
