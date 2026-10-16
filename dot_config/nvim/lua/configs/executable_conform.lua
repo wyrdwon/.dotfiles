@@ -1,27 +1,30 @@
 local options = {
 	formatters_by_ft = {
 		lua = { "stylua" },
-		python = { "ruff" },
-		zsh = { "shfmt" },
-		toml = { "tombi" },
+		python = { "ruff_organize_imports", "ruff_fix", "ruff_format" },
+		zsh = { "beautysh" },
+		bash = { "shfmt" },
+		sh = { "shfmt" },
 		cpp = { "clang-format" },
-		-- rust = { "rust_analyzer", lsp_format = "fallback" },
+		qmd = { "panache" },
+		markdown = { "panache" },
+		md = { "panache" },
 
 		-- Default: everything else uses prettierd
 		["_"] = { "prettierd" },
 	},
 
-	format_on_save = {
-		timeout_ms = 5000,
-		lsp_fallback = true, -- Use LSP formatting as fallback if formatter fails
+	formatters = {
+		panache = { command = "panache", args = { "format" }, stdin = true },
 	},
+
+	format_on_save = function(bufnr)
+		local skip = { txt = true, log = true, gitcommit = true }
+		if skip[vim.bo[bufnr].filetype] then
+			return nil
+		end
+		return { timeout_ms = 5000, lsp_format = "fallback" }
+	end,
 }
-
--- Exclusions: these filetypes won't have any formatters
-local excluded = { "txt", "log", "gitcommit" }
-
-for _, ft in ipairs(excluded) do
-	options.formatters_by_ft[ft] = {}
-end
 
 return options
