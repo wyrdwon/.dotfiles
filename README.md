@@ -12,3 +12,6 @@ the difference between its actual state and its "neat" save-able state is never 
 i'd have to keep doing this perpetual audit for efficiency, so i'll probably call it quits at some point
 
 i track total package state of my machine (that is, managed by the distro's pacman and my own tech stack) via a custom script 'pmsync'
+
+pmsync doesn't auto-commit bc it's not perfect. sometimes i forget to exclude some package, sometimes i want packages tracked/un-tracked regardless
+either way, i retian veto muahaha
