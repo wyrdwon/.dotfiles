@@ -1,46 +1,61 @@
-this is preliminary.
+# dotfiles
 
-noticed i won't remember my workflow if it's not hot in memory.
+> this is preliminary.
 
-the basic gist is that this is based on chezmoi, and i've added some logic before & after chezmoi's dotfile initialization.
-some tools are at the same "level". one was mise, but it's not anymore because it wasn't worth the (figurative) buck.
+## Overview
 
-the process is:
+The basic gist is that this is based on chezmoi, and I've added some logic before and after chezmoi's dotfile initialization.
 
-1. acquire fresh machine
-2. go through the process of bootstarpping arch (which has proven a pain for me, despite having done it like n times)
-3. on the fresh install:
+Some tools are at the same "level". One was mise, but it's not anymore because it wasn't worth the (figurative) buck.
 
-> sudo pacman -S --needed git chezmoi
-> chezmoi init --apply https://github.com/you/dotfiles
+noticed I won't remember my workflow if it's not hot in memory, so this doc is mostly for future me.
 
-> this then bootstraps stuffies (see before_install) and adds some sprinkles (see post_install)
+## Process
 
-i intend to use the repo by initializing a bunch of machines a bunch of times, and correcting the inefficiencies.
+1. Acquire a fresh machine.
+2. follow the Arch wiki, get stuck trying to encrypt partitions & fix sysconfigs, [...], profit ???
+3. On the fresh install:
 
-might all be in vain, though, since your space always has more entropy by virtue of it being your space.
-the difference between its actual state and its "neat" save-able state is never zero.
-i'd have to keep doing this perpetual audit for efficiency, so i'll probably call it quits at some point
+```sh
+sudo pacman -S --needed git chezmoi
+chezmoi init --apply https://github.com/you/dotfiles
+```
 
-i track total package state of my machine (that is, managed by the distro's pacman and my own tech stack) via a custom script 'pmsync'
+This then bootstraps stuffies (see `before_install`) and adds some sprinkles (see `post_install`).
 
-pmsync doesn't auto-commit bc it's not perfect. sometimes i forget to exclude some package, sometimes i want packages tracked/un-tracked regardless
-either way, i retian veto muahaha
+I intend to use the repo by initializing a bunch of machines a bunch of times, and correcting the inefficiencies.
 
-i often have to manually clear state (cm state reset), because it keeps fucking me over. this is currently a duct tape solution.
+It might all be in vain, though, since your space always has more entropy by virtue of it being your space. The difference between its actual state and its "neat" save-able state is never zero. I'd have to keep doing this perpetual audit for efficiency, so I'll probably call it quits at some point.
 
+## pmsync
+
+I track the total package state of my machine (that is, managed by the distro's pacman and my own tech stack) via a custom script, `pmsync`.
+
+`pmsync` doesn't auto-commit because it's not perfect. Sometimes I forget to exclude some package, and sometimes I want packages tracked or untracked regardless. Either way, I retain veto muahaha.
+
+## Known issues
+
+I often have to manually clear state (`cm state reset`) because it keeps fucking me over. This is currently a duct tape solution.
+
+```
 chezmoi: timeout obtaining persistent state lock, is another instance of chezmoi running?
 chezmoi: install.sh: exit status 1
+```
 
-a lot of stuff needs at least tentative documetnation, otherwise i'll waste time rederiving stuff. stuff below should be made more programmatic but i'm lazy rn
+A lot of stuff needs at least tentative documentation, otherwise I'll waste time rederiving stuff. The stuff below should be made more programmatic, but I'm lazy rn.
 
-nvim setup (not already explicit), in ordered list:
-for python: basedpyright LSP, ruff & isort linter/formatter
-for c++: clangd & clang-format
-for julia: julia-lsp, not opinionated to care about formatter.
-form quarto: panache lsp + formatter
-for js/ts: tsc LSP, prettierd formatting
+## Neovim setup
 
-Mason setup: look at the folder names in ~/.local/share/nvim/mason/packages. they correspond to the individual LSP/linter/formatters
-might help to process the receipts in each, rather than just go off name. On second thought, just run :MasonInstall <name>
-it seems to me that names have a uniqueness guarantee
+If not already explicit/obvious from the files, in ordered list:
+
+- **Python:** basedpyright, ruff
+- **C++:** clangd, clang-format
+- **Julia:** julia-lsp, not opinionated enough to care about a formatter
+- **Quarto:** panache (LSP + formatter)
+- **JS/TS:** tsc, prettierd
+
+## Mason
+
+Look at the folder names in `~/.local/share/nvim/mason/packages`. They correspond to the individual LSPs, linters, and formatters. It might help to process the receipts in each, rather than just going off names.
+
+On second thought, just run `:MasonInstall <name>`. It seems to me that names have a uniqueness guarantee.
