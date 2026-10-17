@@ -95,6 +95,10 @@ source <(fzf --zsh)
 # Bun shell helpers
 [[ -s $BUN_INSTALL/_bun ]] && source $BUN_INSTALL/_bun
 
+# Juliaup tab completion
+[[ -f "$HOME/.julia/juliaup/completions/zsh.zsh" ]] &&
+  source "$HOME/.julia/juliaup/completions/zsh.zsh"
+
 # Broot
 source ~/.config/broot/launcher/bash/br
 
