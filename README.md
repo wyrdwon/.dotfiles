@@ -83,5 +83,8 @@ off names.
 on second thought, just run `:MasonInstall <name>`. it seems to me that names have a uniqueness
 guarantee.
 
+> remember to, every once in a while, update the mason-tool-installer list, until you get so fed up
+> that you automate it
+
 [before]: ./run_onchange_before_install.sh.tmpl
 [after]: ./run_onchange_after_install.zsh.tmpl
