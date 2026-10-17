@@ -17,7 +17,7 @@ noticed I won't remember my workflow if it's not hot in memory, so this doc is m
 3. On the fresh install:
 
 ```sh
-sudo pacman -S --needed git chezmoi
+sudo pacman -S --needed base-devel git chezmoi
 chezmoi init --apply https://github.com/you/dotfiles
 ```
 
@@ -52,7 +52,7 @@ If not already explicit/obvious from the files, in ordered list:
 - **C++:** clangd, clang-format
 - **Julia:** julia-lsp, not opinionated enough to care about a formatter
 - **Quarto:** panache (LSP + formatter)
-- **JS/TS:** tsc, prettierd
+- **JS/TS:** typescript-language-server, prettierd
 
 ## Mason
 
