@@ -11,6 +11,9 @@
 
 set -euo pipefail
 
+# Non-login script: make before-script toolchains visible to Mason
+export PATH="$HOME/.juliaup/bin:$HOME/.cargo/bin:$HOME/.local/bin:$PATH"
+
 info() { printf '\e[34m[post-install]\e[0m  %s\n' "$*"; }
 success() { printf '\e[32m[post-install]\e[0m  %s\n' "$*"; }
 warn() { printf '\e[33m[post-install]\e[0m  %s\n' "$*"; }
@@ -57,7 +60,7 @@ fi
 # -------------------------------------------------------------
 if command -v nvim &>/dev/null; then
   info "Syncing neovim plugins (headless)..."
-  nvim --headless "+Lazy! sync" +qa 2>/dev/null &&
+  nvim --headless "+Lazy! sync" "+MasonToolsInstallSync" +qa &&
     success "Neovim plugins synced." ||
     warn "Neovim plugin sync exited non-zero — check manually with 'nvim +Lazy'."
 else

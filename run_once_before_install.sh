@@ -139,7 +139,7 @@ done
 # -------------------------------------------------------------
 if ! command -v uv &>/dev/null; then
   info "uv not found — installing via official installer..."
-  curl --proto '=https' --tlsv1.2 -LsSf https://astral.sh/uv/install.sh | sh
+  curl --proto '=https' --tlsv1.2 -LsSf https://astral.sh/uv/install.sh | UV_NO_MODIFY_PATH=1 sh
   # installer writes to ~/.local/bin by default
   export PATH="$HOME/.local/bin:$PATH"
   success "uv installed."
@@ -154,7 +154,7 @@ info "Installing uv tools..."
 mapfile -t uv_pkgs < <(parse_section uv)
 
 for pkg in "${uv_pkgs[@]}"; do
-  if uv tool list 2>/dev/null | grep -q "^${pkg} "; then
+  if grep -q "^${pkg} " < <(uv tool list 2>/dev/null); then
     success "uv: $pkg already installed."
   else
     info "uv tool install $pkg"
@@ -174,7 +174,7 @@ fi
 # -------------------------------------------------------------
 # 9. Default shell → zsh
 # -------------------------------------------------------------
-ZSH_PATH="$(command -v zsh)"
+ZSH_PATH="$(command -v zsh)" || die "zsh not installed (add it to [pacman])."
 if [[ "$SHELL" != "$ZSH_PATH" ]]; then
   info "Setting default shell to zsh ($ZSH_PATH)..."
   grep -qxF "$ZSH_PATH" /etc/shells || echo "$ZSH_PATH" | sudo tee -a /etc/shells
