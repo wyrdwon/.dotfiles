@@ -40,6 +40,7 @@ return {
 		opts = {
 			ensure_installed = {
 				"basedpyright",
+				"panache",
 				"ruff",
 				"clangd",
 				"clang-format",
@@ -48,8 +49,9 @@ return {
 				"prettierd",
 				"stylua",
 				"shfmt",
+				"shellcheck",
 				"beautysh",
-				"taplo",
+				"tombi",
 				"bash-language-server",
 				"lua-language-server",
 				-- { "clangd", version = "..." },  -- pin only where coupling matters
