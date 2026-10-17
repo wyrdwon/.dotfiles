@@ -31,6 +31,32 @@ return {
 		},
 	},
 
+	-- Mason state replication
+	{
+		"WhoIsSethDaniel/mason-tool-installer.nvim",
+		dependencies = { "williamboman/mason.nvim" },
+		-- command stubs so headless can call them; an eager VeryLazy load has a known ensure_installed bug
+		cmd = { "MasonToolsInstall", "MasonToolsInstallSync", "MasonToolsUpdate", "MasonToolsClean" },
+		opts = {
+			ensure_installed = {
+				"basedpyright",
+				"ruff",
+				"clangd",
+				"clang-format",
+				"julia-lsp",
+				"typescript-language-server",
+				"prettierd",
+				"stylua",
+				"shfmt",
+				"beautysh",
+				"taplo",
+				"bash-language-server",
+				"lua-language-server",
+				-- { "clangd", version = "..." },  -- pin only where coupling matters
+			},
+		},
+	},
+
 	{
 		"f-person/git-blame.nvim",
 		-- load the plugin at startup
