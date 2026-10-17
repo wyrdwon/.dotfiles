@@ -71,6 +71,7 @@ fi
 # 3. Bootstrap yay
 # -------------------------------------------------------------
 if ! command -v yay &>/dev/null; then
+  sudo pacman -S --needed --noconfirm base-devel git
   info "yay not found — bootstrapping from AUR..."
   tmp=$(mktemp -d)
   git clone --depth=1 https://aur.archlinux.org/yay.git "$tmp/yay"
@@ -107,22 +108,26 @@ fi
 if ! command -v rustup &>/dev/null; then
   info "rustup not found — installing..."
   curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --no-modify-path
-  source "$HOME/.cargo/env"
   success "rustup installed."
 else
   success "rustup already present."
-  source "$HOME/.cargo/env"
 fi
+
+# rustup may come from pacman (no ~/.cargo/env, no toolchain yet)
+[[ -f "$HOME/.cargo/env" ]] && source "$HOME/.cargo/env"
+export PATH="$HOME/.cargo/bin:$PATH"
+rustup default stable
+rustup component add rust-analyzer
 
 info "Installing cargo packages..."
 mapfile -t cargo_pkgs < <(parse_section cargo)
 
 for pkg in "${cargo_pkgs[@]}"; do
-  if cargo install --list | grep -q "^${pkg} "; then
+  if grep -q "^${pkg} " < <(cargo install --list); then
     success "cargo: $pkg already installed."
   else
     info "cargo install $pkg"
-    cargo install "$pkg"
+    cargo install --locked "$pkg"
   fi
 done
 
