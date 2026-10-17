@@ -21,6 +21,7 @@
 set -euo pipefail
 
 PACKAGES_FILE="$(chezmoi source-path)/packages.txt"
+JULIA_CHANNEL="${JULIA_CHANNEL:-release}" # release | lts | 1.x
 
 # -------------------------------------------------------------
 # Helpers
@@ -154,7 +155,16 @@ for pkg in "${uv_pkgs[@]}"; do
 done
 
 # -------------------------------------------------------------
-# 8. Default shell → zsh
+# 8. juliaup + Julia (before any Mason julia-lsp install)
+# -------------------------------------------------------------
+export PATH="$HOME/.juliaup/bin:$PATH"
+if ! command -v juliaup &>/dev/null; then
+  curl --proto '=https' --tlsv1.2 -fsSL https://install.julialang.org |
+    sh -s -- --yes --add-to-path=no --default-channel "$JULIA_CHANNEL"
+fi
+
+# -------------------------------------------------------------
+# 9. Default shell → zsh
 # -------------------------------------------------------------
 ZSH_PATH="$(command -v zsh)"
 if [[ "$SHELL" != "$ZSH_PATH" ]]; then
