@@ -1,9 +1,11 @@
 #!/usr/bin/env zsh
+# lazy-lock: {{ include "dot_config/nvim/lazy-lock.json" | sha256sum }}
+# init: {{ include "dot_config/nvim/plugins/init.lua" | sha256sum }}
 # =============================================================
 # run_once_post-install.zsh
 #
 # Executed by chezmoi exactly once, AFTER dotfiles are applied.
-# Re-runs only if this file's content changes.
+# Re-runs only if the above triggers trip
 #
 # Assumes run_once_before_install.sh has already completed:
 # zsh, antidote, neovim, cargo are all expected present.
