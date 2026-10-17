@@ -16,14 +16,15 @@ export CARGO_HOME="$HOME/.cargo"
 export BUN_INSTALL="$HOME/.bun"
 
 # opencode
-export PATH=/home/wyrd/.opencode/bin:$PATH
+export PATH="$HOME/.opencode/bin:$PATH"
 
 # PATH — tools that non-interactive shells may need to resolve
 path=(
-  $HOME/.local/bin
-  $CARGO_HOME/bin
-  $BUN_INSTALL/bin
-  $HOME/.local/share/nvim/mason/bin
+  "$HOME/.local/bin"
+  "$CARGO_HOME/bin"
+  "$BUN_INSTALL/bin"
+  "$HOME/.local/share/nvim/mason/bin"
+  "$HOME/.juliaup/bin"
   $path
 )
-typeset -U path   # deduplicate
+typeset -U path # deduplicate
