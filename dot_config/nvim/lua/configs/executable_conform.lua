@@ -9,7 +9,11 @@ local options = {
 		zsh = { "beautysh" },
 		c = { "clang-format" },
 		cpp = { "clang-format" },
-		qmd = { "panache" },
+		cuda = { "clang-format" },
+		rust = { "rustfmt" }, -- ships with the rustup default profile
+		julia = {}, -- deliberate: falls through to LSP formatting
+		toml = { "taplo" }, -- Cargo.toml, pyproject.toml, Project.toml
+		quarto = { "panache" },
 		markdown = { "panache" },
 
 		javascript = web,
