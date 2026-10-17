@@ -16,6 +16,9 @@
 #   4. rustup + cargo packages
 #   5. uv packages
 #   6. zsh as default shell
+#
+# TODO look into agent API key insertion (via .tmpl)
+# would be using rbw as the secrets manager, same as before
 # =============================================================
 
 set -euo pipefail
