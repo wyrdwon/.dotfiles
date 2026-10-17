@@ -1,17 +1,27 @@
+local web = { "prettierd" }
+
 local options = {
 	formatters_by_ft = {
 		lua = { "stylua" },
-		python = { "ruff_organize_imports", "ruff_fix", "ruff_format" },
-		zsh = { "beautysh" },
+		python = { "ruff_fix", "ruff_organize_imports", "ruff_format" },
+		sh = { "shfmt" }, -- also .bashrc/.profile (ft=sh, b:is_bash)
 		bash = { "shfmt" },
-		sh = { "shfmt" },
+		zsh = { "beautysh" },
+		c = { "clang-format" },
 		cpp = { "clang-format" },
 		qmd = { "panache" },
 		markdown = { "panache" },
-		md = { "panache" },
 
-		-- Default: everything else uses prettierd
-		["_"] = { "prettierd" },
+		javascript = web,
+		javascriptreact = web,
+		typescript = web,
+		typescriptreact = web,
+		json = web,
+		jsonc = web,
+		yaml = web,
+		html = web,
+		css = web,
+		scss = web,
 	},
 
 	formatters = {
@@ -19,7 +29,7 @@ local options = {
 	},
 
 	format_on_save = function(bufnr)
-		local skip = { txt = true, log = true, gitcommit = true }
+		local skip = { text = true, log = true, gitcommit = true, gitrebase = true }
 		if skip[vim.bo[bufnr].filetype] then
 			return nil
 		end
