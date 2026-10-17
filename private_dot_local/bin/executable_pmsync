@@ -176,7 +176,7 @@ else
   success "packages.txt written to $PACKAGES_FILE"
   info "Review, then commit:"
   printf '    chezmoi git -- add -A\n'
-  printf '    chezmoi git -- commit -m "sync packages"\n'
+  printf '    chezmoi git -- commit -m "chore: sync packages"\n'
 fi
 
 # -------------------------------------------------------------
