@@ -50,7 +50,6 @@ return {
 				"stylua",
 				"shfmt",
 				"shellcheck",
-				"beautysh",
 				"tombi",
 				"bash-language-server",
 				"lua-language-server",

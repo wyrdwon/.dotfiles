@@ -6,7 +6,6 @@ local options = {
 		python = { "ruff_fix", "ruff_organize_imports", "ruff_format" },
 		sh = { "shfmt" }, -- also .bashrc/.profile (ft=sh, b:is_bash)
 		bash = { "shfmt" },
-		zsh = { "beautysh" },
 		c = { "clang-format" },
 		cpp = { "clang-format" },
 		cuda = { "clang-format" },
