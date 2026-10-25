@@ -1,0 +1,25 @@
+{
+  "$schema": "https://opencode.ai/v2/cli.json",
+  "theme": {
+    "name": "catppuccin-macchiato"
+  },
+  "animations": true,
+  "session": {
+    "thinking": "show",
+    "markdown": "rendered",
+    "verbosity": "medium",
+    "permissions": "prompt"
+  },
+  "tabs": {
+    "indicators": "status"
+  },
+  "diffs": {
+    "single": false
+  },
+  "attention": {
+    "notifications": true
+  },
+  "terminal": {
+    "title": true
+  }
+}
