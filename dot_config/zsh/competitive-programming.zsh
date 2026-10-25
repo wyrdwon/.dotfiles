@@ -102,17 +102,57 @@ EOF
   echo "recorded: ${record}"
 }
 
+_cpcomp_usage() {
+  cat <<'EOF'
+usage: cpcomp [-d|--debug | -s|--sanitize] <id>   (e.g. cpcomp 1a, cpcomp -s 1a)
+
+  default     judge-mirror build, based on Codeforces GNU G++ flags:
+              g++ -static -DONLINE_JUDGE -O2 -std=c++17 -Wall -Wextra -Wconversion
+              Codeforces sets a 256 MB stack; ld rejects its -Wl,--stack flag on
+              Linux, so set it in the shell before running:
+                ulimit -s 262144
+  -d, --debug     -O0 -g, -D_GLIBCXX_DEBUG (bounds-checked STL), -DLOCAL, -Wshadow
+  -s, --sanitize  -O1 -g, AddressSanitizer + UBSan (abort on first error), -DLOCAL
+  -h, --help      show this help
+
+  -d and -s are mutually exclusive. Sanitizer and debug builds are not
+  static and run slower; use them to find bugs, not to time solutions.
+EOF
+}
+
 cpcomp() {
   # feat: compile CP problem by ID, emit binary in cwd
   # searches both CP/GYM and CP/CONTESTS since problem() may have
   # written to either root; no --contest flag needed here.
 
-  if [[ -z "$1" ]]; then
-    echo "usage: cpcomp <id>  (e.g. cpcomp 1a)" >&2
+  local is_debug=0
+  local is_sanitize=0
+  local arg
+  local -a args=()
+
+  for arg in "$@"; do
+    case "$arg" in
+    -d | --debug) is_debug=1 ;;
+    -s | --sanitize) is_sanitize=1 ;;
+    -h | --help)
+      _cpcomp_usage
+      return 0
+      ;;
+    *) args+=("$arg") ;;
+    esac
+  done
+
+  if ((is_debug && is_sanitize)); then
+    echo "error: -d/--debug and -s/--sanitize are mutually exclusive" >&2
     return 1
   fi
 
-  local input="${1}"
+  if [[ -z "${args[1]}" ]]; then
+    _cpcomp_usage >&2
+    return 1
+  fi
+
+  local input="${args[1]}"
 
   if [[ ! "$input" =~ '^[0-9]+[a-zA-Z0-9]*$' ]]; then
     echo "error: input must match [int][alphanum]" >&2
@@ -140,8 +180,17 @@ cpcomp() {
 
   local binary="./${file_name}"
 
+  local -a cxxflags
+  if ((is_sanitize)); then
+    cxxflags=(-DLOCAL -O1 -g -fsanitize=address,undefined -fno-sanitize-recover=all -std=c++17 -Wall -Wextra -Wshadow -Wconversion)
+  elif ((is_debug)); then
+    cxxflags=(-DLOCAL -D_GLIBCXX_DEBUG -O0 -g -std=c++17 -Wall -Wextra -Wshadow -Wconversion)
+  else
+    cxxflags=(-static -DONLINE_JUDGE -O2 -std=c++17 -Wall -Wextra -Wconversion)
+  fi
+
   echo "compiling: ${file} -> ${binary}"
-  g++ -O2 -std=c++17 -Wall -Wextra -o "$binary" "$file"
+  g++ "${cxxflags[@]}" -o "$binary" "$file"
 
   if [[ $? -eq 0 ]]; then
     echo "ok: binary at ${binary}"
